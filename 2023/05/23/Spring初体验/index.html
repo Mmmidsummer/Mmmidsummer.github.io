@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"mmmidsummer.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Spring 初体验：俗话说“没学过spring等于没学过Java”，spring在Java领域的地位可见一斑。在Java中，Spring是一个开源的应用程序框架，用于构建企业级Java应用程序。它提供了一个轻量级的、非侵入性的编程和配置模型，用于开发灵活、可扩展的应用程序。笔者Java水平很低，但由于毕设的原因写了好久的Java代码，顺便学习一下spring吧。 spring boot项目创建：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring初体验">
+<meta property="og:url" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/index.html">
+<meta property="og:site_name" content="Mmmidsummer&#39;s blog">
+<meta property="og:description" content="Spring 初体验：俗话说“没学过spring等于没学过Java”，spring在Java领域的地位可见一斑。在Java中，Spring是一个开源的应用程序框架，用于构建企业级Java应用程序。它提供了一个轻量级的、非侵入性的编程和配置模型，用于开发灵活、可扩展的应用程序。笔者Java水平很低，但由于毕设的原因写了好久的Java代码，顺便学习一下spring吧。 spring boot项目创建：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523171001294.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523171319899.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181330424.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181708596.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181225900.png">
+<meta property="article:published_time" content="2023-05-23T08:23:08.000Z">
+<meta property="article:modified_time" content="2023-05-23T10:21:48.768Z">
+<meta property="article:author" content="Mika Su2mer">
+<meta property="article:tag" content="Java,Spring,新手">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523171001294.png">
+
+
+<link rel="canonical" href="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/","path":"2023/05/23/Spring初体验/","title":"Spring初体验"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Spring初体验 | Mmmidsummer's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Mmmidsummer's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">随便写写</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-%E5%88%9D%E4%BD%93%E9%AA%8C%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">Spring 初体验：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-boot%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">spring boot项目创建：</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mika Su2mer"
+      src="/images/4s.jpg">
+  <p class="site-author-name" itemprop="name">Mika Su2mer</p>
+  <div class="site-description" itemprop="description">不战斗就无法生存</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/4s.jpg">
+      <meta itemprop="name" content="Mika Su2mer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mmmidsummer's blog">
+      <meta itemprop="description" content="不战斗就无法生存">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Spring初体验 | Mmmidsummer's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring初体验
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-05-23 16:23:08 / 修改时间：18:21:48" itemprop="dateCreated datePublished" datetime="2023-05-23T16:23:08+08:00">2023-05-23</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Spring-初体验："><a href="#Spring-初体验：" class="headerlink" title="Spring 初体验："></a>Spring 初体验：</h1><p>俗话说“没学过spring等于没学过Java”，spring在Java领域的地位可见一斑。在Java中，Spring是一个开源的应用程序框架，用于构建企业级Java应用程序。它提供了一个轻量级的、非侵入性的编程和配置模型，用于开发灵活、可扩展的应用程序。笔者Java水平很低，但由于毕设的原因写了好久的Java代码，顺便学习一下spring吧。</p>
+<h2 id="spring-boot项目创建："><a href="#spring-boot项目创建：" class="headerlink" title="spring boot项目创建："></a>spring boot项目创建：</h2><p>个人认为，学习Java最好的工具就是IDEA，颜值高功能齐全，除了配置要求高容易卡没缺点，当然eclipse也有轻量级的优势吧。IDEA的专业版可以用学生认证免费获得。</p>
+<p>直接用IDEA的spring initializr来创建一个新的spring项目。</p>
+<img src="image-20230523171001294.png" alt="创建项目" style="zoom:50%;" />
+
+<p>初学者的话，只选一个spring web也不是不行啦。这里的spring boot最新版本最老只支持JDK 17，后续编译运行会有</p>
+<blockquote>
+<p>错误: 无效的源发行版：17</p>
+</blockquote>
+<p>因此如果java版本老的可以选老的spring boot版本。解析maven依赖的时间还挺久的，如果实在太慢可以参考网络上的教程。右键pom.xml，选择maven，新建settings.xml，然后添加镜像。</p>
+<img src="image-20230523171319899.png" alt="依赖添加" style="zoom:50%;" />
+
+<p>创建以后，自带一个有主函数的java文件：</p>
+<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181330424.png" alt="主函数"></p>
+<p>私以为，学习web框架中运行一个简单的web服务器等价于学习编程语言输出hello world。创建一个控制器类，用于处理HTTP请求并返回响应。你可以使用<code>@Controller</code>或<code>@RestController</code>注解进行标记，并定义相应的请求处理方法。</p>
+<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181708596.png" alt="HelloWorld.java"></p>
+<p>运行main方法，默认端口为8080，访问<code>http://localhost:8080/hello</code>，可以看到返回的“你好世界”。</p>
+<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181225900.png" alt="浏览器访问结果"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java-Spring-%E6%96%B0%E6%89%8B/" rel="tag"># Java,Spring,新手</a>
+          </div>
+
+        
+
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mika Su2mer</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
