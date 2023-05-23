@@ -80,8 +80,13 @@
 <p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523230308540.png" alt="数据库查询结果"></p>
 <h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>以上内容足够用spring boot搭建一个有正常功能的web服务器，路漫漫其修远兮，之后还要对spring进行更深入的学习。有时间再更新吧。</p>
 ]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
       <tags>
-        <tag>Java Spring 新手</tag>
+        <tag>Java</tag>
+        <tag>Spring</tag>
+        <tag>新手</tag>
       </tags>
   </entry>
 </search>
