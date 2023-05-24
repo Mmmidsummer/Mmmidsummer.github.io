@@ -2690,7 +2690,7 @@ header.header {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #4e4618;
+  background: #ff6;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2739,4 +2739,10 @@ header.header {
 }
 .sub-menu .menu-item {
   display: inline-block;
+}
+.fireworks {
+  left: 0;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
 }
