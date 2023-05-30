@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>No PEM start marker b-----BEGIN RSA PRIVATE KEY----- found</title>
+    <url>/2023/05/30/No-PEM-start-marker-b-BEGIN-RSA-PRIVATE-KEY-found/</url>
+    <content><![CDATA[<p>出现场景为使用python的<code>rsa</code>库读取openssl生成的公钥私钥进行加密和解密操作时。</p>
+<span id="more"></span>
+
+<p>RSA库用的是pkcs1格式的密钥文件，而如果之前生成的是pkcs8格式，会出现错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">No PEM start marker &quot;b&#x27;-----BEGIN RSA PRIVATE KEY-----&#x27;&quot; found</span><br></pre></td></tr></table></figure>
+
+<p>对于公钥读取，可以用<code>load_pkcs1_openssl_pem</code>方法代替<code>load_pkcs1</code>；对于私钥，只能用openssl命令把pkcs8格式转换为pkcs1了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl pkcs8 -in pri_key.pem -nocrypt -out private_pkcs1.pem -traditional</span><br></pre></td></tr></table></figure>
+
+<p>似乎有的版本不需要<code>-traditional</code>。</p>
+<p><img src="/2023/05/30/No-PEM-start-marker-b-BEGIN-RSA-PRIVATE-KEY-found/image-20230530172311009.png" alt="pkcs1.pem的开头为BEGIN RSA PRIVATE KEY"></p>
+]]></content>
+      <categories>
+        <category>bug记录</category>
+      </categories>
+      <tags>
+        <tag>bug记录</tag>
+        <tag>openssl</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OpenSSL学习笔记</title>
     <url>/2023/05/25/OpenSSL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p>OpenSSL 是一个开源软件库，提供了一组用于处理安全通信的工具和库函数，它可以用于多种不同的用途。</p>
@@ -64,7 +87,31 @@
 
 <p><img src="/2023/05/25/OpenSSL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20230527215119251.png" alt="解密结果"></p>
 <h1 id="非对称加密RSA"><a href="#非对称加密RSA" class="headerlink" title="非对称加密RSA"></a>非对称加密RSA</h1><p>RSA（Rivest-Shamir-Adleman）是一种非对称加密算法，广泛用于数据加密、数字签名和密钥交换等安全应用中。RSA 算法的基本原理是基于数论中的大数分解难题。它使用两个密钥，一个是公钥用于加密数据，另一个是私钥用于解密数据。公钥可以公开，而私钥必须保密。</p>
-<p>生成私钥:</p>
+<p>以下是 RSA 算法的主要步骤：</p>
+<ol>
+<li><p>密钥生成：</p>
+<ul>
+<li>选择两个大素数 p 和 q，计算它们的乘积 n &#x3D; p * q。</li>
+<li>计算欧拉函数值 φ(n) &#x3D; (p - 1) * (q - 1)。</li>
+<li>选择一个小于 φ(n) 的整数 e，作为公钥指数。</li>
+<li>计算与 e 互素的整数 d，作为私钥指数。即满足 (e * d) mod φ(n) &#x3D; 1。</li>
+<li>公钥是 (e, n)，私钥是 (d, n)。</li>
+</ul>
+</li>
+<li><p>加密：</p>
+<ul>
+<li>将明文消息转换为整数 m，使得 0 ≤ m &lt; n。</li>
+<li>使用公钥 (e, n) 对 m 进行加密，得到密文 c &#x3D; m^e mod n。</li>
+</ul>
+</li>
+<li><p>解密：</p>
+<ul>
+<li>使用私钥 (d, n) 对密文 c 进行解密，得到明文消息 m &#x3D; c^d mod n。</li>
+</ul>
+</li>
+</ol>
+<p>RSA 算法的安全性基于大整数分解的困难性。要破解 RSA，需要通过分解 n 来计算出 p 和 q，这在当前技术下对于足够大的素数 p 和 q 是非常困难的。</p>
+<h2 id="密钥生成"><a href="#密钥生成" class="headerlink" title="密钥生成"></a>密钥生成</h2><p>生成私钥:</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl genrsa -out pri_key.pem 1024</span><br></pre></td></tr></table></figure>
 
 <p>1024是私钥长度。</p>
@@ -73,7 +120,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl rsa -in pri_key.pem -pubout -out pub_key.pem</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2023/05/25/OpenSSL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20230527230602376.png" alt="公钥文件"></p>
-<p>公钥加密：</p>
+<h2 id="加密解密"><a href="#加密解密" class="headerlink" title="加密解密"></a>加密解密</h2><p>公钥加密：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl pkeyutl -encrypt -pubin -inkey pub_key.pem -in 1.txt -out rsa1</span><br></pre></td></tr></table></figure>
 
 <p>私钥解密：</p>
@@ -81,11 +128,43 @@
 
 <p>结果如下：</p>
 <p><img src="/2023/05/25/OpenSSL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20230527230836223.png" alt="结果"></p>
+<h2 id="python验证"><a href="#python验证" class="headerlink" title="python验证"></a>python验证</h2><p>这里发生了小插曲，突然发现rsa加密每次结果都是不一样的，这是因为加密过程中使用了随机生成的填充数据。参考这篇文章：</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/guyongqiangx/article/details/74930951">https://blog.csdn.net/guyongqiangx/article/details/74930951</a></p>
+</blockquote>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">openssl rsautl -decrypt  -raw -inkey pri_key.pem -<span class="keyword">in</span> rsa1 -out out1</span><br></pre></td></tr></table></figure>
+
+<p>可以看到中间填充的数据应该是随机的：</p>
+<p><img src="/2023/05/25/OpenSSL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20230530170509561.png" alt="-raw保留原始数据"></p>
+<p>虽然每次生成的密文不一样，但只要私钥正确，都可以正常解密出来。</p>
+<h3 id="python-rsa库"><a href="#python-rsa库" class="headerlink" title="python rsa库"></a>python rsa库</h3><p>rsa库的常用方法：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> rsa</span><br><span class="line">plaintext = <span class="string">&quot;test&quot;</span>  <span class="comment"># 明文</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;pub_key.pem&quot;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> x:</span><br><span class="line">    public_key = rsa.PublicKey.load_pkcs1_openssl_pem(x.read())</span><br><span class="line">    cipher_text = rsa.encrypt(plaintext.encode(), public_key)     <span class="comment"># 使用公钥加密</span></span><br><span class="line">    <span class="built_in">print</span>(cipher_text)</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;private_pkcs1.pem&quot;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> x:</span><br><span class="line">    private_key = rsa.PrivateKey.load_pkcs1(x.read())</span><br><span class="line">    text = rsa.decrypt(cipher_text, private_key)   <span class="comment"># 使用私钥解密</span></span><br><span class="line">    <span class="built_in">print</span>(text)</span><br></pre></td></tr></table></figure>
+
+<p>此处出现了一些问题，RSA库用的是pkcs1格式的密钥文件，而本文之前生成的是pkcs8格式，会出现错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">No PEM start marker &quot;b&#x27;-----BEGIN RSA PRIVATE KEY-----&#x27;&quot; found</span><br></pre></td></tr></table></figure>
+
+<p>对于公钥读取，可以用<code>load_pkcs1_openssl_pem</code>方法代替<code>load_pkcs1</code>；对于私钥，只能用openssl命令把pkcs8格式转换为pkcs1了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl pkcs8 -in pri_key.pem -nocrypt -out private_pkcs1.pem -traditional</span><br></pre></td></tr></table></figure>
+
+<p>似乎有的版本不需要<code>-traditional</code>。</p>
+<img src="image-20230530172311009.png" alt="pkcs1.pem的开头为BEGIN RSA PRIVATE KEY" style="zoom:50%;" />
+
+<p>解密openssl生成的密文：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">out=rsa.decrypt(<span class="built_in">bytes</span>.fromhex(<span class="string">&quot;94c21061a08cdf3043c089e5d7b8229e139a60a095ea64b02d1d43d90c1773b4ebb491802b13cfa53f88c9c3e27ed4ab30fc3238fb983ae792f8425aebd077d34661f93ada40a5a768bb608bed43d152004ddb5390e7cac322af3d39685a70757f962dcaeeace23510e60086c7451e22d466e098dc33fa943bac52083a332f32&quot;</span>),private_key)</span><br><span class="line"><span class="built_in">print</span>(out)</span><br></pre></td></tr></table></figure>
+
+<h3 id="python-Crypto"><a href="#python-Crypto" class="headerlink" title="python Crypto"></a>python Crypto</h3><p>常用方法：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.PublicKey <span class="keyword">import</span> RSA</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> PKCS1_v1_5</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;pri_key.pem&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    private_key = RSA.import_key(f.read())</span><br><span class="line">cipher_rsa = PKCS1_v1_5.new(private_key.publickey())  <span class="comment"># 创建 RSA 加密对象</span></span><br><span class="line"></span><br><span class="line">plaintext = <span class="string">&quot;test&quot;</span>  <span class="comment"># 明文</span></span><br><span class="line">ciphertext=cipher_rsa.encrypt(plaintext.encode())</span><br><span class="line">cipher = PKCS1_v1_5.new(private_key)        <span class="comment"># 生成一个解密的类</span></span><br><span class="line">back_text = cipher.decrypt(ciphertext, <span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(back_text)</span><br></pre></td></tr></table></figure>
+
+<p>解密openssl生成的密文：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(cipher.decrypt(<span class="built_in">bytes</span>.fromhex(<span class="string">&quot;94c21061a08cdf3043c089e5d7b8229e139a60a095ea64b02d1d43d90c1773b4ebb491802b13cfa53f88c9c3e27ed4ab30fc3238fb983ae792f8425aebd077d34661f93ada40a5a768bb608bed43d152004ddb5390e7cac322af3d39685a70757f962dcaeeace23510e60086c7451e22d466e098dc33fa943bac52083a332f32&quot;</span>),<span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+
+
+
 <h1 id="apache配置https"><a href="#apache配置https" class="headerlink" title="apache配置https"></a>apache配置https</h1><p>本文的apache环境是之前基于wamp配置的，理论上配置https比原生apache服务器难。参考</p>
 <blockquote>
 <p><a href="https://blog.csdn.net/qq_46680028/article/details/109133461">https://blog.csdn.net/qq_46680028/article/details/109133461</a></p>
 </blockquote>
-<p>创建证书请求文件：</p>
+<h2 id="openssl部分"><a href="#openssl部分" class="headerlink" title="openssl部分"></a>openssl部分</h2><p>创建证书请求文件：</p>
 <p>CSR 文件是一个包含有关证书请求者（例如服务器或个人）信息的文件，需要经过 CA 的验证和签名，以生成最终的数字证书（CRT 文件）。</p>
 <figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">openssl req -new -key pri_key.pem -out server.csr</span><br></pre></td></tr></table></figure>
 
@@ -94,7 +173,7 @@
 <p>CRT 文件是证书颁发机构对证书请求者进行验证后生成的，用于证明证书请求者的身份和提供公钥给通信对方。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl x509 -req -days 365 -sha256 -in server.csr -signkey pri_key.pem -out servernew.crt</span><br></pre></td></tr></table></figure>
 
-<p>把<code>servernew.crt</code>和<code>pri_key.pem</code>文件移到apache的<code>conf</code>目录下。</p>
+<h2 id="apache部分"><a href="#apache部分" class="headerlink" title="apache部分"></a>apache部分</h2><p>把<code>servernew.crt</code>和<code>pri_key.pem</code>文件移到apache的<code>conf</code>目录下。</p>
 <p>apache调用ssl模块：</p>
 <p>在httpd.conf文件中开启如下选项：</p>
 <p><img src="/2023/05/25/OpenSSL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20230528215500434.png" alt="169"></p>
@@ -122,6 +201,71 @@
 <p>用别的浏览器访问，没有危险警告了。</p>
 <p><img src="/2023/05/25/OpenSSL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20230528221740210.png" alt="image-20230528221740210"></p>
 <p>可以通过<code>windows+R</code>，运行<code>certmgr.msc</code>进行证书管理。</p>
+<h1 id="https流量分析"><a href="#https流量分析" class="headerlink" title="https流量分析"></a>https流量分析</h1><p>基于前文配置好的https，用wires hark进行抓包进行数据分析。</p>
+<h2 id="证书密钥分析"><a href="#证书密钥分析" class="headerlink" title="证书密钥分析"></a>证书密钥分析</h2><h3 id="参数解析"><a href="#参数解析" class="headerlink" title="参数解析"></a>参数解析</h3><p>查看证书信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl x509 -in servernew.crt -text -noout</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/05/25/OpenSSL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20230529225347669.png" alt="证书信息"></p>
+<p>回顾前文对RSA算法的简介，公钥是(e,n),分别是<code>Exponent</code>和<code>Modulus</code>。</p>
+<p>查看私钥信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl rsa -in pri_key.pem -text -noout</span><br></pre></td></tr></table></figure>
+
+<img src="image-20230529230606851.png" alt="私钥信息" style="zoom:50%;" />
+
+<p>由前文知私钥是(d,n)。私钥中的信息参考这篇博客：</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/KAlbertLee/article/details/71106528">https://blog.csdn.net/KAlbertLee/article/details/71106528</a></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>私钥信息</th>
+<th>解析</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>privateExponent</td>
+<td>私钥的d</td>
+</tr>
+<tr>
+<td>prime1</td>
+<td>n的素数因子p</td>
+</tr>
+<tr>
+<td>prime2</td>
+<td>n的素数因子q</td>
+</tr>
+<tr>
+<td>exponent1</td>
+<td>d mod(p-1)</td>
+</tr>
+<tr>
+<td>exponent2</td>
+<td>d mod(q-1)</td>
+</tr>
+<tr>
+<td>coefficient</td>
+<td>CRT系数q-1 mod p</td>
+</tr>
+</tbody></table>
+<p><code>exponent1</code>、<code>exponent2</code> 和 <code>coefficient</code> 是与 CRT（中国剩余定理）相关的参数，用于提高解密操作的效率。具体可以看这篇博客，讲的比较清楚。</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/qq_43589852/article/details/127691919">https://blog.csdn.net/qq_43589852/article/details/127691919</a></p>
+<p><a href="https://www.di-mgt.com.au/crt_rsa.html">https://www.di-mgt.com.au/crt_rsa.html</a></p>
+</blockquote>
+<p>查看公钥信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl rsa -pubin -in pub_key.pem -text -noout</span><br></pre></td></tr></table></figure>
+
+<p>已经包含在证书信息里了，不再赘述。</p>
+<h3 id="脚本验证"><a href="#脚本验证" class="headerlink" title="脚本验证"></a>脚本验证</h3><p>可以用python脚本验证信息是否正确。</p>
+<p>验证<code>prime1</code>和<code>prime2</code>:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">modulus=<span class="string">&quot;00:c7:a7:0d:02:7a:d0:67:28:90:71:ef:4a:a3:b3:\</span></span><br><span class="line"><span class="string">    4d:f4:62:36:d5:ee:54:81:83:04:95:3b:fd:72:7d:\</span></span><br><span class="line"><span class="string">    38:30:ad:a9:d4:43:9b:02:55:52:71:e1:22:fc:8c:\</span></span><br><span class="line"><span class="string">    22:11:92:b2:d6:31:28:0e:3a:01:34:02:30:e0:76:\</span></span><br><span class="line"><span class="string">    c9:e5:58:ea:47:97:0a:3e:09:03:c9:65:83:e6:35:\</span></span><br><span class="line"><span class="string">    50:5b:99:94:a5:98:63:06:77:28:7d:79:a1:77:e5:\</span></span><br><span class="line"><span class="string">    a7:42:86:fa:18:a9:e8:05:00:bf:33:e5:cd:6f:d1:\</span></span><br><span class="line"><span class="string">    16:d4:31:29:3e:6d:b9:fc:74:f0:ca:fd:fb:c7:7e:\</span></span><br><span class="line"><span class="string">    1d:89:13:d1:b9:8a:f3:7d:1f&quot;</span></span><br><span class="line">prime1=<span class="string">&quot;00:f3:e8:76:3f:99:a6:3a:62:c3:4a:b1:17:ec:97:\</span></span><br><span class="line"><span class="string">    53:6e:a4:fc:70:4e:fb:29:6b:57:99:c3:31:15:bf:\</span></span><br><span class="line"><span class="string">    55:3e:8f:40:92:96:60:99:d7:50:5d:16:c4:ea:36:\</span></span><br><span class="line"><span class="string">    60:e9:3b:16:55:de:2f:11:52:4f:fc:e8:94:2b:71:\</span></span><br><span class="line"><span class="string">    08:86:fd:bc:c9&quot;</span></span><br><span class="line">prime2=<span class="string">&quot;00:d1:8c:ec:83:d0:79:62:13:80:c5:86:10:e9:ca:\</span></span><br><span class="line"><span class="string">    85:2d:e7:cf:71:ca:8b:a2:49:74:3f:aa:4b:55:0a:\</span></span><br><span class="line"><span class="string">    50:90:4b:82:fc:21:ad:2a:63:e5:59:1d:ef:f7:2e:\</span></span><br><span class="line"><span class="string">    64:38:b8:58:44:75:ce:4a:2b:2c:fe:fe:3b:d3:63:\</span></span><br><span class="line"><span class="string">    bf:33:6b:a6:a7&quot;</span></span><br><span class="line">modulus=modulus.replace(<span class="string">&quot;:&quot;</span>,<span class="string">&quot;&quot;</span>).replace(<span class="string">&quot; &quot;</span>,<span class="string">&quot;&quot;</span>)</span><br><span class="line">prime1=prime1.replace(<span class="string">&quot;:&quot;</span>,<span class="string">&quot;&quot;</span>).replace(<span class="string">&quot; &quot;</span>,<span class="string">&quot;&quot;</span>)</span><br><span class="line">prime2=prime2.replace(<span class="string">&quot;:&quot;</span>,<span class="string">&quot;&quot;</span>).replace(<span class="string">&quot; &quot;</span>,<span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">modulus_int=<span class="built_in">int</span>(modulus,<span class="number">16</span>)</span><br><span class="line">prime1_int=<span class="built_in">int</span>(prime1,<span class="number">16</span>)</span><br><span class="line">prime2_int=<span class="built_in">int</span>(prime2,<span class="number">16</span>)</span><br><span class="line"><span class="built_in">print</span>( (prime1_int*prime2_int) == modulus_int)</span><br></pre></td></tr></table></figure>
+
+<p>结果为True。</p>
+<p>验证 (e * d) mod φ(n) &#x3D; 1是否成立。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">privateExponent=<span class="string">&quot;\</span></span><br><span class="line"><span class="string">    00:ad:ec:2d:5e:22:a4:d7:a8:b3:a4:3d:23:95:55:\</span></span><br><span class="line"><span class="string">    86:ac:44:be:a6:40:77:27:57:7e:2f:8e:d1:eb:e1:\</span></span><br><span class="line"><span class="string">    7f:88:90:50:68:93:f8:3d:e1:1b:f0:0e:83:0e:e3:\</span></span><br><span class="line"><span class="string">    f8:6d:bc:90:c4:1c:90:5b:4c:56:6d:fb:16:9f:03:\</span></span><br><span class="line"><span class="string">    7c:3f:a9:e4:73:ab:ee:73:d1:be:d9:f4:46:47:20:\</span></span><br><span class="line"><span class="string">    f0:41:93:5f:f6:c7:cf:c8:ba:bf:0d:4f:57:e4:4c:\</span></span><br><span class="line"><span class="string">    c6:2b:79:b5:0e:e9:1a:34:0f:e4:80:68:30:5d:23:\</span></span><br><span class="line"><span class="string">    bc:26:30:b3:e4:42:89:96:5b:81:cb:75:29:75:38:\</span></span><br><span class="line"><span class="string">    d7:f9:05:7a:90:20:ed:9d:11&quot;</span></span><br><span class="line">privateExponent=privateExponent.replace(<span class="string">&quot;:&quot;</span>,<span class="string">&quot;&quot;</span>).replace(<span class="string">&quot; &quot;</span>,<span class="string">&quot;&quot;</span>)</span><br><span class="line">d=<span class="built_in">int</span>(privateExponent,<span class="number">16</span>)</span><br><span class="line">e=<span class="number">65537</span></span><br><span class="line">euler_var=(prime1_int-<span class="number">1</span>)*(prime2_int-<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>( ( ( d*e )%euler_var ) == <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>结果为True。</p>
 ]]></content>
       <categories>
         <category>学习笔记</category>
