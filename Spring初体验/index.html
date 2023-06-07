@@ -23,24 +23,24 @@
     <meta name="description" content="Spring 初体验：俗话说“没学过spring等于没学过Java”，spring在Java领域的地位可见一斑。在Java中，Spring是一个开源的应用程序框架，用于构建企业级Java应用程序。它提供了一个轻量级的、非侵入性的编程和配置模型，用于开发灵活、可扩展的应用程序。笔者Java水平很低，但由于课程的原因写了好久的Java代码，顺便学习一下spring吧。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring初体验">
-<meta property="og:url" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/index.html">
+<meta property="og:url" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/index.html">
 <meta property="og:site_name" content="Mmmidsummer&#39;s blog">
 <meta property="og:description" content="Spring 初体验：俗话说“没学过spring等于没学过Java”，spring在Java领域的地位可见一斑。在Java中，Spring是一个开源的应用程序框架，用于构建企业级Java应用程序。它提供了一个轻量级的、非侵入性的编程和配置模型，用于开发灵活、可扩展的应用程序。笔者Java水平很低，但由于课程的原因写了好久的Java代码，顺便学习一下spring吧。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523171001294.png">
-<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523171319899.png">
-<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181330424.png">
-<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181708596.png">
-<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181225900.png">
-<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523211003841.png">
-<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523211939593.png">
-<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523212615267.png">
-<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523214927845.png">
-<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523220805331-16848508867291.png">
-<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523220719695.png">
-<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523223207019.png">
-<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523223230744.png">
-<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523230308540.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523171001294.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523171319899.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181330424.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181708596.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181225900.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523211003841.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523211939593.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523212615267.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523214927845.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523220805331-16848508867291.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523220719695.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523223207019.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523223230744.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523230308540.png">
 <meta property="article:published_time" content="2023-05-23T08:23:08.000Z">
 <meta property="article:modified_time" content="2023-05-23T15:14:41.530Z">
 <meta property="article:author" content="Mika Su2mer">
@@ -48,14 +48,14 @@
 <meta property="article:tag" content="Spring">
 <meta property="article:tag" content="新手">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523171001294.png">
+<meta name="twitter:image" content="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523171001294.png">
 
 
-<link rel="canonical" href="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/">
+<link rel="canonical" href="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/","path":"2023/05/23/Spring初体验/","title":"Spring初体验"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/","path":"Spring初体验/","title":"Spring初体验"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Spring初体验 | Mmmidsummer's blog</title>
@@ -216,7 +216,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mmmidsummer.github.io/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/">
+    <link itemprop="mainEntityOfPage" href="https://mmmidsummer.github.io/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/4s.jpg">
@@ -286,16 +286,16 @@
 <img src="image-20230523171319899.png" alt="依赖添加" style="zoom:50%;" />
 
 <p>创建以后，自带一个有主函数的java文件：</p>
-<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181330424.png" alt="主函数"></p>
+<p><img src="/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181330424.png" alt="主函数"></p>
 <h2 id="hello-world！"><a href="#hello-world！" class="headerlink" title="hello world！"></a>hello world！</h2><p>私以为，学习web框架中运行一个简单的web服务器等价于学习编程语言输出hello world。创建一个控制器类，用于处理HTTP请求并返回响应。你可以使用<code>@Controller</code>或<code>@RestController</code>注解进行标记，并定义相应的请求处理方法。</p>
-<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181708596.png" alt="HelloWorld.java"></p>
+<p><img src="/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181708596.png" alt="HelloWorld.java"></p>
 <p>运行main方法，默认端口为8080，访问<code>http://localhost:8080/hello</code>，可以看到返回的“你好世界”。</p>
-<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181225900.png" alt="浏览器访问结果"></p>
+<p><img src="/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523181225900.png" alt="浏览器访问结果"></p>
 <h2 id="访问html静态页面"><a href="#访问html静态页面" class="headerlink" title="访问html静态页面"></a>访问html静态页面</h2><p>正常的web服务器一般不会返回单个字符串，而是返回一个html页面。要让spring boot服务器能输出html页面，首先要将我们的html文件放到<code>src\main\resources</code>文件夹中。</p>
-<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523211003841.png" alt="resources"></p>
+<p><img src="/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523211003841.png" alt="resources"></p>
 <p>staic文件夹存放静态资源，资源文件会直接暴露给外部访问，不经过模板引擎的处理。templates文件夹存放模板文件，通过模板引擎进行解析和渲染，最终生成HTML响应。模板文件通常包含动态内容、模板语法和模板表达式，可以与后端数据进行交互。</p>
 <p>启动服务器，通过url:<code>localhost:8080/index.html</code>来访问static文件夹中的<code>index.html</code>文件。</p>
-<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523211939593.png" alt="index.html"></p>
+<p><img src="/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523211939593.png" alt="index.html"></p>
 <p>要正常访问templates文件夹，需要添加thymeleaf依赖。在pom.xml中添加以下内容：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- thymeleaf依赖 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -303,7 +303,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.ui.Model;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping</span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyController</span> &#123;</span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/home&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">home</span><span class="params">(Model model)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;index2&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这样，通过<code>localhost:8080/home</code>也可以访问index2.html文件了。</p>
-<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523212615267.png" alt="index2"></p>
+<p><img src="/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523212615267.png" alt="index2"></p>
 <p>注意到上文的代码中，出现了两种控制器类，即<code>@RestController</code>和<code>@Controller</code>,<code>@Controller</code>注解表示该类是一个控制器（Controller），用于处理HTTP请求并生成相应的响应。它可以返回HTML视图、JSON数据等多种形式的响应。<code>@RestController</code>注解是<code>@Controller</code>注解的特殊形式，它结合了<code>@Controller</code>和<code>@ResponseBody</code>注解的功能。<code>@RestController</code>注解用于创建RESTful风格的控制器，专门用于返回JSON或XML格式的响应数据。如果要用<code>@Controller</code>返回字符串数据，必须还要添加<code>@ResponseBody</code>。</p>
 <h2 id="动态生成HTML内容"><a href="#动态生成HTML内容" class="headerlink" title="动态生成HTML内容"></a>动态生成HTML内容</h2><p>spring boot可以通过模板动态渲染html页面，和django有点类似。</p>
 <p>修改index2.html的内容:</p>
@@ -313,21 +313,21 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/dynamic&quot;)</span></span><br><span class="line">   <span class="keyword">public</span> String <span class="title function_">DynamicPage</span><span class="params">(Model model)</span>&#123;</span><br><span class="line">       model.addAttribute(<span class="string">&quot;data&quot;</span>,<span class="string">&quot;qwq&quot;</span>);</span><br><span class="line">       <span class="keyword">return</span> <span class="string">&quot;index2&quot;</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 
 <p>运行项目，访问<code>localhost:8080/dynamic</code>：</p>
-<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523214927845.png" alt="dynamic"></p>
+<p><img src="/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523214927845.png" alt="dynamic"></p>
 <p>Thymeleaf还有很多功能强大的语法，在此不再赘述。</p>
 <h2 id="解析get请求参数"><a href="#解析get请求参数" class="headerlink" title="解析get请求参数"></a>解析get请求参数</h2><p>在Spring Boot中，可以使用@RequestParam注解或HttpServletRequest对象来解析URL中的参数，并返回特定参数的值。</p>
 <p>在控制器类添加方法:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/param1&quot;)</span></span><br><span class="line">   <span class="meta">@ResponseBody</span></span><br><span class="line">   <span class="keyword">public</span> String <span class="title function_">ParamParse1</span><span class="params">(<span class="meta">@RequestParam(&quot;a&quot;)</span> String param)</span>&#123;</span><br><span class="line">       <span class="keyword">return</span> param;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@GetMapping(&quot;/param2&quot;)</span></span><br><span class="line">   <span class="meta">@ResponseBody</span></span><br><span class="line">   <span class="keyword">public</span> String <span class="title function_">ParamParse2</span><span class="params">(HttpServletRequest r)</span>&#123;</span><br><span class="line">       <span class="keyword">return</span> r.getParameter(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 
 <p>运行项目。</p>
-<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523220805331-16848508867291.png" alt="param1"></p>
-<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523220719695.png" alt="param2"></p>
+<p><img src="/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523220805331-16848508867291.png" alt="param1"></p>
+<p><img src="/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523220719695.png" alt="param2"></p>
 <h2 id="处理post请求"><a href="#处理post请求" class="headerlink" title="处理post请求"></a>处理post请求</h2><p>在Spring Boot中，可以使用@RequestParam注解或@RequestBody注解来获取POST方法的数据。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/post1&quot;)</span></span><br><span class="line">   <span class="meta">@ResponseBody</span></span><br><span class="line">   <span class="keyword">public</span> String <span class="title function_">Post1</span><span class="params">(<span class="meta">@RequestParam(&quot;data&quot;)</span> String data)</span> &#123;</span><br><span class="line">       <span class="keyword">return</span> data;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="meta">@PostMapping(&quot;/post2&quot;)</span></span><br><span class="line">   <span class="meta">@ResponseBody</span></span><br><span class="line">   <span class="keyword">public</span> String <span class="title function_">Post2</span><span class="params">(<span class="meta">@RequestBody</span> String data)</span> &#123;</span><br><span class="line">       <span class="keyword">return</span> data;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 
 <p>运行项目，用curl发送post请求。</p>
-<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523223207019.png" alt="post1"></p>
-<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523223230744.png" alt="post2"></p>
+<p><img src="/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523223207019.png" alt="post1"></p>
+<p><img src="/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523223230744.png" alt="post2"></p>
 <h2 id="访问MySQL数据库"><a href="#访问MySQL数据库" class="headerlink" title="访问MySQL数据库"></a>访问MySQL数据库</h2><p>访问数据库也是web服务器的基本功能之一。</p>
 <p>首先在<code>pom.xml</code>中添加依赖：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.0.26<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -345,7 +345,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> MyService myService;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MyController</span><span class="params">(MyService myService)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.myService = myService;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">@GetMapping(&quot;/db&quot;)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;Map&lt;String, Object&gt;&gt; <span class="title function_">getDatabaseData</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> myService.getAllData();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <p>启动项目，访问<code>localhost:8080/db</code>:</p>
-<p><img src="/2023/05/23/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523230308540.png" alt="数据库查询结果"></p>
+<p><img src="/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/image-20230523230308540.png" alt="数据库查询结果"></p>
 <h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>以上内容足够用spring boot搭建一个有正常功能的web服务器，路漫漫其修远兮，之后还要对spring进行更深入的学习。有时间再更新吧。</p>
 
     </div>
@@ -367,7 +367,7 @@
             <div class="post-nav-item">
             </div>
             <div class="post-nav-item">
-                <a href="/2023/05/25/OpenSSL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="next" title="OpenSSL学习笔记">
+                <a href="/OpenSSL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="next" title="OpenSSL学习笔记">
                   OpenSSL学习笔记 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
