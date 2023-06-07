@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"mmmidsummer.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文的https流量分析基于之前自己生成的密钥、证书和搭建的支持https访问的apache服务器OpenSSL学习笔记。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTPS流量抓包分析(附代码验证)">
+<meta property="og:url" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Mmmidsummer&#39;s blog">
+<meta property="og:description" content="本文的https流量分析基于之前自己生成的密钥、证书和搭建的支持https访问的apache服务器OpenSSL学习笔记。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230529225347669.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230529230606851.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530175318223.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530180446918.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530181735295.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530181255355.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530180903374.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530193713675.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530193802214.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530195047545.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530213854957.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530195741609.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530195634726.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530195832782.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530214017256.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230606211147835.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230606214050873.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230606224448668.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230606223913238.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230606224530087.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230606224556607.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230606230735651.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230606231340719.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230607161844039.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230607162614892.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230607163425132.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230607163513252.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230607163559586.png">
+<meta property="article:published_time" content="2023-05-30T09:40:54.000Z">
+<meta property="article:modified_time" content="2023-06-07T08:36:29.075Z">
+<meta property="article:author" content="Mika Su2mer">
+<meta property="article:tag" content="openssl">
+<meta property="article:tag" content="https">
+<meta property="article:tag" content="wireshark">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230529225347669.png">
+
+
+<link rel="canonical" href="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/","path":"2023/05/30/HTTPS流量抓包分析/","title":"HTTPS流量抓包分析(附代码验证)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>HTTPS流量抓包分析(附代码验证) | Mmmidsummer's blog</title>
+  
+
+
+
+
+
+
+
+<script async src="/lib/fireworks.js"></script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Mmmidsummer's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">随便写写</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%81%E4%B9%A6%E5%AF%86%E9%92%A5%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">证书密钥分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90"><span class="nav-number">1.1.</span> <span class="nav-text">参数解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%E9%AA%8C%E8%AF%81"><span class="nav-number">1.2.</span> <span class="nav-text">脚本验证</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#wireshark%E6%8A%93%E5%8C%85"><span class="nav-number">2.</span> <span class="nav-text">wireshark抓包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">流量分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#client-hello"><span class="nav-number">3.1.</span> <span class="nav-text">client hello</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#server-hello"><span class="nav-number">3.2.</span> <span class="nav-text">server hello</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Certificate"><span class="nav-number">3.3.</span> <span class="nav-text">Certificate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Server-Key-Exchange"><span class="nav-number">3.4.</span> <span class="nav-text">Server Key Exchange</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Server-Hello-Done"><span class="nav-number">3.5.</span> <span class="nav-text">Server Hello Done</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Client-Key-Exchange"><span class="nav-number">3.6.</span> <span class="nav-text">Client Key Exchange</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Change-Cipher-Spec"><span class="nav-number">3.7.</span> <span class="nav-text">Change Cipher Spec</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Encrypted-Handshake-Message"><span class="nav-number">3.8.</span> <span class="nav-text">Encrypted Handshake Message</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTPS%E6%B5%81%E9%87%8F%E8%A7%A3%E5%AF%86"><span class="nav-number">4.</span> <span class="nav-text">HTTPS流量解密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sslkey-log"><span class="nav-number">4.1.</span> <span class="nav-text">sslkey.log</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%9A%E8%AF%9D%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90"><span class="nav-number">4.2.</span> <span class="nav-text">会话密钥生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python%E7%94%9F%E6%88%90key-block"><span class="nav-number">4.3.</span> <span class="nav-text">python生成key_block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aes-gcm"><span class="nav-number">4.4.</span> <span class="nav-text">aes gcm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%AF%86"><span class="nav-number">4.5.</span> <span class="nav-text">python代码解密</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#wireshark%E8%A7%A3%E5%AF%86https%E6%B5%81%E9%87%8F"><span class="nav-number">5.</span> <span class="nav-text">wireshark解密https流量</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mika Su2mer"
+      src="/images/4s.jpg">
+  <p class="site-author-name" itemprop="name">Mika Su2mer</p>
+  <div class="site-description" itemprop="description">不战斗就无法生存</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:2849917004@qq.com" title="E-Mail → mailto:2849917004@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mmmidsummer.github.io/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/4s.jpg">
+      <meta itemprop="name" content="Mika Su2mer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mmmidsummer's blog">
+      <meta itemprop="description" content="不战斗就无法生存">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="HTTPS流量抓包分析(附代码验证) | Mmmidsummer's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HTTPS流量抓包分析(附代码验证)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>12k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本文的https流量分析基于之前自己生成的密钥、证书和搭建的支持https访问的apache服务器<a href="/2023/05/25/OpenSSL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="OpenSSL学习笔记">OpenSSL学习笔记</a>。</p>
+<span id="more"></span>
+
+<h1 id="证书密钥分析"><a href="#证书密钥分析" class="headerlink" title="证书密钥分析"></a>证书密钥分析</h1><h2 id="参数解析"><a href="#参数解析" class="headerlink" title="参数解析"></a>参数解析</h2><p>查看证书信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -in servernew.crt -text -noout</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230529225347669.png" alt="证书信息"></p>
+<p>回顾前文对RSA算法的简介，公钥是(e,n),分别是<code>Exponent</code>和<code>Modulus</code>。</p>
+<p>查看私钥信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl rsa -in pri_key.pem -text -noout</span><br></pre></td></tr></table></figure>
+
+<img src="image-20230529230606851.png" alt="私钥信息" style="zoom:50%;" />
+
+<p>由前文知私钥是(d,n)。私钥中的信息参考这篇博客：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/KAlbertLee/article/details/71106528">https://blog.csdn.net/KAlbertLee/article/details/71106528</a></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>私钥信息</th>
+<th>解析</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>privateExponent</td>
+<td>私钥的d</td>
+</tr>
+<tr>
+<td>prime1</td>
+<td>n的素数因子p</td>
+</tr>
+<tr>
+<td>prime2</td>
+<td>n的素数因子q</td>
+</tr>
+<tr>
+<td>exponent1</td>
+<td>d mod(p-1)</td>
+</tr>
+<tr>
+<td>exponent2</td>
+<td>d mod(q-1)</td>
+</tr>
+<tr>
+<td>coefficient</td>
+<td>CRT系数q-1 mod p</td>
+</tr>
+</tbody></table>
+<p><code>exponent1</code>、<code>exponent2</code> 和 <code>coefficient</code> 是与 CRT（中国剩余定理）相关的参数，用于提高解密操作的效率。具体可以看这篇博客，讲的比较清楚。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43589852/article/details/127691919">https://blog.csdn.net/qq_43589852/article/details/127691919</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.di-mgt.com.au/crt_rsa.html">https://www.di-mgt.com.au/crt_rsa.html</a></p>
+</blockquote>
+<p>查看公钥信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl rsa -pubin -in pub_key.pem -text -noout</span><br></pre></td></tr></table></figure>
+
+<p>已经包含在证书信息里了，不再赘述。</p>
+<h2 id="脚本验证"><a href="#脚本验证" class="headerlink" title="脚本验证"></a>脚本验证</h2><p>可以用python脚本验证信息是否正确。</p>
+<p>验证<code>prime1</code>和<code>prime2</code>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">modulus=<span class="string">&quot;00:c7:a7:0d:02:7a:d0:67:28:90:71:ef:4a:a3:b3:\</span></span><br><span class="line"><span class="string">    4d:f4:62:36:d5:ee:54:81:83:04:95:3b:fd:72:7d:\</span></span><br><span class="line"><span class="string">    38:30:ad:a9:d4:43:9b:02:55:52:71:e1:22:fc:8c:\</span></span><br><span class="line"><span class="string">    22:11:92:b2:d6:31:28:0e:3a:01:34:02:30:e0:76:\</span></span><br><span class="line"><span class="string">    c9:e5:58:ea:47:97:0a:3e:09:03:c9:65:83:e6:35:\</span></span><br><span class="line"><span class="string">    50:5b:99:94:a5:98:63:06:77:28:7d:79:a1:77:e5:\</span></span><br><span class="line"><span class="string">    a7:42:86:fa:18:a9:e8:05:00:bf:33:e5:cd:6f:d1:\</span></span><br><span class="line"><span class="string">    16:d4:31:29:3e:6d:b9:fc:74:f0:ca:fd:fb:c7:7e:\</span></span><br><span class="line"><span class="string">    1d:89:13:d1:b9:8a:f3:7d:1f&quot;</span></span><br><span class="line">prime1=<span class="string">&quot;00:f3:e8:76:3f:99:a6:3a:62:c3:4a:b1:17:ec:97:\</span></span><br><span class="line"><span class="string">    53:6e:a4:fc:70:4e:fb:29:6b:57:99:c3:31:15:bf:\</span></span><br><span class="line"><span class="string">    55:3e:8f:40:92:96:60:99:d7:50:5d:16:c4:ea:36:\</span></span><br><span class="line"><span class="string">    60:e9:3b:16:55:de:2f:11:52:4f:fc:e8:94:2b:71:\</span></span><br><span class="line"><span class="string">    08:86:fd:bc:c9&quot;</span></span><br><span class="line">prime2=<span class="string">&quot;00:d1:8c:ec:83:d0:79:62:13:80:c5:86:10:e9:ca:\</span></span><br><span class="line"><span class="string">    85:2d:e7:cf:71:ca:8b:a2:49:74:3f:aa:4b:55:0a:\</span></span><br><span class="line"><span class="string">    50:90:4b:82:fc:21:ad:2a:63:e5:59:1d:ef:f7:2e:\</span></span><br><span class="line"><span class="string">    64:38:b8:58:44:75:ce:4a:2b:2c:fe:fe:3b:d3:63:\</span></span><br><span class="line"><span class="string">    bf:33:6b:a6:a7&quot;</span></span><br><span class="line">modulus=modulus.replace(<span class="string">&quot;:&quot;</span>,<span class="string">&quot;&quot;</span>).replace(<span class="string">&quot; &quot;</span>,<span class="string">&quot;&quot;</span>)</span><br><span class="line">prime1=prime1.replace(<span class="string">&quot;:&quot;</span>,<span class="string">&quot;&quot;</span>).replace(<span class="string">&quot; &quot;</span>,<span class="string">&quot;&quot;</span>)</span><br><span class="line">prime2=prime2.replace(<span class="string">&quot;:&quot;</span>,<span class="string">&quot;&quot;</span>).replace(<span class="string">&quot; &quot;</span>,<span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">modulus_int=<span class="built_in">int</span>(modulus,<span class="number">16</span>)</span><br><span class="line">prime1_int=<span class="built_in">int</span>(prime1,<span class="number">16</span>)</span><br><span class="line">prime2_int=<span class="built_in">int</span>(prime2,<span class="number">16</span>)</span><br><span class="line"><span class="built_in">print</span>( (prime1_int*prime2_int) == modulus_int)</span><br></pre></td></tr></table></figure>
+
+<p>结果为True。</p>
+<p>验证 (e * d) mod φ(n) &#x3D; 1是否成立。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">privateExponent=<span class="string">&quot;\</span></span><br><span class="line"><span class="string">    00:ad:ec:2d:5e:22:a4:d7:a8:b3:a4:3d:23:95:55:\</span></span><br><span class="line"><span class="string">    86:ac:44:be:a6:40:77:27:57:7e:2f:8e:d1:eb:e1:\</span></span><br><span class="line"><span class="string">    7f:88:90:50:68:93:f8:3d:e1:1b:f0:0e:83:0e:e3:\</span></span><br><span class="line"><span class="string">    f8:6d:bc:90:c4:1c:90:5b:4c:56:6d:fb:16:9f:03:\</span></span><br><span class="line"><span class="string">    7c:3f:a9:e4:73:ab:ee:73:d1:be:d9:f4:46:47:20:\</span></span><br><span class="line"><span class="string">    f0:41:93:5f:f6:c7:cf:c8:ba:bf:0d:4f:57:e4:4c:\</span></span><br><span class="line"><span class="string">    c6:2b:79:b5:0e:e9:1a:34:0f:e4:80:68:30:5d:23:\</span></span><br><span class="line"><span class="string">    bc:26:30:b3:e4:42:89:96:5b:81:cb:75:29:75:38:\</span></span><br><span class="line"><span class="string">    d7:f9:05:7a:90:20:ed:9d:11&quot;</span></span><br><span class="line">privateExponent=privateExponent.replace(<span class="string">&quot;:&quot;</span>,<span class="string">&quot;&quot;</span>).replace(<span class="string">&quot; &quot;</span>,<span class="string">&quot;&quot;</span>)</span><br><span class="line">d=<span class="built_in">int</span>(privateExponent,<span class="number">16</span>)</span><br><span class="line">e=<span class="number">65537</span></span><br><span class="line">euler_var=(prime1_int-<span class="number">1</span>)*(prime2_int-<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>( ( ( d*e )%euler_var ) == <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>结果为True。</p>
+<h1 id="wireshark抓包"><a href="#wireshark抓包" class="headerlink" title="wireshark抓包"></a>wireshark抓包</h1><p>注意要选取<code>Adapter for loopback traffic capture</code>才能抓取本地地址<code>127.0.0.1</code>的数据包。</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530175318223.png" alt="wires hark"></p>
+<h1 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h1><h2 id="client-hello"><a href="#client-hello" class="headerlink" title="client hello"></a>client hello</h2><p>用<code>tcp.port==443</code>来进行过滤，发现一个信息为<code>Client Hello</code>的数据包，它里面含<code>Server Name: localhost</code>等信息，是客户端发起连接的数据包。</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530180446918.png" alt="server name"></p>
+<p>该数据包还包含以下信息：</p>
+<p>支持的TLS版本：</p>
+<img src="image-20230530181735295.png" alt="Version" style="zoom:50%;" />
+
+<p>随机数。</p>
+<img src="image-20230530181255355.png" alt="随机数" style="zoom:50%;" />
+
+<p>支持的加密算法。</p>
+<img src="image-20230530180903374.png" alt="加密套件列表" style="zoom:50%;" />
+
+<h2 id="server-hello"><a href="#server-hello" class="headerlink" title="server hello"></a>server hello</h2><p>Server Hello 数据包是在 HTTPS 握手过程中服务器发送给客户端的响应数据包。</p>
+<p>TLS版本和随机数</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530193713675.png" alt="TLS 1.2"></p>
+<p>选择的加密算法</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530193802214.png" alt="Cipher Suite: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (0xc02f)"></p>
+<p><code>TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256</code> 是一个加密套件的名称，它由多个部分组成，每个部分代表不同的加密算法和密钥交换算法。ECDHE(Elliptic Curve Diffie-Hellman Ephemeral)，椭圆曲线临时Diffie-Hellman密钥交换。它是一种密钥交换协议，用于安全地协商会话密钥。</p>
+<p>TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 表示使用 ECDHE 密钥交换和 RSA 签名算法进行密钥协商，使用 AES-128-GCM 进行对称加密，以及使用 SHA-256  进行消息摘要和认证。这个加密套件提供了安全的密钥交换和加密算法，以保护通信的机密性和完整性。</p>
+<p>椭圆曲线格式</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530195047545.png" alt="ec_point_formats"></p>
+<p><code>ec_point_formats </code>字段包含了一个或多个椭圆曲线点压缩格式的标识符，每个标识符表示一种点压缩格式。<code>uncompressed</code>表示不使用压缩，即完整表示椭圆曲线上的点坐标。<code>ansiX962_compressed_prime</code>表示使用 ANSI X9.62 标准定义的有限域椭圆曲线上的点压缩格式。<code>ansiX962_compressed_char2</code>表示使用 ANSI X9.62 标准定义的二进制域椭圆曲线上的点压缩格式。</p>
+<h2 id="Certificate"><a href="#Certificate" class="headerlink" title="Certificate"></a>Certificate</h2><p>Certificate 数据包包含了用于验证证书合法性和建立信任的关键信息。在 HTTPS  连接中，客户端会验证服务器发送的证书，并根据证书的有效性来决定是否信任服务器。证书的签名保证了证书的真实性，而证书中的公钥用于加密和验证数字签名，确保通信的机密性和完整性。</p>
+<p>证书有关信息</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530213854957.png" alt="证书"></p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530195741609.png" alt="证书"></p>
+<p>公钥信息</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530195634726.png" alt="(e,n))"></p>
+<p>认证信息</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530195832782.png" alt="认证"></p>
+<p>证书用<code>sha256WithRSAEncryption</code>进行数字签名，<code>encrypted</code>就是证书的数字签名。证书可以分为<code>tbsCertificate</code>、<code>signatureAlgorithm</code>和<code>signatureValue</code>三部分，数字签名就是对第一部分进行哈希计算，使用私钥对计算得到的摘要值进行加密操作，生成数字签名。客户端可以使用服务器的公钥对证书的签名进行验证，确保证书的完整性和真实性。</p>
+<p>下面用python来演示这一过程：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.PublicKey <span class="keyword">import</span> RSA</span><br><span class="line"><span class="keyword">from</span> Crypto.Signature <span class="keyword">import</span> pkcs1_15</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;pri_key.pem&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    private_key = RSA.import_key(f.read())</span><br><span class="line"><span class="comment">#signedCertificate部分</span></span><br><span class="line">cer=<span class="string">&quot;308201c502142f5eccde876513440a6032e091ca302202c79db0300d06092a864886f70d01010b0500306d310b300906035504061302434e3110300e06035504080c074265694a696e673110300e06035504070c076265696a696e6731123010060355040a0c096c6f63616c686f737431123010060355040b0c096c6f63616c686f73743112301006035504030c096c6f63616c686f7374301e170d3233303532383133333235385a170d3234303532373133333235385a306d310b300906035504061302434e3110300e06035504080c074265694a696e673110300e06035504070c076265696a696e6731123010060355040a0c096c6f63616c686f737431123010060355040b0c096c6f63616c686f73743112301006035504030c096c6f63616c686f737430819f300d06092a864886f70d010101050003818d0030818902818100c7a70d027ad067289071ef4aa3b34df46236d5ee54818304953bfd727d3830ada9d4439b02555271e122fc8c221192b2d631280e3a01340230e076c9e558ea47970a3e0903c96583e635505b9994a598630677287d79a177e5a74286fa18a9e80500bf33e5cd6fd116d431293e6db9fc74f0cafdfbc77e1d8913d1b98af37d1f0203010001&quot;</span></span><br><span class="line"><span class="comment">#encrypted部分</span></span><br><span class="line">s=<span class="string">&quot;78475c466dde9daa15388bcb87eb43ec0d220abf2e4fcad9e5041c3889711e177bbf352ee8cd18ffd3ab3704b9994a7483a4fe23ab4bbcb746ff9e718e6daac0bd5a698559bf12daec8b36f63bdb605d7467184ee27801241a6dacfa9e24667844d0e9c4b52926dc37ec8fc1ce569bf472b2c197f8582aca21d16426ee10d505&quot;</span></span><br><span class="line">s=<span class="built_in">bytes</span>.fromhex(s)</span><br><span class="line">cer=SHA256.new(<span class="built_in">bytes</span>.fromhex(cer))</span><br><span class="line">pkcs1_15.new(private_key.publickey()).verify(cer,s)</span><br></pre></td></tr></table></figure>
+
+<p>verify无返回值，如果验证失败会抛出异常。此处为了方便读取私钥文件再生成公钥(复制粘贴原来代码是这样的)，不要在意这些细节。</p>
+<h2 id="Server-Key-Exchange"><a href="#Server-Key-Exchange" class="headerlink" title="Server Key Exchange"></a>Server Key Exchange</h2><p>Server Key Exchange 数据包是在 SSL&#x2F;TLS 握手过程中，由服务器发送给客户端的一部分数据。它包含了服务器使用的密钥协商算法所需的信息，以便客户端能够生成共享密钥。</p>
+<p>ECDH算法的椭圆曲线参数和公钥</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230530214017256.png" alt="ECDH"></p>
+<p>服务端和客户端根据自己的私钥和对方的公钥就可以计算相同的椭圆曲线点。</p>
+<h2 id="Server-Hello-Done"><a href="#Server-Hello-Done" class="headerlink" title="Server Hello Done"></a>Server Hello Done</h2><p>Server Hello Done数据包是TLS握手过程中服务器发送给客户端的消息，表示服务器已完成Hello阶段的握手过程。它本身不包含其他的具体内容，它的主要目的是通知客户端服务器已经发送了所有必要的信息，并准备好等待客户端的下一步操作。</p>
+<h2 id="Client-Key-Exchange"><a href="#Client-Key-Exchange" class="headerlink" title="Client Key Exchange"></a>Client Key Exchange</h2><p>主要还是密钥协商中的信息，ECDH算法的公钥。</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230606211147835.png" alt="publickey"></p>
+<h2 id="Change-Cipher-Spec"><a href="#Change-Cipher-Spec" class="headerlink" title="Change Cipher Spec"></a>Change Cipher Spec</h2><p>Change Cipher Spec（更改密码规范）是一种特殊的协议消息，用于在握手过程中通知对方切换到新的加密规范。</p>
+<p>Change Cipher Spec 消息非常简单，只包含一个字节的值 <code>0x01</code>，表示切换到新的密码规范。</p>
+<p>Change Cipher Spec 消息的作用是：</p>
+<ol>
+<li>提示对方从握手过程中使用的临时加密规范切换到最终的加密规范。</li>
+<li>表示握手过程的某个阶段已经完成，可以进入下一个阶段。</li>
+<li>通知对方从现在开始使用新的密钥和加密算法来加密和解密数据。</li>
+</ol>
+<p>在 TLS 1.2 握手过程中，Change Cipher Spec 消息是在 Finished 消息之前发送的。接收到 Change Cipher Spec 消息后，对方会确认切换到新的加密规范，并在之后的通信中使用新的密钥和加密算法。需要注意的是，Change Cipher Spec 消息本身不提供任何加密或认证，它只是一个切换信号。加密和认证是由后续的加密协议和加密算法来实现的。</p>
+<h2 id="Encrypted-Handshake-Message"><a href="#Encrypted-Handshake-Message" class="headerlink" title="Encrypted Handshake Message"></a>Encrypted Handshake Message</h2><p>Encrypted Handshake Message用于将部分或全部的握手消息进行加密，以确保握手过程的机密性和完整性，已经是加密以后的密文。</p>
+<p>之后的TLS数据包基本都是加密以后的了。</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230606214050873.png" alt="wires hark截图"></p>
+<h1 id="HTTPS流量解密"><a href="#HTTPS流量解密" class="headerlink" title="HTTPS流量解密"></a>HTTPS流量解密</h1><p>TLS协议数据包中的<code>Encrypted Application Data</code>一般是由会话密钥加密的，而会话密钥并没有直接给出。密钥如何生成的呢？需要<code>Pre-Master Secret</code>、<code>Client Random</code>、<code>Server Random</code>和密钥派生函数<code>Key Derivation Function</code>。其中，客户端随机数和服务端随机数都是可以从抓到的数据包中获取的，TLS 1.2 中的 PRF 算法使用 HMAC（Hash-based Message Authentication Code）和分割函数来生成密钥材料。这个算法的python实现可以参考这个链接：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/python-tls/tls/blob/master/tls/_common/prf.py">https://github.com/python-tls/tls/blob/master/tls/_common/prf.py</a></p>
+</blockquote>
+<p>那么这个预主密钥<code>Pre-Master Secret</code>到底是何方神圣，在使用Elliptic Curve Diffie-Hellman密钥交换算法时，客户端和服务器都会生成并交换一部分公开的信息，然后各自独立计算出预主密钥。但是，</p>
+<p><strong>我们要怎么知道它们生成的私钥？</strong></p>
+<p>emmm这个嘛，还真不知道，不过用别的方法也不是不可以啦。</p>
+<h2 id="sslkey-log"><a href="#sslkey-log" class="headerlink" title="sslkey.log"></a>sslkey.log</h2><p>添加环境变量<code>SSLKEYLOGFILE</code>&#x3D;<code>your_path/sslkey.log</code>，该文件用于记录 SSL&#x2F;TLS 密钥日志。当设置了 <code>SSLKEYLOGFILE</code> 环境变量并指定了一个文件路径时，SSL&#x2F;TLS 库会将每个会话的密钥写入该文件中。密钥日志文件通常使用 Wireshark 等网络分析工具进行读取和解析。添加完成后，重新抓包拿数据。</p>
+<p>打开sslkey.log，东西也太多了吧。</p>
+<img src="image-20230606224448668.png" alt="sslkey.log" style="zoom:50%;" />
+
+<p>这时候就需要查询一下<code>NSS Key Log Format</code>了，访问:</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://udn.realityripple.com/docs/Mozilla/Projects/NSS/Key_Log_Format">http://udn.realityripple.com/docs/Mozilla/Projects/NSS/Key_Log_Format</a></p>
+</blockquote>
+<p>搜一下，发现TLS1.2版本只有<code>Client_Random</code>这个标签。</p>
+<img src="image-20230606223913238.png" alt="label" style="zoom:50%;" />
+
+<p>又从<a target="_blank" rel="noopener" href="https://developer.mozilla.org.cach3.com/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format">这个网站</a>找到了<code>Client Random</code>的含义:</p>
+<blockquote>
+<p><code>CLIENT_RANDOM</code> <space> &lt;64 bytes of hex encoded <code>client_random</code>&gt; <space> &lt;96 bytes of hex encoded master secret&gt;</p>
+</blockquote>
+<p>可以根据第一个<code>client_random</code>定位相关的数据包。</p>
+<p>11行：</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230606224530087.png" alt="11"></p>
+<p>分组174：</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230606224556607.png" alt="174"></p>
+<p>这样我们就知道了本次传输的<code>Client Random</code>、<code>Server Random</code>和<code>Master Secret</code>。48字节的 <code>Master Secret</code>是使用<code>ClientRandom </code>和 <code>ServerRandom</code>和 <code>Pre-Master Secret </code>进行密钥派生函数计算得到的。<code>Master Secret</code> 被用作生成会话密钥、计算加密和解密所需的密钥材料。</p>
+<h2 id="会话密钥生成"><a href="#会话密钥生成" class="headerlink" title="会话密钥生成"></a>会话密钥生成</h2><p><code>Matser Secret</code>如何生成会话密钥呢，从这篇文章可知:</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cryptologie.net/article/340/tls-pre-master-secrets-and-master-secrets/">https://www.cryptologie.net/article/340/tls-pre-master-secrets-and-master-secrets/</a></p>
+</blockquote>
+<p>其实还是由密钥派生函数计算得到的，密钥派生函数根据主密钥、服务端随机数和客户端随机数计算任意长度的<code>key_block</code>，会话密钥由<code>key_block</code>分解得到。</p>
+<p>在<a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc5246#ref-AEAD">TLS1.2的文档</a>里找到了<code>AES-128-GCM</code>模式下<code>key_block</code>的结构：</p>
+<img src="image-20230606230735651.png" alt="key_block" style="zoom:50%;" />
+
+<p>但是这里好像是因为我理解能力太差，其实这里的<code>mac_key_length</code>是0（后来写代码发现的），其实前文也暗示了:</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230606231340719.png" alt="前文"></p>
+<p>因为GCM模式本来就有消息认证的功能，所以<strong>No MAC key is used</strong>。</p>
+<h2 id="python生成key-block"><a href="#python生成key-block" class="headerlink" title="python生成key_block"></a>python生成key_block</h2><p>之前提到过，prf函数生成指定长度的<code>key_block</code>，那么本次测试需要多长的<code>key_block</code>，首先是密钥，<code>AES-128-GCM</code>说明密钥是16字节，两个密钥就是32字节，那么向量多长呢？在<a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc5116#section-4">这里</a>可知向量长度12字节(文档里说的nonce和IV差不多是一个意思，IV 是一个在加密过程开始前确定的固定随机数，用于初始化加密算法的状态；而 nonce 是每次加密过程中产生的动态随机数，用于确保每次加密的唯一性)。</p>
+<p>但是向量的具体构造读了官方文档我也没明白，后来从<a target="_blank" rel="noopener" href="https://www.cnblogs.com/bigben0123/p/12843669.html">这篇文章</a>知道向量的前四个字节是prf生成的，后八个字节是序列号。</p>
+<p>那就可以确定prf函数的输出长度了，32+4+4&#x3D;40。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> cryptography.hazmat.backends <span class="keyword">import</span> default_backend</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives.hmac <span class="keyword">import</span> HMAC</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives <span class="keyword">import</span> hashes</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    masterkey=<span class="string">&quot;0bff8d120e26976f43f680c1858d299792218d1800ee8134748978a55fe0e1a817dbbbe21c8b5a7c1d7274738c056c1d&quot;</span></span><br><span class="line">    masterkey=<span class="built_in">bytes</span>.fromhex(masterkey)</span><br><span class="line">    label=<span class="string">&quot;key expansion&quot;</span></span><br><span class="line">    cli_rand=<span class="built_in">bytes</span>.fromhex(<span class="string">&quot;cbc4865be717e19b80fc4183856136c1f0d7eef6372a32468e7a088952a12dc1&quot;</span>)</span><br><span class="line">    ser_rand=<span class="built_in">bytes</span>.fromhex(<span class="string">&quot;d8a9d933fc12aeb18bde818fc3365ad67d643026e781bda0208482cfbaa958f1&quot;</span>)</span><br><span class="line">    sd=ser_rand+cli_rand</span><br><span class="line">    numHMAC=<span class="number">0</span></span><br><span class="line">    b=prf(masterkey,label.encode(),sd,hashes.SHA256(),numHMAC+<span class="number">40</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/python-tls/tls/blob/master/tls/_common/prf.py">https://github.com/python-tls/tls/blob/master/tls/_common/prf.py</a></p>
+</blockquote>
+<h2 id="aes-gcm"><a href="#aes-gcm" class="headerlink" title="aes gcm"></a>aes gcm</h2><p>密钥已经生成了，但在解密前，我们需要了解一下aes gcm模式，毕竟它和我们熟悉的ECB、CBC不同。GCM模式的输入多了一个<code>Additional Authentication Data</code>,它用于认证，不会被加密。同时，输出多了一个<code>Authentication Tag</code>，用于检查数据的完整性，长度为16字节。<a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc5246#section-6.2.3.3">文档</a>中给出了<code>Additional Authentication Data</code>的组成结构:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">additional_data = seq_num + TLSCompressed.type +</span><br><span class="line">                        TLSCompressed.version + TLSCompressed.length;</span><br></pre></td></tr></table></figure>
+
+<p><code>seq_num</code>长度为4字节，<code>TLSCompressed.type</code>和<code>TLSCompressed.version</code>都在数据包里可以找得到。长度其实并不是数据包里的703，因为后面的密文包含了8字节的nonce部分和16字节的tag，故长度为hex(703-16-8)&#x3D;0x02a7</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230607161844039.png" alt="data"></p>
+<p>根据<a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc5116#section-5.1">文档</a>,<code>Authentication Tag</code>长度为16字节，附加在密文中。</p>
+<h2 id="python代码解密"><a href="#python代码解密" class="headerlink" title="python代码解密"></a>python代码解密</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> absolute_import, division, print_function</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.backends <span class="keyword">import</span> default_backend</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives.hmac <span class="keyword">import</span> HMAC</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives <span class="keyword">import</span> hashes</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives.ciphers <span class="keyword">import</span> Cipher, algorithms,modes</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives.ciphers.modes <span class="keyword">import</span> GCM</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    masterkey=<span class="string">&quot;0bff8d120e26976f43f680c1858d299792218d1800ee8134748978a55fe0e1a817dbbbe21c8b5a7c1d7274738c056c1d&quot;</span></span><br><span class="line">    masterkey=<span class="built_in">bytes</span>.fromhex(masterkey)</span><br><span class="line">    label=<span class="string">&quot;key expansion&quot;</span></span><br><span class="line">    cli_rand=<span class="built_in">bytes</span>.fromhex(<span class="string">&quot;cbc4865be717e19b80fc4183856136c1f0d7eef6372a32468e7a088952a12dc1&quot;</span>)</span><br><span class="line">    ser_rand=<span class="built_in">bytes</span>.fromhex(<span class="string">&quot;d8a9d933fc12aeb18bde818fc3365ad67d643026e781bda0208482cfbaa958f1&quot;</span>)</span><br><span class="line">    sd=ser_rand+cli_rand</span><br><span class="line">    numHMAC=<span class="number">0</span></span><br><span class="line">    b=prf(masterkey,label.encode(),sd,hashes.SHA256(),numHMAC+<span class="number">40</span>)</span><br><span class="line">    enc_data=<span class="built_in">bytes</span>.fromhex(<span class="string">&quot;0000000000000001c7bd05b6c40016d227f8010ec6457525eb9167d604937ec7aea94968e171ebaf08bdb1e9984fb2329adbfa36a50ee4e6a21d1e88cd4939b7e0ae18e203474bfe3adf4b55f18741bf114b6defa6d5238963722259dc11495739f0012990c97394f863304a85f667d3c8289152c0b3222344e15e6010ba023725be87260f6e3b6a28dd9796fb5d96d9bdade8969bde46772077b09ba5e24665d026a3865bf2e20d9082d114810626e162cd1cc7449bb607fea4f2b56cc78e51d9943df6b2782cae3fe42f4cd4505fa23dd6b3e73e4837645d8ef6583522fc98d6a1658d52272ef53a713c6e6bd995841a1cf3619bdb9673872938b93564538820971afeb1ae74a6a75132e06d1f8cef1f7ebe710db7c7a8306b9b9cedc0b085c2af1ceac365025cd8b7bd5e0607365537f0ac33b7a8662bb38b8e909c049a41035d3902821d97a47f3baf9ada3ec4c0283e79d13289c00cd9e55c25714a9ccb1bf74245e033532b29d0cda938bc3c3f69c820284ae08d3aec86d6534b791427a81e4749fef3d92a7ee33202bda2dc50306a74370d8acc775c23e61b9d5564698ad2b13a7475c7c87646a3596b94ef3e48006a94e1388e4da6358d96cfc0cbc5a0d35a19177d04e2cd6f51a0de689e6931032b30ec58791eeaf448f82cd2f724a253a873d48c9ac98f05572a5950207026800d764372f66e77c2abdb70c27da0c08c8c7f4ee4ffa72ea78e660b8bc9f63f40c393e86c1f6856ab9adc1d8f057126a0112f6ec481a3c52a586890897ea3e082da6c676dfaf78a8993e2319bc375eb69d01347691a3985df8c550f414a28c172a2a548ab57064b2233d58cf1b3fe746c15005b3fe6750c038e472a3c1b8bf6f0418d5c1e38fa196f3ad97a3574987ca9f25e9361d00be1c763453d868ead3b865810c838a591d458c1957183371fd48567d132f96c41847f4a6ecc223bbfdf57f9f973bf6498dafbe36065bacd&quot;</span>)</span><br><span class="line">    addition=<span class="built_in">bytes</span>.fromhex(<span class="string">&quot;00&quot;</span>*<span class="number">7</span>+<span class="string">&quot;01&quot;</span>+<span class="string">&quot;17030302a7&quot;</span>)</span><br><span class="line">    key=b[numHMAC:numHMAC+<span class="number">16</span>]</span><br><span class="line">    iv=b[numHMAC+<span class="number">32</span>:numHMAC+<span class="number">32</span>+<span class="number">4</span>]</span><br><span class="line">    iv+=enc_data[:<span class="number">8</span>]</span><br><span class="line">    enc_data=enc_data[<span class="number">8</span>:]</span><br><span class="line">    tag=enc_data[-<span class="number">16</span>:]</span><br><span class="line">    enc_data=enc_data[:-<span class="number">16</span>]</span><br><span class="line">    dec=Cipher(algorithms.AES(key),modes.GCM(iv,tag)).decryptor()</span><br><span class="line">    dec.authenticate_additional_data(addition)</span><br><span class="line">    s=dec.update(enc_data)+dec.finalize()</span><br><span class="line">    <span class="built_in">print</span>(s)</span><br></pre></td></tr></table></figure>
+
+<p>解密成功:</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230607162614892.png" alt="运行结果"></p>
+<h1 id="wireshark解密https流量"><a href="#wireshark解密https流量" class="headerlink" title="wireshark解密https流量"></a>wireshark解密https流量</h1><p>wires hark解密https流量有两种方法，用RSA私钥解密和使用密钥日志文件。</p>
+<p>RSA私钥解密限制很大，根据wireshark官方文档</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://wiki.wireshark.org/TLS">https://wiki.wireshark.org/TLS</a></p>
+</blockquote>
+<p>RSA私钥文件只能在以下情况下使用：</p>
+<ul>
+<li>服务器选择的密码套件未使用 (EC)DHE。</li>
+<li>协议版本为 SSLv3，(D)TLS 1.0-1.2。它不适<em>用于</em>TLS 1.3。</li>
+<li>私钥与<em>服务器</em>证书匹配。它不适用于<em>客户端</em>证书，也不适用于证书颁发机构 (CA) 证书。</li>
+<li>会议尚未恢复。握手必须包含<code>ClientKeyExchange</code>握手消息。</li>
+</ul>
+<p>通常建议使用密钥日志文件，因为它适用于所有情况，但需要持续从客户端或服务器应用程序导出机密信息的能力。RSA 私钥的唯一优点是它只需要在 Wireshark 中配置一次即可启用解密，但受到上述限制。</p>
+<p>至少，它无法解密本次的数据。</p>
+<p>所以选择密钥日志文件（就是前面用的sslkey.log）方法:</p>
+<p>编辑-&gt;首选项-&gt;协议-&gt;TLS,添加log filename。</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230607163425132.png" alt="TLS"></p>
+<p>不可思议的事情发生了：</p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230607163513252.png" alt="TLS数据包变成了明文"></p>
+<p><img src="/2023/05/30/HTTPS%E6%B5%81%E9%87%8F%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/image-20230607163559586.png" alt="与我们的解密结果一致"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/openssl/" rel="tag"># openssl</a>
+              <a href="/tags/https/" rel="tag"># https</a>
+              <a href="/tags/wireshark/" rel="tag"># wireshark</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/05/30/No-PEM-start-marker-b-BEGIN-RSA-PRIVATE-KEY-found/" rel="prev" title="No PEM start marker b-----BEGIN RSA PRIVATE KEY----- found">
+                  <i class="fa fa-chevron-left"></i> No PEM start marker b-----BEGIN RSA PRIVATE KEY----- found
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/06/01/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%95%88%E9%97%AE%E9%A2%98/" rel="next" title="记一次环境变量无效问题">
+                  记一次环境变量无效问题 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mika Su2mer</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">24k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">22 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
