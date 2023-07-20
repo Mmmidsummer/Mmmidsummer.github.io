@@ -154,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -165,7 +165,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -187,6 +187,92 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://mmmidsummer.github.io/2023/07/modulenotfounderror-no-module-named-django/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/4s.jpg">
+      <meta itemprop="name" content="Mika Su2mer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mmmidsummer's blog">
+      <meta itemprop="description" content="不战斗就无法生存">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Mmmidsummer's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/07/modulenotfounderror-no-module-named-django/" class="post-title-link" itemprop="url">manage.py报错 ModuleNotFoundError No module named 'django'</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>752</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>出现场景：我在Windows系统写好了一个django项目，复制到Ubuntu中,运行<code>python3 manage.py migrate</code>一切正常，但运行<code>python3 manage.py runserver</code>报错：</p>
+<blockquote>
+<p>Traceback (most recent call last):<br>  File “manage.py”, line 11, in main<br>    from django.core.management import execute_from_command_line<br>ModuleNotFoundError: No module named ‘django’</p>
+<p>The above exception was the direct cause of the following exception:</p>
+<p>Traceback (most recent call last):<br>  File “manage.py”, line 22, in <module><br>    main()<br>  File “manage.py”, line 13, in main<br>    raise ImportError(<br>ImportError: Couldn’t import Django. Are you sure it’s installed and available on your PYTHONPATH environment variable? Did you forget to activate a virtual environment?</p>
+</blockquote>
+<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721020550252.png" alt="报错信息"></p>
+<p>在终端中进入python3，<code>import django</code>也不报错。网上很多方法，要么需要安装虚拟环境太复杂，要么完全无效。我突然想到可能是Linux环境下创建项目时的<code>manage.py</code>有不同，于是创建项目<code>django-admin startproject my_project</code>，提示：</p>
+<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721020956851.png" alt="提示信息"></p>
+<p>安装完成以后，神奇地发现，<code>python3 manage.py runserver</code>成功运行了！</p>
+<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721021237845.png" alt="运行成功"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -707,13 +793,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">24k</span>
+    <span title="站点总字数">25k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">22 分钟</span>
+    <span title="站点阅读时长">23 分钟</span>
   </span>
 </div>
 <div class="busuanzi-count">

@@ -21,29 +21,34 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"mmmidsummer.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="不战斗就无法生存">
-<meta property="og:type" content="website">
-<meta property="og:title" content="分类">
-<meta property="og:url" content="https://mmmidsummer.github.io/categories/index.html">
+    <meta name="description" content="出现场景：我在Windows系统写好了一个django项目，复制到Ubuntu中,运行python3 manage.py migrate一切正常，但运行python3 manage.py runserver报错：  Traceback (most recent call last):  File “manage.py”, line 11, in main    from django.core.m">
+<meta property="og:type" content="article">
+<meta property="og:title" content="manage.py报错 ModuleNotFoundError No module named &#39;django&#39;">
+<meta property="og:url" content="https://mmmidsummer.github.io/2023/07/modulenotfounderror-no-module-named-django/index.html">
 <meta property="og:site_name" content="Mmmidsummer&#39;s blog">
-<meta property="og:description" content="不战斗就无法生存">
+<meta property="og:description" content="出现场景：我在Windows系统写好了一个django项目，复制到Ubuntu中,运行python3 manage.py migrate一切正常，但运行python3 manage.py runserver报错：  Traceback (most recent call last):  File “manage.py”, line 11, in main    from django.core.m">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-05-23T15:21:21.000Z">
-<meta property="article:modified_time" content="2023-05-23T15:21:46.641Z">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/07/modulenotfounderror-no-module-named-django/image-20230721020550252.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/07/modulenotfounderror-no-module-named-django/image-20230721020956851.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2023/07/modulenotfounderror-no-module-named-django/image-20230721021237845.png">
+<meta property="article:published_time" content="2023-07-20T18:02:46.000Z">
+<meta property="article:modified_time" content="2023-07-20T18:15:11.986Z">
 <meta property="article:author" content="Mika Su2mer">
-<meta property="article:tag" content="对不起,绝对失败的人生,python,C++">
+<meta property="article:tag" content="bug记录">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="django">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mmmidsummer.github.io/2023/07/modulenotfounderror-no-module-named-django/image-20230721020550252.png">
 
 
-<link rel="canonical" href="https://mmmidsummer.github.io/categories/">
+<link rel="canonical" href="https://mmmidsummer.github.io/2023/07/modulenotfounderror-no-module-named-django/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":true,"permalink":"https://mmmidsummer.github.io/categories/index.html","path":"categories/index.html","title":"分类"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://mmmidsummer.github.io/2023/07/modulenotfounderror-no-module-named-django/","path":"2023/07/modulenotfounderror-no-module-named-django/","title":"manage.py报错 ModuleNotFoundError No module named 'django'"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>分类 | Mmmidsummer's blog
-</title>
+<title>manage.py报错 ModuleNotFoundError No module named 'django' | Mmmidsummer's blog</title>
   
 
 
@@ -189,41 +194,115 @@
 
     </div>
 
-    <div class="main-inner page posts-expand">
+    <div class="main-inner post posts-expand">
 
 
-    
-    
-    
-    <div class="post-block" lang="zh-CN"><header class="post-header">
+  
 
-<h1 class="post-title" itemprop="name headline">分类
-</h1>
 
-<div class="post-meta-container">
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mmmidsummer.github.io/2023/07/modulenotfounderror-no-module-named-django/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/4s.jpg">
+      <meta itemprop="name" content="Mika Su2mer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mmmidsummer's blog">
+      <meta itemprop="description" content="不战斗就无法生存">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="manage.py报错 ModuleNotFoundError No module named 'django' | Mmmidsummer's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          manage.py报错 ModuleNotFoundError No module named 'django'
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>752</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
 </div>
 
-</header>
+        </div>
+      </header>
 
-      
-      
-      <div class="post-body"><div class="category-all-page">
-  <div class="category-all-title">
-    目前共计 4 个分类
-  </div>
-  <div class="category-all">
-    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/bug%E8%AE%B0%E5%BD%95/">bug记录</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/https/">https</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">1</span></li></ul>
-  </div>
-</div>
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>出现场景：我在Windows系统写好了一个django项目，复制到Ubuntu中,运行<code>python3 manage.py migrate</code>一切正常，但运行<code>python3 manage.py runserver</code>报错：</p>
+<blockquote>
+<p>Traceback (most recent call last):<br>  File “manage.py”, line 11, in main<br>    from django.core.management import execute_from_command_line<br>ModuleNotFoundError: No module named ‘django’</p>
+<p>The above exception was the direct cause of the following exception:</p>
+<p>Traceback (most recent call last):<br>  File “manage.py”, line 22, in <module><br>    main()<br>  File “manage.py”, line 13, in main<br>    raise ImportError(<br>ImportError: Couldn’t import Django. Are you sure it’s installed and available on your PYTHONPATH environment variable? Did you forget to activate a virtual environment?</p>
+</blockquote>
+<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721020550252.png" alt="报错信息"></p>
+<p>在终端中进入python3，<code>import django</code>也不报错。网上很多方法，要么需要安装虚拟环境太复杂，要么完全无效。我突然想到可能是Linux环境下创建项目时的<code>manage.py</code>有不同，于是创建项目<code>django-admin startproject my_project</code>，提示：</p>
+<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721020956851.png" alt="提示信息"></p>
+<p>安装完成以后，神奇地发现，<code>python3 manage.py runserver</code>成功运行了！</p>
+<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721021237845.png" alt="运行成功"></p>
 
-      </div>
-      
-      
-      
     </div>
 
     
     
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/bug%E8%AE%B0%E5%BD%95/" rel="tag"># bug记录</a>
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/django/" rel="tag"># django</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/06/c-bao-cuo-assemblyinfo-cs-could-not-be-found/" rel="prev" title="C#报错 assemblyinfo.cs could not be found">
+                  <i class="fa fa-chevron-left"></i> C#报错 assemblyinfo.cs could not be found
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
 
 
 </div>
