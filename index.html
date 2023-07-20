@@ -246,17 +246,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>出现场景：我在Windows系统写好了一个django项目，复制到Ubuntu中,运行<code>python3 manage.py migrate</code>一切正常，但运行<code>python3 manage.py runserver</code>报错：</p>
-<blockquote>
-<p>Traceback (most recent call last):<br>  File “manage.py”, line 11, in main<br>    from django.core.management import execute_from_command_line<br>ModuleNotFoundError: No module named ‘django’</p>
-<p>The above exception was the direct cause of the following exception:</p>
-<p>Traceback (most recent call last):<br>  File “manage.py”, line 22, in <module><br>    main()<br>  File “manage.py”, line 13, in main<br>    raise ImportError(<br>ImportError: Couldn’t import Django. Are you sure it’s installed and available on your PYTHONPATH environment variable? Did you forget to activate a virtual environment?</p>
-</blockquote>
-<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721020550252.png" alt="报错信息"></p>
-<p>在终端中进入python3，<code>import django</code>也不报错。网上很多方法，要么需要安装虚拟环境太复杂，要么完全无效。我突然想到可能是Linux环境下创建项目时的<code>manage.py</code>有不同，于是创建项目<code>django-admin startproject my_project</code>，提示：</p>
-<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721020956851.png" alt="提示信息"></p>
-<p>安装完成以后，神奇地发现，<code>python3 manage.py runserver</code>成功运行了！</p>
-<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721021237845.png" alt="运行成功"></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/07/modulenotfounderror-no-module-named-django/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

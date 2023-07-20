@@ -233,6 +233,8 @@
     <title>manage.py报错 ModuleNotFoundError No module named &#39;django&#39;</title>
     <url>/2023/07/modulenotfounderror-no-module-named-django/</url>
     <content><![CDATA[<p>出现场景：我在Windows系统写好了一个django项目，复制到Ubuntu中,运行<code>python3 manage.py migrate</code>一切正常，但运行<code>python3 manage.py runserver</code>报错：</p>
+<span id="more"></span>
+
 <blockquote>
 <p>Traceback (most recent call last):<br>  File “manage.py”, line 11, in main<br>    from django.core.management import execute_from_command_line<br>ModuleNotFoundError: No module named ‘django’</p>
 <p>The above exception was the direct cause of the following exception:</p>
