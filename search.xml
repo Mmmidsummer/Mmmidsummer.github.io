@@ -577,4 +577,43 @@
         <tag>Windows</tag>
       </tags>
   </entry>
+  <entry>
+    <title>tcpdump定时定量抓包</title>
+    <url>/2023/08/tcpdump-ding-shi-ding-liang-zhua-bao/</url>
+    <content><![CDATA[<h1 id="TCPDUMP定时定量抓包"><a href="#TCPDUMP定时定量抓包" class="headerlink" title="TCPDUMP定时定量抓包"></a>TCPDUMP定时定量抓包</h1><p>假设我们用<code>xshell</code>远程连接服务器，需要获取一段时间内的数据包，且由于硬盘大小有效，需要限制抓取的数据包文件的大小，应该怎么做？</p>
+<span id="more"></span>
+
+<h2 id="nohup"><a href="#nohup" class="headerlink" title="nohup"></a>nohup</h2><p><code>xshell</code>远程连接服务器的情况下，如果退出，那么进程就不能正常运行，所以要使用<code>nohup</code>命令。<code>nohup</code> 是一个 Unix 和 Linux 系统上的命令，它用于在退出 shell 或终端后继续运行命令。当使用 <code>nohup</code> 命令启动程序时，该程序的输出默认会被重定向到一个名为 <code>nohup.out</code> 的文件。</p>
+<p><code>nohup</code>的基本用法是：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">nohup</span> <span class="built_in">command</span> &amp;</span><br></pre></td></tr></table></figure>
+
+<p>不要忽略了最后面的’&amp;’</p>
+<p>比如创建一个<code>append_i.sh</code>文件:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">end_time=$((SECONDS+<span class="number">3600</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> [ <span class="variable">$SECONDS</span> -lt <span class="variable">$end_time</span> ]; <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;i&quot;</span> &gt;&gt; 1.txt</span><br><span class="line">    <span class="built_in">sleep</span> 60</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>-lt</code> 检查一个值是否小于另一个值，在一个小时内，每隔一分钟对<code>1.txt</code>进行一次写入。</p>
+<p>用<code>nohup</code>运行:</p>
+<blockquote>
+<p>nohup bash append_i.sh &amp;</p>
+</blockquote>
+<p>此时使用<code>bash</code>的原因是：Ubuntu 的 <code>/bin/sh</code> 实际上是指向 <code>dash</code>，而 <code>dash</code> 是比 Bash 更轻量级的 shell，但它不支持所有 Bash 的特性。使用 <code>nohup</code> 运行脚本时，它可能会默认使用 <code>/bin/sh</code>（即 <code>dash</code>）来运行，从而导致错误。之前直接.&#x2F;append_i.sh发生了错误。</p>
+<p>关闭<code>xshell</code>终端，重新连接一次，仍然可以在进程中搜索到：</p>
+<p><img src="/2023/08/tcpdump-ding-shi-ding-liang-zhua-bao/image-20230813002050908.png" alt="ps aux | grep append_i.sh"></p>
+<h2 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h2><p>要实现tcpdump定时定量抓包的功能，仅仅依靠tcpdump自带的功能是不够的。可以写一个脚本，启动tcpdump以后，开启记时同时监控生成的<code>pcap</code>文件，大小大于我们规定的值时停止tcpdump进程。</p>
+<p><code>cap.sh</code>:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 tcpdump</span></span><br><span class="line"><span class="built_in">nohup</span> tcpdump -i eth0 -w /your/path/test.pcap &amp;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取 tcpdump 进程的 PID</span></span><br><span class="line">TCPDUMP_PID=$!</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置起始时间</span></span><br><span class="line">START_TIME=$(<span class="built_in">date</span> +%s)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span></span><br><span class="line">    <span class="comment"># 获取当前时间</span></span><br><span class="line">    CURRENT_TIME=$(<span class="built_in">date</span> +%s)</span><br><span class="line">    <span class="comment"># 计算经过的时间</span></span><br><span class="line">    ELAPSED_TIME=$((CURRENT_TIME - START_TIME))</span><br><span class="line">    <span class="comment"># 获取文件大小</span></span><br><span class="line">    SIZE=$(<span class="built_in">du</span> -b /your/path/test.pcap | <span class="built_in">cut</span> -f1)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 如果文件大小超过 300M 或 超过12小时，则停止 tcpdump,可以根据需求修改</span></span><br><span class="line">    <span class="keyword">if</span> [[ <span class="variable">$SIZE</span> -ge 314572800 ]] || [[ <span class="variable">$ELAPSED_TIME</span> -ge 43200 ]]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">kill</span> <span class="variable">$TCPDUMP_PID</span></span><br><span class="line">        <span class="built_in">exit</span> 0</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="comment"># 每隔 10 秒检查一次</span></span><br><span class="line">    <span class="built_in">sleep</span> 10</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>$!</code> 是一个特殊的 shell 变量，代表最后一个被放到后台执行的命令的进程 ID。</p>
+<p>用<code>nohup</code>启动这个脚本即可，最好加上<code>sudo</code>:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo <span class="built_in">nohup</span> bash cap.sh &amp;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>tcpdump</tag>
+      </tags>
+  </entry>
 </search>
