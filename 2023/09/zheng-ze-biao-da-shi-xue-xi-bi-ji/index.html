@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="msvalidate.01" content="3A4B7AC9386A6155603D93D31380AC86">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"mmmidsummer.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="正则表达式在计算机领域可以说是用途广泛，写爬虫时，用他过滤无用的html标签，或者只保留汉字，预防代码注入漏洞时，可以用它来过滤危险命令，删除文件时，还可以通过正则表达式来批量删除指定的文件，所以很难不学习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正则表达式学习笔记">
+<meta property="og:url" content="https://mmmidsummer.github.io/2023/09/zheng-ze-biao-da-shi-xue-xi-bi-ji/index.html">
+<meta property="og:site_name" content="Mmmidsummer&#39;s blog">
+<meta property="og:description" content="正则表达式在计算机领域可以说是用途广泛，写爬虫时，用他过滤无用的html标签，或者只保留汉字，预防代码注入漏洞时，可以用它来过滤危险命令，删除文件时，还可以通过正则表达式来批量删除指定的文件，所以很难不学习。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-18T11:20:34.000Z">
+<meta property="article:modified_time" content="2023-09-18T07:21:23.715Z">
+<meta property="article:author" content="Mika Su2mer">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="正则表达式">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://mmmidsummer.github.io/2023/09/zheng-ze-biao-da-shi-xue-xi-bi-ji/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://mmmidsummer.github.io/2023/09/zheng-ze-biao-da-shi-xue-xi-bi-ji/","path":"2023/09/zheng-ze-biao-da-shi-xue-xi-bi-ji/","title":"正则表达式学习笔记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>正则表达式学习笔记 | Mmmidsummer's blog</title>
+  
+
+
+
+
+
+
+
+<script async src="/lib/fireworks.js"></script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Mmmidsummer's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">随便写写</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#python%E4%B8%8E%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">python与正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">正则表达式必知必会</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E5%8D%95%E5%AD%97%E7%AC%A6"><span class="nav-number">2.1.</span> <span class="nav-text">匹配单字符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E7%BA%AF%E6%96%87%E6%9C%AC"><span class="nav-number">2.1.1.</span> <span class="nav-text">匹配纯文本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E4%BB%BB%E6%84%8F%E5%AD%97%E7%AC%A6"><span class="nav-number">2.1.2.</span> <span class="nav-text">匹配任意字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6"><span class="nav-number">2.1.3.</span> <span class="nav-text">匹配特殊字符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E4%B8%80%E7%BB%84%E5%AD%97%E7%AC%A6"><span class="nav-number">2.2.</span> <span class="nav-text">匹配一组字符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E9%9B%86%E5%90%88"><span class="nav-number">2.2.1.</span> <span class="nav-text">字符集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E9%9B%86%E5%90%88%E5%8C%BA%E9%97%B4"><span class="nav-number">2.2.2.</span> <span class="nav-text">字符集合区间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%96%E9%9D%9E%E5%8C%B9%E9%85%8D"><span class="nav-number">2.2.3.</span> <span class="nav-text">取非匹配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%88%96%E5%8C%B9%E9%85%8D"><span class="nav-number">2.2.4.</span> <span class="nav-text">或匹配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%83%E5%AD%97%E7%AC%A6%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">2.2.5.</span> <span class="nav-text">元字符的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E5%AD%97-x2F-%E9%9D%9E%E6%95%B0%E5%AD%97%E5%92%8C%E5%AD%97%E6%AF%8D-%E6%95%B0%E5%AD%97-x2F-%E9%9D%9E%E5%AD%97%E6%AF%8D-%E6%95%B0%E5%AD%97"><span class="nav-number">2.2.5.1.</span> <span class="nav-text">数字&#x2F;非数字和字母+数字&#x2F;非字母+数字</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A9%BA%E7%99%BD%E5%AD%97%E7%AC%A6"><span class="nav-number">2.2.5.2.</span> <span class="nav-text">空白字符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%88%96%E5%85%AB%E8%BF%9B%E5%88%B6"><span class="nav-number">2.2.5.3.</span> <span class="nav-text">十六进制或八进制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%A4%8D%E5%8C%B9%E9%85%8D"><span class="nav-number">2.3.</span> <span class="nav-text">重复匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E4%B8%80%E4%B8%AA%E6%88%96%E5%A4%9A%E4%B8%AA%E5%AD%97%E7%AC%A6"><span class="nav-number">2.3.1.</span> <span class="nav-text">匹配一个或多个字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E9%9B%B6%E4%B8%AA%E6%88%96%E5%A4%9A%E4%B8%AA%E5%AD%97%E7%AC%A6"><span class="nav-number">2.3.2.</span> <span class="nav-text">匹配零个或多个字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E9%9B%B6%E4%B8%AA%E6%88%96%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6"><span class="nav-number">2.3.3.</span> <span class="nav-text">匹配零个或一个字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E7%9A%84%E9%87%8D%E5%A4%8D%E6%AC%A1%E6%95%B0"><span class="nav-number">2.3.4.</span> <span class="nav-text">匹配的重复次数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B2%E6%AD%A2%E8%BF%87%E5%BA%A6%E5%8C%B9%E9%85%8D"><span class="nav-number">2.3.5.</span> <span class="nav-text">防止过度匹配</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8D%E7%BD%AE%E5%8C%B9%E9%85%8D"><span class="nav-number">2.4.</span> <span class="nav-text">位置匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C"><span class="nav-number">2.4.1.</span> <span class="nav-text">边界</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%95%E8%AF%8D%E8%BE%B9%E7%95%8C"><span class="nav-number">2.4.1.1.</span> <span class="nav-text">单词边界</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BE%B9%E7%95%8C"><span class="nav-number">2.4.1.2.</span> <span class="nav-text">字符串边界</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%88%86%E8%A1%8C%E5%8C%B9%E9%85%8D%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.4.1.2.1.</span> <span class="nav-text">分行匹配模式</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%90%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">2.5.</span> <span class="nav-text">子表达式的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%9E%E6%8D%95%E8%8E%B7%E7%BB%84"><span class="nav-number">2.5.1.</span> <span class="nav-text">非捕获组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E5%AD%90%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">2.5.2.</span> <span class="nav-text">命名子表达式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9E%E6%BA%AF%E5%BC%95%E7%94%A8"><span class="nav-number">2.6.</span> <span class="nav-text">回溯引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E5%90%8E%E6%9F%A5%E6%89%BE"><span class="nav-number">2.7.</span> <span class="nav-text">前后查找</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%91%E5%89%8D%E6%9F%A5%E6%89%BE"><span class="nav-number">2.7.1.</span> <span class="nav-text">向前查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%91%E5%90%8E%E6%9F%A5%E6%89%BE"><span class="nav-number">2.7.2.</span> <span class="nav-text">向后查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%91%E5%89%8D%E6%9F%A5%E6%89%BE%E5%92%8C%E5%90%91%E5%90%8E%E6%9F%A5%E6%89%BE%E7%BB%93%E5%90%88"><span class="nav-number">2.7.3.</span> <span class="nav-text">向前查找和向后查找结合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E5%89%8D%E5%90%8E%E6%9F%A5%E6%89%BE%E5%8F%96%E9%9D%9E"><span class="nav-number">2.7.4.</span> <span class="nav-text">对前后查找取非</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B5%8C%E5%85%A5%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.8.</span> <span class="nav-text">嵌入条件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%90%E7%BB%84%E5%AD%98%E5%9C%A8%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.8.1.</span> <span class="nav-text">子组存在条件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">一些常用的正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E4%B8%AD%E6%96%87"><span class="nav-number">3.1.</span> <span class="nav-text">匹配中文</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mika Su2mer"
+      src="/images/4s.jpg">
+  <p class="site-author-name" itemprop="name">Mika Su2mer</p>
+  <div class="site-description" itemprop="description">不战斗就无法生存</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:2849917004@qq.com" title="E-Mail → mailto:2849917004@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mmmidsummer.github.io/2023/09/zheng-ze-biao-da-shi-xue-xi-bi-ji/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/4s.jpg">
+      <meta itemprop="name" content="Mika Su2mer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mmmidsummer's blog">
+      <meta itemprop="description" content="不战斗就无法生存">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="正则表达式学习笔记 | Mmmidsummer's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          正则表达式学习笔记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>10k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>正则表达式在计算机领域可以说是用途广泛，写爬虫时，用他过滤无用的<code>html</code>标签，或者只保留汉字，预防代码注入漏洞时，可以用它来过滤危险命令，删除文件时，还可以通过正则表达式来批量删除指定的文件，所以很难不学习。</p>
+<span id="more"></span>
+
+<h2 id="python与正则表达式"><a href="#python与正则表达式" class="headerlink" title="python与正则表达式"></a>python与正则表达式</h2><p>python的库功能强大，本文用python来学习正则表达式。在Python中，正则表达式主要通过<code>re</code>模块来实现。<code>re</code>库是Python的标准库之一，专门用于处理正则表达式。</p>
+<p><code>re</code>库主要有<code>search</code>,<code>match</code>,<code>sub</code>等方法。当使用<code>search()</code>、<code>match()</code>或<code>finditer()</code>时，返回的是一个Match对象。这个对象包含了匹配的详细信息。</p>
+<p><code>re.match()</code>函数用于搜索字符串的开始是否与给定的正则表达式模式匹配。如果匹配成功，它返回一个Match对象；如果没有匹配项，它返回<code>None</code>。<code>re.match()</code>只从字符串的开头开始匹配。如果模式在字符串的开始位置找不到匹配项，即使在其他地方有匹配项，<code>re.match()</code>也不会成功。</p>
+<p><code>re.search()</code>用于搜索给定字符串中的第一个与指定正则表达式模式匹配的子串。与<code>re.match()</code>不同，<code>re.search()</code>会检查字符串中的所有位置，而不仅仅是开始位置。如果<code>re.search()</code>找到了一个匹配项，它将返回一个Match对象；如果没有找到匹配项，它将返回<code>None</code>。<code>re.search()</code>只会返回<strong>第一个</strong>找到的匹配项的Match对象。如果你想找到字符串中所有的匹配项，应该使用<code>re.findall()</code>或<code>re.finditer()</code>。</p>
+<p>下面是一段示例代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个正则表达式来匹配电子邮件地址</span></span><br><span class="line">email_pattern = <span class="string">r&quot;[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]&#123;2,&#125;&quot;</span></span><br><span class="line"></span><br><span class="line">text = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Hello, my email is john.doe@example.com. You can also reach</span></span><br><span class="line"><span class="string">out to support@example.org or visit our website at http://example.net.</span></span><br><span class="line"><span class="string">Please also CC jane_doe_123@example.co.uk for any further questions.</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用findall查找所有的电子邮件地址</span></span><br><span class="line">emails = re.findall(email_pattern, text)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Found Emails:&quot;</span>, emails)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用sub替换找到的电子邮件地址</span></span><br><span class="line">protected_text = re.sub(email_pattern, <span class="string">&quot;[PROTECTED]&quot;</span>, text)</span><br><span class="line"><span class="built_in">print</span>(protected_text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出:</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="selector-tag">Found</span> <span class="selector-tag">Emails</span>: <span class="selector-attr">[<span class="string">&#x27;john.doe@example.com&#x27;</span>, <span class="string">&#x27;support@example.org&#x27;</span>, <span class="string">&#x27;jane_doe_123@example.co.uk&#x27;</span>]</span></span><br><span class="line"><span class="selector-tag">Hello</span>, <span class="selector-tag">my</span> <span class="selector-tag">email</span> <span class="selector-tag">is</span> <span class="selector-attr">[PROTECTED]</span>. <span class="selector-tag">You</span> <span class="selector-tag">can</span> <span class="selector-tag">also</span> <span class="selector-tag">reach</span></span><br><span class="line"><span class="selector-tag">out</span> <span class="selector-tag">to</span> <span class="selector-attr">[PROTECTED]</span> <span class="selector-tag">or</span> <span class="selector-tag">visit</span> <span class="selector-tag">our</span> <span class="selector-tag">website</span> <span class="selector-tag">at</span> <span class="selector-tag">http</span>:<span class="comment">//example.net.</span></span><br><span class="line"><span class="selector-tag">Please</span> <span class="selector-tag">also</span> <span class="selector-tag">CC</span> <span class="selector-attr">[PROTECTED]</span> <span class="selector-tag">for</span> <span class="selector-tag">any</span> <span class="selector-tag">further</span> <span class="selector-tag">questions</span>.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>不妨从这段正则表达式入手<code>[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]&#123;2,&#125;</code>。</p>
+<p><code>[a-zA-Z0-9._%+-]</code> 定义了一个字符类，其中的字符可以是任何小写字母<code>a-z</code>、大写字母<code>A-Z</code>、数字<code>0-9</code>或特殊字符<code>._%+-</code>中的一个。 <code>+</code> 表示前面的字符类可以出现一次或多次。<code>@</code>匹配邮箱地址中的<code>@</code>.</p>
+<p><code>[a-zA-Z0-9.-]</code> 定义了一个字符类，其中的字符可以是任何小写字母<code>a-z</code>、大写字母<code>A-Z</code>、数字<code>0-9</code>或特殊字符<code>.</code>和<code>-</code>中的一个。<code>+</code> 表示前面的字符类可以出现一次或多次。由于<code>.</code>在正则表达式中是一个特殊字符，表示匹配任何字符（除了换行符），所以使用<code>\</code>对其进行转义，使其匹配实际的<code>.</code>字符。<code>[a-zA-Z]</code> 定义了一个字符类，其中的字符可以是任何小写字母<code>a-z</code>或大写字母<code>A-Z</code>中的一个。<code>&#123;2,&#125;</code> 表示前面的字符类必须至少出现两次。这是为了确保顶级域名至少有两个字符长，符合大多数实际情况。</p>
+<h2 id="正则表达式必知必会"><a href="#正则表达式必知必会" class="headerlink" title="正则表达式必知必会"></a>正则表达式必知必会</h2><p>来自书《正则表达式必知必会》</p>
+<h3 id="匹配单字符"><a href="#匹配单字符" class="headerlink" title="匹配单字符"></a>匹配单字符</h3><h4 id="匹配纯文本"><a href="#匹配纯文本" class="headerlink" title="匹配纯文本"></a>匹配纯文本</h4><p>正则表达式甚至可以只包含纯文本，但注意正则表达式区别大小写。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">s1=<span class="string">&quot;abcABCaBd&quot;</span></span><br><span class="line">match_output=re.findall(<span class="string">r&quot;abc&quot;</span>,s1)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;abc&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配任意字符"><a href="#匹配任意字符" class="headerlink" title="匹配任意字符"></a>匹配任意字符</h4><p><code>.</code>字符可以匹配任何一个单个字符，包括<code>.</code>本身。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">match_output=re.findall(<span class="string">r&quot;b.t&quot;</span>,<span class="string">&quot;bAtbotbatb.t&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;bAt&#x27;, &#x27;bot&#x27;, &#x27;bat&#x27;, &#x27;b.t&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p><code>.</code>通常不匹配<strong>换行符</strong>。</p>
+<h4 id="匹配特殊字符"><a href="#匹配特殊字符" class="headerlink" title="匹配特殊字符"></a>匹配特殊字符</h4><p>如果要只匹配<code>.</code>呢？显然我们需要一个转义符号，在正则表达式中，<code>\</code>可以进行转义。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">match_output=re.findall(<span class="string">r&quot;b\.t&quot;</span>,<span class="string">&quot;bAtbotbatb.t&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;b.t&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="匹配一组字符"><a href="#匹配一组字符" class="headerlink" title="匹配一组字符"></a>匹配一组字符</h3><h4 id="字符集合"><a href="#字符集合" class="headerlink" title="字符集合"></a>字符集合</h4><p>在正则表达式中，字符集合允许我们匹配来自某一集合的任意一个字符。字符集合是通过将一组字符放在<code>[]</code>中来定义的。</p>
+<p>比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">match_output=re.findall(<span class="string">r&quot;[bc]at&quot;</span>,<span class="string">&quot;cat bat lat dat&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;cat&#x27;, &#x27;bat&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>其中的<code>[bc]</code>是一个字符集合，这个集合将只匹配字符<code>b</code>或者<code>c</code>。</p>
+<h4 id="字符集合区间"><a href="#字符集合区间" class="headerlink" title="字符集合区间"></a>字符集合区间</h4><p>当我们需要匹配全部阿拉伯数字或者英文字母时，在字符集合里面一个一个穷举过于麻烦了，可以使用<code>-</code>定义范围，但<code>-</code>也可以被转义。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">match_output=re.findall(<span class="string">r&quot;[A-Z][0-9][0-9a-f]&quot;</span>,<span class="string">&quot;A10 A2f B9c C1z d99 Q09&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;A10&#x27;, &#x27;A2f&#x27;, &#x27;B9c&#x27;, &#x27;Q09&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>利用正则表达式匹配中文就用到了字符集合区间<code>[一-龥]</code>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">match_output=re.findall(<span class="string">r&quot;[一-龥]&quot;</span>,<span class="string">&quot;a中b文c匹配def&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;中&#x27;, &#x27;文&#x27;, &#x27;匹&#x27;, &#x27;配&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>当然匹配中文没那么简单，具体可以参考：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/266732210">https://zhuanlan.zhihu.com/p/266732210</a></p>
+</blockquote>
+<h4 id="取非匹配"><a href="#取非匹配" class="headerlink" title="取非匹配"></a>取非匹配</h4><p>某些场合，我们需要排除一些不需要的字符，可以使用<code>^</code>来进行取非匹配。比如<code>[^0-9]</code>对阿拉伯数字进行取非。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">match_output=re.findall(<span class="string">r&quot;[^0-9]&quot;</span>,<span class="string">&quot;abc123decade79&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;, &#x27;e&#x27;, &#x27;c&#x27;, &#x27;a&#x27;, &#x27;d&#x27;, &#x27;e&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="或匹配"><a href="#或匹配" class="headerlink" title="或匹配"></a>或匹配</h4><p><code>|</code> 符号代表“或”操作，它用于指定两个或多个可选的模式中的一个。比如<code>cat|dog</code>，和<code>[]</code>有点类似，但是可以匹配字符串。</p>
+<h4 id="元字符的使用"><a href="#元字符的使用" class="headerlink" title="元字符的使用"></a>元字符的使用</h4><p>元字符是具有特殊意义的字符，它们不匹配字面值，而是代表特定的模式。</p>
+<h5 id="数字-x2F-非数字和字母-数字-x2F-非字母-数字"><a href="#数字-x2F-非数字和字母-数字-x2F-非字母-数字" class="headerlink" title="数字&#x2F;非数字和字母+数字&#x2F;非字母+数字"></a>数字&#x2F;非数字和字母+数字&#x2F;非字母+数字</h5><p>用元字符<code>\d</code>匹配任何一个数字字符，<code>\D</code>匹配任何一个非数字，<code>\w</code>匹配任何一个字母数字或者下划线字符，等价于<code>[a-zA-Z0-9_]</code>，<code>\W</code>相反。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">match_output=re.findall(<span class="string">r&quot;\d\D\w\W&quot;</span>,<span class="string">&quot;0A_? 3B_b&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;0A_?&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h5 id="空白字符"><a href="#空白字符" class="headerlink" title="空白字符"></a>空白字符</h5><p><code>\s</code>等价于<code>[\f\n\r\t\v]</code>，<code>\S</code>与之相反。</p>
+<h5 id="十六进制或八进制"><a href="#十六进制或八进制" class="headerlink" title="十六进制或八进制"></a>十六进制或八进制</h5><p>八进制和十六进制序列允许匹配指定的ASCII或Unicode字符。但<code>python</code>只支持十六进制和Unicode十六进制。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">match_output=re.findall(<span class="string">r&quot;\x41&quot;</span>,<span class="string">&quot;01aA_? 3B_b&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;A&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="重复匹配"><a href="#重复匹配" class="headerlink" title="重复匹配"></a>重复匹配</h3><p>前面所学的都只能匹配一个字符，如果要匹配多个呢？就需要一些其他的元字符来实现。</p>
+<h4 id="匹配一个或多个字符"><a href="#匹配一个或多个字符" class="headerlink" title="匹配一个或多个字符"></a>匹配一个或多个字符</h4><p>元字符<code>+</code>匹配它前面的元素出现的一次或多次连续重复。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">match_output=re.findall(<span class="string">r&quot;\d+&quot;</span>,<span class="string">&quot;123abc456hjkl&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;123&#x27;, &#x27;456&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配零个或多个字符"><a href="#匹配零个或多个字符" class="headerlink" title="匹配零个或多个字符"></a>匹配零个或多个字符</h4><p>这种匹配用<code>*</code>完成。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str_list=[<span class="string">&quot;b.&quot;</span>,<span class="string">&quot;b&quot;</span>,<span class="string">&quot;b...&quot;</span>,<span class="string">&quot;c&quot;</span>]</span><br><span class="line">matches = [s <span class="keyword">for</span> s <span class="keyword">in</span> str_list <span class="keyword">if</span> re.search(<span class="string">r&quot;b\.*&quot;</span>, s)]</span><br><span class="line"><span class="built_in">print</span>(matches)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;b.&#x27;, &#x27;b&#x27;, &#x27;b...&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配零个或一个字符"><a href="#匹配零个或一个字符" class="headerlink" title="匹配零个或一个字符"></a>匹配零个或一个字符</h4><p>这种需求看似奇怪，其实很常见，比如匹配url，有<code>http</code>和<code>https</code>两种协议，此外，访问文件服务器也有<code>ftp</code>和<code>sftp</code>两种前缀。可以用元字符<code>?</code>解决。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str_list=[<span class="string">&quot;http://baidu.com&quot;</span>,<span class="string">&quot;https://qwq.com&quot;</span>,<span class="string">&quot;httpsssss://google.com&quot;</span>,<span class="string">&quot;http://google.com&quot;</span>]</span><br><span class="line">matches = [s <span class="keyword">for</span> s <span class="keyword">in</span> str_list <span class="keyword">if</span> re.fullmatch(<span class="string">r&quot;https?://[\w./]+&quot;</span>, s)]</span><br><span class="line"><span class="built_in">print</span>(matches)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;http://baidu.com&#x27;, &#x27;https://qwq.com&#x27;, &#x27;http://google.com&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="匹配的重复次数"><a href="#匹配的重复次数" class="headerlink" title="匹配的重复次数"></a>匹配的重复次数</h4><p>之前提到的<code>+</code>和<code>*</code>，匹配的个数都没有上限，如何为匹配的个数设置一个区间呢？可以使用<code>&#123;&#125;</code>。比如匹配三位数的阿拉伯数字。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str_list=[<span class="string">&quot;111&quot;</span>,<span class="string">&quot;22&quot;</span>,<span class="string">&quot;333&quot;</span>,<span class="string">&quot;4&quot;</span>,<span class="string">&quot;666&quot;</span>]</span><br><span class="line">matches = [s <span class="keyword">for</span> s <span class="keyword">in</span> str_list <span class="keyword">if</span> re.fullmatch(<span class="string">r&quot;\d&#123;3&#125;&quot;</span>, s)]</span><br><span class="line"><span class="built_in">print</span>(matches)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;111&#x27;, &#x27;333&#x27;, &#x27;666&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>此外，还可以用<code>&#123;2,5&#125;</code>这样的格式，表示重复2-5次；<code>&#123;2,&#125;</code>表示最少两次；<code>&#123;,3&#125;</code>表示最多三次。<code>&#123;&#125;</code> 设置的重复是贪婪的，这意味着它会尽可能匹配更多的重复。例如，在字符串 “aaaaa” 中，正则表达式 <code>a&#123;2,4&#125;</code> 将匹配前四个 ‘a’。</p>
+<h4 id="防止过度匹配"><a href="#防止过度匹配" class="headerlink" title="防止过度匹配"></a>防止过度匹配</h4><p>如果希望匹配尽可能少的重复，可以在大括号后加上一个 <code>?</code>。例如，对于字符串 “aaaaa”，正则表达式 <code>a&#123;2,4&#125;?</code> 将只匹配两个 ‘a’。</p>
+<h3 id="位置匹配"><a href="#位置匹配" class="headerlink" title="位置匹配"></a>位置匹配</h3><p>某些场合，需要对某段字符串的特定位置进行匹配。</p>
+<h4 id="边界"><a href="#边界" class="headerlink" title="边界"></a>边界</h4><h5 id="单词边界"><a href="#单词边界" class="headerlink" title="单词边界"></a>单词边界</h5><p>由限定符<code>\b</code>指定的单词边界，<code>\b</code>匹配一个单词的开始或者结尾。单词边界可以被认为是 <code>\w</code> 和 <code>\W</code> 之间的边界，或者位于字符串的开始或结束，并与 <code>\w</code> 相邻。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">match_output=re.findall(<span class="string">r&quot;\bcat\b&quot;</span>,<span class="string">&quot;cat scatter cats&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;cat&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p><code>\b</code>匹配且只匹配一个位置，可以发现匹配得到的结果是三个字符而不是五个。<code>\b</code> 表示单词边界，是一个“位置字符”，表示一个位置，而不是一个实际的字符。</p>
+<p>如果要不匹配一个单词边界，可以使用<code>\B</code>。<code>\B</code> 是 <code>\b</code> 的反义，它表示非单词边界。就像 <code>\b</code> 是用来匹配位于单词边界的位置，<code>\B</code> 是用来匹配不在单词边界的位置。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">match_output=re.search(<span class="string">r&#x27;\Bcat\B&#x27;</span>,<span class="string">&quot;cat scatter cats&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">&lt;re.Match object; <span class="selector-tag">span</span>=(<span class="number">5</span>, <span class="number">8</span>), <span class="selector-tag">match</span>=&#x27;<span class="selector-tag">cat</span>&#x27;&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="字符串边界"><a href="#字符串边界" class="headerlink" title="字符串边界"></a>字符串边界</h5><p><code>^</code> 匹配字符串的开头，<code>$</code>匹配字符串的结尾。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str_list=[<span class="string">&quot;0x0a&quot;</span>,<span class="string">&quot;0xff&quot;</span>,<span class="string">&quot;333&quot;</span>,<span class="string">&quot;0x04&quot;</span>,<span class="string">&quot;666&quot;</span>]</span><br><span class="line">matches = [s <span class="keyword">for</span> s <span class="keyword">in</span> str_list <span class="keyword">if</span> re.search(<span class="string">r&quot;^0x&quot;</span>, s)]</span><br><span class="line"><span class="built_in">print</span>(matches)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;0x0a&#x27;, &#x27;0xff&#x27;, &#x27;0x04&#x27;]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str_list=[<span class="string">&quot;0x0a&quot;</span>,<span class="string">&quot;0xff&quot;</span>,<span class="string">&quot;333&quot;</span>,<span class="string">&quot;0x04&quot;</span>,<span class="string">&quot;666&quot;</span>]</span><br><span class="line">matches = [s <span class="keyword">for</span> s <span class="keyword">in</span> str_list <span class="keyword">if</span> re.search(<span class="string">r&quot;f$&quot;</span>, s)]</span><br><span class="line"><span class="built_in">print</span>(matches)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;0xff&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h6 id="分行匹配模式"><a href="#分行匹配模式" class="headerlink" title="分行匹配模式"></a>分行匹配模式</h6><p>在多行模式下，<code>^</code> 和 <code>$</code> 还可以匹配每一行的开始和结束。在Python的<code>re</code>模块中，可以使用<code>re.MULTILINE</code>或<code>re.M</code>标志来激活多行模式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">s=<span class="string">&#x27;&#x27;&#x27;qwq</span></span><br><span class="line"><span class="string">qaq</span></span><br><span class="line"><span class="string">ovo</span></span><br><span class="line"><span class="string">omo</span></span><br><span class="line"><span class="string">oho</span></span><br><span class="line"><span class="string">2333</span></span><br><span class="line"><span class="string">o#o&#x27;&#x27;&#x27;</span></span><br><span class="line">match_output=re.findall(<span class="string">r&#x27;^o.&#123;1&#125;o$&#x27;</span>,s,re.MULTILINE)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;ovo&#x27;, &#x27;omo&#x27;, &#x27;oho&#x27;, &#x27;o#o&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="子表达式的使用"><a href="#子表达式的使用" class="headerlink" title="子表达式的使用"></a>子表达式的使用</h3><p>有时候我们的需求比较复杂，比如需要匹配重复<code>abc</code>的字符串，那<code>abc*</code>肯定不能满足需求，这时候就要用到子表达式。子表达式（通常被称为捕获组或捕获括号）允许你将正则表达式的部分内容括在一对括号中，以此来捕获它们匹配的文本。子表达式用<code>()</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str_list=[<span class="string">&quot;0x0a&quot;</span>,<span class="string">&quot;0xff&quot;</span>,<span class="string">&quot;333&quot;</span>,<span class="string">&quot;abc&quot;</span>,<span class="string">&quot;abcabc&quot;</span>]</span><br><span class="line">matches = [s <span class="keyword">for</span> s <span class="keyword">in</span> str_list <span class="keyword">if</span> re.search(<span class="string">r&quot;(abc)+&quot;</span>, s)]</span><br><span class="line"><span class="built_in">print</span>(matches)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;abc&#x27;, &#x27;abcabc&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="非捕获组"><a href="#非捕获组" class="headerlink" title="非捕获组"></a>非捕获组</h4><p>非捕获组是正则表达式中的一种构造，允许你定义一个组来应用量词或者进行组合，但不捕获该组匹配的文本。这意味着匹配的结果不会保存供之后引用或检索。非捕获组在正则表达式中用 <code>(?:...)</code> 表示。使用非捕获组可能会提高正则表达式的性能，因为引擎不需要保存匹配的子字符串。</p>
+<h4 id="命名子表达式"><a href="#命名子表达式" class="headerlink" title="命名子表达式"></a>命名子表达式</h4><p>使用 <code>(?P&lt;name&gt;...)</code> 来命名一个子表达式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">text = <span class="string">&quot;123-abc&quot;</span></span><br><span class="line"><span class="keyword">match</span> = re.search(<span class="string">r&#x27;(?P&lt;number&gt;\d+)-(?P&lt;letters&gt;\w+)&#x27;</span>, text)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">match</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="keyword">match</span>.group(<span class="string">&#x27;number&#x27;</span>))   </span><br><span class="line">    <span class="built_in">print</span>(<span class="keyword">match</span>.group(<span class="string">&#x27;letters&#x27;</span>))  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">123</span><br><span class="line">abc</span><br></pre></td></tr></table></figure>
+
+<h3 id="回溯引用"><a href="#回溯引用" class="headerlink" title="回溯引用"></a>回溯引用</h3><p>如果一个正则表达式中的部分与文本匹配，回溯引用可以在后面的表达式中引用或重新使用这部分匹配的文本。每个捕获组都有一个关联的编号。第一个捕获组是 <code>1</code>，第二个是 <code>2</code>，依此类推。比如查找重复的单词：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">match_output=re.search(<span class="string">r&#x27;\b(\w+)\b\s+\1\b&#x27;</span>,<span class="string">&quot;cat cat dog &quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">&lt;re.Match object; <span class="selector-tag">span</span>=(<span class="number">0</span>, <span class="number">7</span>), <span class="selector-tag">match</span>=&#x27;<span class="selector-tag">cat</span> <span class="selector-tag">cat</span>&#x27;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>还有一个例子是匹配HTML的标题标签(<code>&lt;H1&gt;到&lt;H6&gt;</code>)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">s=<span class="string">&#x27;&#x27;&#x27;&lt;H1&gt;title&lt;/H1&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;content&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;h2&gt;qwq&lt;/h2&gt;</span></span><br><span class="line"><span class="string">&lt;h3&gt;title&lt;/h4&gt;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line">match_output=re.findall(<span class="string">r&#x27;(&lt;[hH]([1-6])&gt;.*?&lt;/[hH]\2&gt;)&#x27;</span>,s)</span><br><span class="line"><span class="built_in">print</span>(match_output)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[(&#x27;&lt;H1&gt;title&lt;/H1&gt;&#x27;, &#x27;1&#x27;), (&#x27;&lt;h2&gt;qwq&lt;/h2&gt;&#x27;, &#x27;2&#x27;)]</span><br></pre></td></tr></table></figure>
+
+<p>如果用传统的正则表达式<code>&lt;[hH][1-6]&gt;,*?&lt;/[hH][1-6]&gt;</code>,那么<code>&lt;h3&gt;title&lt;/h4&gt;</code>这种不合法的标题也会被匹配到。使用回溯引用来避免这种情况。</p>
+<p>在替换中回溯引用也经常被用到。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">&quot;hello, world, good, morning&quot;</span></span><br><span class="line">pattern = <span class="string">r&#x27;(\w+), (\w+)&#x27;</span></span><br><span class="line">replacement = <span class="string">r&#x27;\2, \1&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">world, hello, morning, good</span><br></pre></td></tr></table></figure>
+
+<h3 id="前后查找"><a href="#前后查找" class="headerlink" title="前后查找"></a>前后查找</h3><p>正则表达式中的前向和后向查找（也称为前瞻和后顾）是一种高级的匹配技术，允许你在匹配某个模式时考虑其前后的内容，但这些前后的内容并不包含在最终的匹配结果中。比如我们需要提取web页面的标题内容：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span><span class="tag">&lt;<span class="name">title</span>&gt;</span>Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果用<code>&lt;title&gt;.*&lt;/title&gt;</code>来匹配，显然<code>&lt;title&gt;</code>和<code>&lt;/title&gt;</code>是我们不需要了，白白浪费性能。</p>
+<p>可以使用前向查找来解决这个问题：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s=<span class="string">&quot;&lt;head&gt;&lt;title&gt;Title&lt;/title&gt;&lt;/head&gt;&quot;</span></span><br><span class="line">result=re.findall(<span class="string">r&#x27;(?&lt;=&lt;title&gt;).*(?=&lt;/title&gt;)&#x27;</span>,s)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;Title&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="向前查找"><a href="#向前查找" class="headerlink" title="向前查找"></a>向前查找</h4><p>一个向前查找模式就是一个以<code>?=</code>开头的子表达式，需要匹配的文本跟在<code>=</code>的后面。</p>
+<p>比如匹配出URL地址中的协议名部分：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s=<span class="string">&quot;http://www.baidu.com&quot;</span></span><br><span class="line">result=re.findall(<span class="string">r&#x27;.+(?=:)&#x27;</span>,s)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;http&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>向前查找用于查找出现在被匹配文本之后的字符，而不消费这个字符(可以简单理解为不包含在返回的匹配结果中)。</p>
+<h4 id="向后查找"><a href="#向后查找" class="headerlink" title="向后查找"></a>向后查找</h4><p>向后查找操作符是<code>?&lt;=</code>。</p>
+<p>书中有一个小提示帮助理解：向后查找符有小于号，这个小于号是一个箭头，指向文本阅读方向的后方。</p>
+<p>比如匹配美元价格：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">result=re.findall(<span class="string">r&#x27;(?&lt;=\$)[0-9.]+&#x27;</span>,<span class="string">&quot;$1.00 $5.99&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;1.00&#x27;, &#x27;5.99&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>最终匹配的结果没有美元的<code>$</code>字符。</p>
+<h4 id="向前查找和向后查找结合"><a href="#向前查找和向后查找结合" class="headerlink" title="向前查找和向后查找结合"></a>向前查找和向后查找结合</h4><p>参考最初给出的例子<code>(?&lt;=&lt;title&gt;).*(?=&lt;/title&gt;)</code>，开头的<code>(?&lt;=&lt;title&gt;)</code>用于向后查找<code>&lt;title&gt;</code>，结尾的<code>(?=&lt;/title&gt;)</code>用于向前匹配<code>&lt;/title&gt;</code>。</p>
+<h4 id="对前后查找取非"><a href="#对前后查找取非" class="headerlink" title="对前后查找取非"></a>对前后查找取非</h4><p>前后查找还有一种不太常用的方法叫负前后查找。负向前查找将向前查找不与给定模式相匹配文本，负向后查找同理。前后查找用<code>!</code>来取非。</p>
+<p>书中给出了各种前后查找操作符：</p>
+<table>
+<thead>
+<tr>
+<th align="center">操作符</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">(?&#x3D;)</td>
+<td align="center">正向前查找</td>
+</tr>
+<tr>
+<td align="center">(?!)</td>
+<td align="center">负向前查找</td>
+</tr>
+<tr>
+<td align="center">(?&lt;&#x3D;)</td>
+<td align="center">正向后查找</td>
+</tr>
+<tr>
+<td align="center">(?&lt;!)</td>
+<td align="center">负向后查找</td>
+</tr>
+</tbody></table>
+<p>举个例子，匹配非美元的价格:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">result=re.findall(<span class="string">r&#x27;(?&lt;!\$)[0-9]+\.[0-9]+&#x27;</span>,<span class="string">&quot;$1.00 $5.99 ￥100.00 ￥4.99&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[&#x27;100.00&#x27;, &#x27;4.99&#x27;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="嵌入条件"><a href="#嵌入条件" class="headerlink" title="嵌入条件"></a>嵌入条件</h3><p>嵌入条件（也被称为条件表达式或条件子表达式）基于某些条件进行不同的匹配。条件可以是一个子组是否匹配，或者一个查找断言是否为真。</p>
+<p>在<code>python</code>中，需要安装<code>regex</code>库来支持这种高级特性：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install regex</span><br></pre></td></tr></table></figure>
+
+<p>正则表达式里的条件用<code>?</code>来定义。</p>
+<h4 id="子组存在条件"><a href="#子组存在条件" class="headerlink" title="子组存在条件"></a>子组存在条件</h4><p>基于一个指定的子组是否匹配来决定接下来的匹配方式。语法：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(?(id/name)yes-pattern|no-pattern)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>id/name</code>：子组的ID或名称</li>
+<li><code>yes-pattern</code>：如果子组存在，应匹配的模式</li>
+<li><code>no-pattern</code>：如果子组不存在，应匹配的模式</li>
+</ul>
+<p>比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pattern = regex.<span class="built_in">compile</span>(<span class="string">r&#x27;((a)?b(?(2)c|d))&#x27;</span>)</span><br><span class="line">result=pattern.findall(<span class="string">&#x27;bd abc bc abd&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">[(&#x27;bd&#x27;, &#x27;&#x27;), (&#x27;abc&#x27;, &#x27;a&#x27;), (&#x27;bd&#x27;, &#x27;&#x27;)]</span><br></pre></td></tr></table></figure>
+
+<p>其中最外面大括号是<code>1</code>，<code>(a)</code>是<code>2</code>，那么<code>(?(2)c|d)</code>的意思是，如果<code>a</code>被匹配到了，则应该匹配<code>c</code>，否则匹配<code>d</code>，返回结果也验证了之前的推理。这里把整个正则表达式括起来主要是为了输出匹配的结果。</p>
+<h2 id="一些常用的正则表达式"><a href="#一些常用的正则表达式" class="headerlink" title="一些常用的正则表达式"></a>一些常用的正则表达式</h2><h3 id="匹配中文"><a href="#匹配中文" class="headerlink" title="匹配中文"></a>匹配中文</h3><p><code>[一-龥]</code></p>
+<p>更复杂的实现参考:</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/266732210">https://zhuanlan.zhihu.com/p/266732210</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag"># 正则表达式</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/08/tcpdump-ding-shi-ding-liang-zhua-bao/" rel="prev" title="tcpdump定时定量抓包">
+                  <i class="fa fa-chevron-left"></i> tcpdump定时定量抓包
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mika Su2mer</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">37k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">33 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
