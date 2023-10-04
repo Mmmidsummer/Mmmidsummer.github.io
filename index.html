@@ -154,18 +154,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -187,6 +187,94 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://mmmidsummer.github.io/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/4s.jpg">
+      <meta itemprop="name" content="Mika Su2mer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mmmidsummer's blog">
+      <meta itemprop="description" content="不战斗就无法生存">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Mmmidsummer's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/" class="post-title-link" itemprop="url">vulhub:node-CVE-2017-14849漏洞复现和浅析</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><code>CVE-2017-14849</code>是Node.js 8.5.0 版本中路径检查时出现的安全漏洞。参考github中vulhub项目的readme：</p>
+<blockquote>
+<p>原因是 Node.js 8.5.0 对目录进行<code>normalize</code>操作时出现了逻辑错误，导致向上层跳跃的时候（如<code>../../../../../../etc/passwd</code>），在中间位置增加<code>foo/../</code>（如<code>../../../foo/../../../../etc/passwd</code>），即可使<code>normalize</code>返回<code>/etc/passwd</code>，但实际上正确结果应该是<code>../../../../../../etc/passwd</code>。</p>
+<p>express这类web框架，通常会提供了静态文件服务器的功能，这些功能依赖于<code>normalize</code>函数。比如，express在判断path是否超出静态目录范围时，就用到了<code>normalize</code>函数，上述BUG导致<code>normalize</code>函数返回错误结果导致绕过了检查，造成任意文件读取漏洞。</p>
+</blockquote>
+<p>这篇写烂了，水平不足。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -956,13 +1044,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">37k</span>
+    <span title="站点总字数">41k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">33 分钟</span>
+    <span title="站点阅读时长">38 分钟</span>
   </span>
 </div>
 <div class="busuanzi-count">
