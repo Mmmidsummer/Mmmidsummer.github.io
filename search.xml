@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>C#报错 assemblyinfo.cs could not be found</title>
+    <url>/2023/06/c-bao-cuo-assemblyinfo-cs-could-not-be-found/</url>
+    <content><![CDATA[<p>下载<code>xxe-lab</code>进行实验时，发现C#的项目无法运行，提示<code>Properties/assemblyinfo.cs could not be found</code></p>
+<span id="more"></span>
+
+<p>因为没学过C#，下这个项目仅仅是为了实验，所以网上的解决方案我试过并不起作用。最后方法是根据报错的路径，新建<code>Properties</code>文件夹和<code>Properties/assemblyinfo.cs </code>文件即可，成功运行。</p>
+]]></content>
+      <categories>
+        <category>bug记录</category>
+      </categories>
+      <tags>
+        <tag>C#</tag>
+        <tag>bug记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>HTTPS流量抓包分析(附代码验证)</title>
     <url>/2023/05/https-liu-liang-zhua-bao-fen-xi/</url>
     <content><![CDATA[<p>本文的https流量分析基于之前自己生成的密钥、证书和搭建的支持https访问的apache服务器<a href="/2023/05/openssl-xue-xi-bi-ji/" title="OpenSSL学习笔记">OpenSSL学习笔记</a>。</p>
@@ -214,22 +230,6 @@
       </tags>
   </entry>
   <entry>
-    <title>C#报错 assemblyinfo.cs could not be found</title>
-    <url>/2023/06/c-bao-cuo-assemblyinfo-cs-could-not-be-found/</url>
-    <content><![CDATA[<p>下载<code>xxe-lab</code>进行实验时，发现C#的项目无法运行，提示<code>Properties/assemblyinfo.cs could not be found</code></p>
-<span id="more"></span>
-
-<p>因为没学过C#，下这个项目仅仅是为了实验，所以网上的解决方案我试过并不起作用。最后方法是根据报错的路径，新建<code>Properties</code>文件夹和<code>Properties/assemblyinfo.cs </code>文件即可，成功运行。</p>
-]]></content>
-      <categories>
-        <category>bug记录</category>
-      </categories>
-      <tags>
-        <tag>C#</tag>
-        <tag>bug记录</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>manage.py报错 ModuleNotFoundError No module named &#39;django&#39;</title>
     <url>/2023/07/modulenotfounderror-no-module-named-django/</url>
     <content><![CDATA[<p>出现场景：我在Windows系统写好了一个django项目，复制到Ubuntu中,运行<code>python3 manage.py migrate</code>一切正常，但运行<code>python3 manage.py runserver</code>报错：</p>
@@ -253,6 +253,29 @@
         <tag>bug记录</tag>
         <tag>python</tag>
         <tag>django</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>No PEM start marker b-----BEGIN RSA PRIVATE KEY----- found</title>
+    <url>/2023/05/no-pem-start-marker-b-begin-rsa-private-key-found/</url>
+    <content><![CDATA[<p>出现场景为使用python的<code>rsa</code>库读取openssl生成的公钥私钥进行加密和解密操作时。</p>
+<span id="more"></span>
+
+<p>RSA库用的是pkcs1格式的密钥文件，而如果之前生成的是pkcs8格式，会出现错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">No PEM start marker &quot;b&#x27;-----BEGIN RSA PRIVATE KEY-----&#x27;&quot; found</span><br></pre></td></tr></table></figure>
+
+<p>对于公钥读取，可以用<code>load_pkcs1_openssl_pem</code>方法代替<code>load_pkcs1</code>；对于私钥，只能用openssl命令把pkcs8格式转换为pkcs1了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl pkcs8 -in pri_key.pem -nocrypt -out private_pkcs1.pem -traditional</span><br></pre></td></tr></table></figure>
+
+<p>似乎有的版本不需要<code>-traditional</code>。</p>
+<p><img src="/2023/05/no-pem-start-marker-b-begin-rsa-private-key-found/image-20230530172311009.png" alt="pkcs1.pem的开头为BEGIN RSA PRIVATE KEY"></p>
+]]></content>
+      <categories>
+        <category>bug记录</category>
+      </categories>
+      <tags>
+        <tag>bug记录</tag>
+        <tag>openssl</tag>
       </tags>
   </entry>
   <entry>
@@ -444,100 +467,6 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo常用命令</title>
-    <url>/2023/11/hexo-chang-yong-ming-ling/</url>
-    <content><![CDATA[<p>记录hexo的常用命令。更具体的可以参考<a href="https://hexo.io/zh-cn/docs/commands">官方文档</a>。</p>
-<span id="more"></span>
-<img alt="image-20231109211354445" src="pic-0x2.png" style="zoom:50%;"/>
-
-<h3 id="创建博文"><a href="#创建博文" class="headerlink" title="创建博文"></a>创建博文</h3><blockquote>
-<p>hexo new “title”</p>
-</blockquote>
-<p><img src="/2023/11/hexo-chang-yong-ming-ling/pic-0x1.png" alt="image-20231109203430817"></p>
-<h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><blockquote>
-<p>hexo g</p>
-</blockquote>
-<h3 id="本地测试"><a href="#本地测试" class="headerlink" title="本地测试"></a>本地测试</h3><blockquote>
-<p>hexo s</p>
-</blockquote>
-<h3 id="清除缓存"><a href="#清除缓存" class="headerlink" title="清除缓存"></a>清除缓存</h3><blockquote>
-<p>hexo clean</p>
-</blockquote>
-<h3 id="部署网站"><a href="#部署网站" class="headerlink" title="部署网站"></a>部署网站</h3><blockquote>
-<p>hexo d</p>
-</blockquote>
-<h3 id="网站数据"><a href="#网站数据" class="headerlink" title="网站数据"></a>网站数据</h3><blockquote>
-<p>hexo list <type></type></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python中nilsimsa的简单用法</title>
-    <url>/2023/12/python-zhong-nilsimsa-de-jian-dan-yong-fa/</url>
-    <content><![CDATA[<p>nilsimsa是一种局部敏感哈希，在python中其实已经有<a href="https://pypi.org/project/nilsimsa/">库</a>实现了。</p>
-<span id="more"></span>
-
-<p>但是搜了搜发现并没有使用文档，但是其实GitHub仓库中有一个<code>test.py</code>文件，里面有一些对nilsimsa库基本功能的测试。从这里可以知道一些基本使用方法。</p>
-<h3 id="生成摘要"><a href="#生成摘要" class="headerlink" title="生成摘要"></a>生成摘要</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> nilsimsa</span><br><span class="line"></span><br><span class="line">s=<span class="string">&quot;qwq&quot;</span></span><br><span class="line"></span><br><span class="line">nil_test=nilsimsa.Nilsimsa(s.encode())</span><br><span class="line"></span><br><span class="line">out=nil_test.hexdigest()</span><br></pre></td></tr></table></figure>
-
-<h3 id="对比摘要"><a href="#对比摘要" class="headerlink" title="对比摘要"></a>对比摘要</h3><p><code>compare_digests</code>返回-127到128之间的数字，128说明相同，-127说明非常不同。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> nilsimsa <span class="keyword">import</span> Nilsimsa,compare_digests</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getHash</span>(<span class="params">data:<span class="built_in">str</span></span>)-&gt; <span class="built_in">str</span>:</span><br><span class="line">    nil=Nilsimsa(data.encode())</span><br><span class="line">    <span class="keyword">return</span> nil.hexdigest()</span><br><span class="line"></span><br><span class="line">s1=<span class="string">&quot;qwq&quot;</span>*<span class="number">19</span>+<span class="string">&quot;abb&quot;</span></span><br><span class="line"></span><br><span class="line">s2=<span class="string">&quot;qwq&quot;</span>*<span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(getHash(s1)+<span class="string">&#x27;\n&#x27;</span>+getHash(s2))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(compare_digests(getHash(s1),getHash(s2)))</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>局部敏感哈希</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>tcpdump定时定量抓包</title>
-    <url>/2023/08/tcpdump-ding-shi-ding-liang-zhua-bao/</url>
-    <content><![CDATA[<h1 id="TCPDUMP定时定量抓包"><a href="#TCPDUMP定时定量抓包" class="headerlink" title="TCPDUMP定时定量抓包"></a>TCPDUMP定时定量抓包</h1><p>假设我们用<code>xshell</code>远程连接服务器，需要获取一段时间内的数据包，且由于硬盘大小有效，需要限制抓取的数据包文件的大小，应该怎么做？</p>
-<span id="more"></span>
-
-<h2 id="nohup"><a href="#nohup" class="headerlink" title="nohup"></a>nohup</h2><p><code>xshell</code>远程连接服务器的情况下，如果退出，那么进程就不能正常运行，所以要使用<code>nohup</code>命令。<code>nohup</code> 是一个 Unix 和 Linux 系统上的命令，它用于在退出 shell 或终端后继续运行命令。当使用 <code>nohup</code> 命令启动程序时，该程序的输出默认会被重定向到一个名为 <code>nohup.out</code> 的文件。</p>
-<p><code>nohup</code>的基本用法是：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">nohup</span> <span class="built_in">command</span> &amp;</span><br></pre></td></tr></table></figure>
-
-<p>不要忽略了最后面的’&amp;’</p>
-<p>比如创建一个<code>append_i.sh</code>文件:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">end_time=$((SECONDS+<span class="number">3600</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> [ <span class="variable">$SECONDS</span> -lt <span class="variable">$end_time</span> ]; <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;i&quot;</span> &gt;&gt; 1.txt</span><br><span class="line">    <span class="built_in">sleep</span> 60</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><code>-lt</code> 检查一个值是否小于另一个值，在一个小时内，每隔一分钟对<code>1.txt</code>进行一次写入。</p>
-<p>用<code>nohup</code>运行:</p>
-<blockquote>
-<p>nohup bash append_i.sh &amp;</p>
-</blockquote>
-<p>此时使用<code>bash</code>的原因是：Ubuntu 的 <code>/bin/sh</code> 实际上是指向 <code>dash</code>，而 <code>dash</code> 是比 Bash 更轻量级的 shell，但它不支持所有 Bash 的特性。使用 <code>nohup</code> 运行脚本时，它可能会默认使用 <code>/bin/sh</code>（即 <code>dash</code>）来运行，从而导致错误。之前直接.&#x2F;append_i.sh发生了错误。</p>
-<p>关闭<code>xshell</code>终端，重新连接一次，仍然可以在进程中搜索到：</p>
-<p><img src="/2023/08/tcpdump-ding-shi-ding-liang-zhua-bao/image-20230813002050908.png" alt="ps aux | grep append_i.sh"></p>
-<h2 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h2><p>要实现tcpdump定时定量抓包的功能，仅仅依靠tcpdump自带的功能是不够的。可以写一个脚本，启动tcpdump以后，开启记时同时监控生成的<code>pcap</code>文件，大小大于我们规定的值时停止tcpdump进程。</p>
-<p><code>cap.sh</code>:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 tcpdump</span></span><br><span class="line"><span class="built_in">nohup</span> tcpdump -i eth0 -w /your/path/test.pcap &amp;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取 tcpdump 进程的 PID</span></span><br><span class="line">TCPDUMP_PID=$!</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置起始时间</span></span><br><span class="line">START_TIME=$(<span class="built_in">date</span> +%s)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span></span><br><span class="line">    <span class="comment"># 获取当前时间</span></span><br><span class="line">    CURRENT_TIME=$(<span class="built_in">date</span> +%s)</span><br><span class="line">    <span class="comment"># 计算经过的时间</span></span><br><span class="line">    ELAPSED_TIME=$((CURRENT_TIME - START_TIME))</span><br><span class="line">    <span class="comment"># 获取文件大小</span></span><br><span class="line">    SIZE=$(<span class="built_in">du</span> -b /your/path/test.pcap | <span class="built_in">cut</span> -f1)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 如果文件大小超过 300M 或 超过12小时，则停止 tcpdump,可以根据需求修改</span></span><br><span class="line">    <span class="keyword">if</span> [[ <span class="variable">$SIZE</span> -ge 314572800 ]] || [[ <span class="variable">$ELAPSED_TIME</span> -ge 43200 ]]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">kill</span> <span class="variable">$TCPDUMP_PID</span></span><br><span class="line">        <span class="built_in">exit</span> 0</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="comment"># 每隔 10 秒检查一次</span></span><br><span class="line">    <span class="built_in">sleep</span> 10</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><code>$!</code> 是一个特殊的 shell 变量，代表最后一个被放到后台执行的命令的进程 ID。</p>
-<p>用<code>nohup</code>启动这个脚本即可，最好加上<code>sudo</code>:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo <span class="built_in">nohup</span> bash cap.sh &amp;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>tcpdump</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spring初体验</title>
     <url>/2023/05/spring-chu-ti-yan/</url>
     <content><![CDATA[<h1 id="Spring-初体验："><a href="#Spring-初体验：" class="headerlink" title="Spring 初体验："></a>Spring 初体验：</h1><p>俗话说“没学过spring等于没学过Java”，spring在Java领域的地位可见一斑。在Java中，Spring是一个开源的应用程序框架，用于构建企业级Java应用程序。它提供了一个轻量级的、非侵入性的编程和配置模型，用于开发灵活、可扩展的应用程序。笔者Java水平很低，但由于课程的原因写了好久的Java代码，顺便学习一下spring吧。</p>
@@ -627,26 +556,131 @@
       </tags>
   </entry>
   <entry>
-    <title>No PEM start marker b-----BEGIN RSA PRIVATE KEY----- found</title>
-    <url>/2023/05/no-pem-start-marker-b-begin-rsa-private-key-found/</url>
-    <content><![CDATA[<p>出现场景为使用python的<code>rsa</code>库读取openssl生成的公钥私钥进行加密和解密操作时。</p>
+    <title>hexo常用命令</title>
+    <url>/2023/11/hexo-chang-yong-ming-ling/</url>
+    <content><![CDATA[<p>记录hexo的常用命令。更具体的可以参考<a href="https://hexo.io/zh-cn/docs/commands">官方文档</a>。</p>
 <span id="more"></span>
+<img alt="image-20231109211354445" src="pic-0x2.png" style="zoom:50%;"/>
 
-<p>RSA库用的是pkcs1格式的密钥文件，而如果之前生成的是pkcs8格式，会出现错误：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">No PEM start marker &quot;b&#x27;-----BEGIN RSA PRIVATE KEY-----&#x27;&quot; found</span><br></pre></td></tr></table></figure>
-
-<p>对于公钥读取，可以用<code>load_pkcs1_openssl_pem</code>方法代替<code>load_pkcs1</code>；对于私钥，只能用openssl命令把pkcs8格式转换为pkcs1了：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl pkcs8 -in pri_key.pem -nocrypt -out private_pkcs1.pem -traditional</span><br></pre></td></tr></table></figure>
-
-<p>似乎有的版本不需要<code>-traditional</code>。</p>
-<p><img src="/2023/05/no-pem-start-marker-b-begin-rsa-private-key-found/image-20230530172311009.png" alt="pkcs1.pem的开头为BEGIN RSA PRIVATE KEY"></p>
+<h3 id="创建博文"><a href="#创建博文" class="headerlink" title="创建博文"></a>创建博文</h3><blockquote>
+<p>hexo new “title”</p>
+</blockquote>
+<p><img src="/2023/11/hexo-chang-yong-ming-ling/pic-0x1.png" alt="image-20231109203430817"></p>
+<h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><blockquote>
+<p>hexo g</p>
+</blockquote>
+<h3 id="本地测试"><a href="#本地测试" class="headerlink" title="本地测试"></a>本地测试</h3><blockquote>
+<p>hexo s</p>
+</blockquote>
+<h3 id="清除缓存"><a href="#清除缓存" class="headerlink" title="清除缓存"></a>清除缓存</h3><blockquote>
+<p>hexo clean</p>
+</blockquote>
+<h3 id="部署网站"><a href="#部署网站" class="headerlink" title="部署网站"></a>部署网站</h3><blockquote>
+<p>hexo d</p>
+</blockquote>
+<h3 id="网站数据"><a href="#网站数据" class="headerlink" title="网站数据"></a>网站数据</h3><blockquote>
+<p>hexo list <type></type></p>
+</blockquote>
 ]]></content>
       <categories>
-        <category>bug记录</category>
+        <category>hexo</category>
       </categories>
       <tags>
-        <tag>openssl</tag>
-        <tag>bug记录</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python中nilsimsa的简单用法</title>
+    <url>/2023/12/python-zhong-nilsimsa-de-jian-dan-yong-fa/</url>
+    <content><![CDATA[<p>nilsimsa是一种局部敏感哈希，在python中其实已经有<a href="https://pypi.org/project/nilsimsa/">库</a>实现了。</p>
+<span id="more"></span>
+
+<p>但是搜了搜发现并没有使用文档，但是其实GitHub仓库中有一个<code>test.py</code>文件，里面有一些对nilsimsa库基本功能的测试。从这里可以知道一些基本使用方法。</p>
+<h3 id="生成摘要"><a href="#生成摘要" class="headerlink" title="生成摘要"></a>生成摘要</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> nilsimsa</span><br><span class="line"></span><br><span class="line">s=<span class="string">&quot;qwq&quot;</span></span><br><span class="line"></span><br><span class="line">nil_test=nilsimsa.Nilsimsa(s.encode())</span><br><span class="line"></span><br><span class="line">out=nil_test.hexdigest()</span><br></pre></td></tr></table></figure>
+
+<h3 id="对比摘要"><a href="#对比摘要" class="headerlink" title="对比摘要"></a>对比摘要</h3><p><code>compare_digests</code>返回-127到128之间的数字，128说明相同，-127说明非常不同。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> nilsimsa <span class="keyword">import</span> Nilsimsa,compare_digests</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getHash</span>(<span class="params">data:<span class="built_in">str</span></span>)-&gt; <span class="built_in">str</span>:</span><br><span class="line">    nil=Nilsimsa(data.encode())</span><br><span class="line">    <span class="keyword">return</span> nil.hexdigest()</span><br><span class="line"></span><br><span class="line">s1=<span class="string">&quot;qwq&quot;</span>*<span class="number">19</span>+<span class="string">&quot;abb&quot;</span></span><br><span class="line"></span><br><span class="line">s2=<span class="string">&quot;qwq&quot;</span>*<span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(getHash(s1)+<span class="string">&#x27;\n&#x27;</span>+getHash(s2))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(compare_digests(getHash(s1),getHash(s2)))</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>局部敏感哈希</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>burp_suite学习笔记</title>
+    <url>/2024/01/burp-suite-xue-xi-bi-ji/</url>
+    <content><![CDATA[<p>burp_suite是网络安全的常用工具,功能强大，本文使用的版本为1.7。</p>
+<p>长期更新</p>
+<span id="more"></span>
+
+<p>初始界面如下:<br><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102204658435.png" alt="burp-suite界面"></p>
+<h2 id="proxy"><a href="#proxy" class="headerlink" title="proxy"></a>proxy</h2><p>proxy设置burp suite的代理，浏览器使用代理访问网站，burp suite可以进行中间人攻击。</p>
+<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102205523401.png" alt="代理设置"></p>
+<h3 id="配置https代理"><a href="#配置https代理" class="headerlink" title="配置https代理"></a>配置https代理</h3><p>https因为被加密，burp suite无法解密，所以初始情况只能抓http包，要抓https包需要先配置证书。</p>
+<p>访问此时的代理地址：</p>
+<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102211236817.png" alt="代理地址"></p>
+<p>选择右边的<code>CA certificate</code>，下载证书后导入。</p>
+<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102211455552.png"></p>
+<p>并设置浏览器代理：</p>
+<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102211658516.png"></p>
+<p>成功抓取到https包：</p>
+<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102211853395.png" alt="访问了百度"></p>
+<h2 id="spider"><a href="#spider" class="headerlink" title="spider"></a>spider</h2><p>Burp Suite的spider可以爬行扫描出网站上所有的链接,通过对这些链接的详细扫描来发现Web应用程序的漏洞。</p>
+<h2 id="scanner"><a href="#scanner" class="headerlink" title="scanner"></a>scanner</h2><p>扫描器</p>
+<h2 id="Intruder"><a href="#Intruder" class="headerlink" title="Intruder"></a>Intruder</h2><p>此功能可用语多种用途,如利用漏洞,Web应用程序模糊测试,进行暴力猜解等.</p>
+<h2 id="Repeater"><a href="#Repeater" class="headerlink" title="Repeater"></a>Repeater</h2><p>此功能用于根据不同的情况修改和发送相同的请求次数并分析.</p>
+<h2 id="Sequencer"><a href="#Sequencer" class="headerlink" title="Sequencer"></a>Sequencer</h2><p>此功能主要用来检查Web应用程序提供的会话令牌的随机性.并执行各种测试.</p>
+<h2 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h2><p>此功能可用于解码数据找回原来的数据形式,或者进行编码和加密数据.</p>
+<h2 id="Comparer"><a href="#Comparer" class="headerlink" title="Comparer"></a>Comparer</h2><p>此功能用来执行任意的两个请求,响应或任何其它形式的数据之间的比较.</p>
+]]></content>
+      <categories>
+        <category>网络空间安全</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>tcpdump定时定量抓包</title>
+    <url>/2023/08/tcpdump-ding-shi-ding-liang-zhua-bao/</url>
+    <content><![CDATA[<h1 id="TCPDUMP定时定量抓包"><a href="#TCPDUMP定时定量抓包" class="headerlink" title="TCPDUMP定时定量抓包"></a>TCPDUMP定时定量抓包</h1><p>假设我们用<code>xshell</code>远程连接服务器，需要获取一段时间内的数据包，且由于硬盘大小有效，需要限制抓取的数据包文件的大小，应该怎么做？</p>
+<span id="more"></span>
+
+<h2 id="nohup"><a href="#nohup" class="headerlink" title="nohup"></a>nohup</h2><p><code>xshell</code>远程连接服务器的情况下，如果退出，那么进程就不能正常运行，所以要使用<code>nohup</code>命令。<code>nohup</code> 是一个 Unix 和 Linux 系统上的命令，它用于在退出 shell 或终端后继续运行命令。当使用 <code>nohup</code> 命令启动程序时，该程序的输出默认会被重定向到一个名为 <code>nohup.out</code> 的文件。</p>
+<p><code>nohup</code>的基本用法是：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">nohup</span> <span class="built_in">command</span> &amp;</span><br></pre></td></tr></table></figure>
+
+<p>不要忽略了最后面的’&amp;’</p>
+<p>比如创建一个<code>append_i.sh</code>文件:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">end_time=$((SECONDS+<span class="number">3600</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> [ <span class="variable">$SECONDS</span> -lt <span class="variable">$end_time</span> ]; <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;i&quot;</span> &gt;&gt; 1.txt</span><br><span class="line">    <span class="built_in">sleep</span> 60</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>-lt</code> 检查一个值是否小于另一个值，在一个小时内，每隔一分钟对<code>1.txt</code>进行一次写入。</p>
+<p>用<code>nohup</code>运行:</p>
+<blockquote>
+<p>nohup bash append_i.sh &amp;</p>
+</blockquote>
+<p>此时使用<code>bash</code>的原因是：Ubuntu 的 <code>/bin/sh</code> 实际上是指向 <code>dash</code>，而 <code>dash</code> 是比 Bash 更轻量级的 shell，但它不支持所有 Bash 的特性。使用 <code>nohup</code> 运行脚本时，它可能会默认使用 <code>/bin/sh</code>（即 <code>dash</code>）来运行，从而导致错误。之前直接.&#x2F;append_i.sh发生了错误。</p>
+<p>关闭<code>xshell</code>终端，重新连接一次，仍然可以在进程中搜索到：</p>
+<p><img src="/2023/08/tcpdump-ding-shi-ding-liang-zhua-bao/image-20230813002050908.png" alt="ps aux | grep append_i.sh"></p>
+<h2 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h2><p>要实现tcpdump定时定量抓包的功能，仅仅依靠tcpdump自带的功能是不够的。可以写一个脚本，启动tcpdump以后，开启记时同时监控生成的<code>pcap</code>文件，大小大于我们规定的值时停止tcpdump进程。</p>
+<p><code>cap.sh</code>:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 tcpdump</span></span><br><span class="line"><span class="built_in">nohup</span> tcpdump -i eth0 -w /your/path/test.pcap &amp;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取 tcpdump 进程的 PID</span></span><br><span class="line">TCPDUMP_PID=$!</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置起始时间</span></span><br><span class="line">START_TIME=$(<span class="built_in">date</span> +%s)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span></span><br><span class="line">    <span class="comment"># 获取当前时间</span></span><br><span class="line">    CURRENT_TIME=$(<span class="built_in">date</span> +%s)</span><br><span class="line">    <span class="comment"># 计算经过的时间</span></span><br><span class="line">    ELAPSED_TIME=$((CURRENT_TIME - START_TIME))</span><br><span class="line">    <span class="comment"># 获取文件大小</span></span><br><span class="line">    SIZE=$(<span class="built_in">du</span> -b /your/path/test.pcap | <span class="built_in">cut</span> -f1)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 如果文件大小超过 300M 或 超过12小时，则停止 tcpdump,可以根据需求修改</span></span><br><span class="line">    <span class="keyword">if</span> [[ <span class="variable">$SIZE</span> -ge 314572800 ]] || [[ <span class="variable">$ELAPSED_TIME</span> -ge 43200 ]]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">kill</span> <span class="variable">$TCPDUMP_PID</span></span><br><span class="line">        <span class="built_in">exit</span> 0</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="comment"># 每隔 10 秒检查一次</span></span><br><span class="line">    <span class="built_in">sleep</span> 10</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>$!</code> 是一个特殊的 shell 变量，代表最后一个被放到后台执行的命令的进程 ID。</p>
+<p>用<code>nohup</code>启动这个脚本即可，最好加上<code>sudo</code>:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo <span class="built_in">nohup</span> bash cap.sh &amp;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>tcpdump</tag>
       </tags>
   </entry>
   <entry>
@@ -731,28 +765,6 @@
       <tags>
         <tag>node.js</tag>
         <tag>漏洞复现</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>记一次环境变量无效问题</title>
-    <url>/2023/06/ji-yi-ci-huan-jing-bian-liang-wu-xiao-wen-ti/</url>
-    <content><![CDATA[<p>为了解密wires hark的https流量，需要添加一个环境变量<code>SSLKEYLOGFILE</code>,但添加以后似乎没有数据写入日志。</p>
-<span id="more"></span>
-
-<p>但是看起来很正常：</p>
-<p><img src="/2023/06/ji-yi-ci-huan-jing-bian-liang-wu-xiao-wen-ti/image-20230601150015135.png" alt="环境变量"></p>
-<p>后来试着在cmd控制台打印，发现了猫腻。</p>
-<p><img src="/2023/06/ji-yi-ci-huan-jing-bian-liang-wu-xiao-wen-ti/image-20230601150128905.png" alt="cmd输出"></p>
-<p>貌似从文件的属性-&gt;安全处复制路径就会出现这个看不见的符号，似乎是Unicode的控制符。</p>
-<p>解决办法：删掉这个环境变量，重新添加就好了。之前尝试直接修改变量值好像不行。</p>
-<p><img src="/2023/06/ji-yi-ci-huan-jing-bian-liang-wu-xiao-wen-ti/image-20230601150644610.png" alt="cmd输出"></p>
-]]></content>
-      <categories>
-        <category>bug记录</category>
-      </categories>
-      <tags>
-        <tag>bug记录</tag>
-        <tag>Windows</tag>
       </tags>
   </entry>
   <entry>
@@ -994,6 +1006,28 @@
       <tags>
         <tag>学习笔记</tag>
         <tag>正则表达式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>记一次环境变量无效问题</title>
+    <url>/2023/06/ji-yi-ci-huan-jing-bian-liang-wu-xiao-wen-ti/</url>
+    <content><![CDATA[<p>为了解密wires hark的https流量，需要添加一个环境变量<code>SSLKEYLOGFILE</code>,但添加以后似乎没有数据写入日志。</p>
+<span id="more"></span>
+
+<p>但是看起来很正常：</p>
+<p><img src="/2023/06/ji-yi-ci-huan-jing-bian-liang-wu-xiao-wen-ti/image-20230601150015135.png" alt="环境变量"></p>
+<p>后来试着在cmd控制台打印，发现了猫腻。</p>
+<p><img src="/2023/06/ji-yi-ci-huan-jing-bian-liang-wu-xiao-wen-ti/image-20230601150128905.png" alt="cmd输出"></p>
+<p>貌似从文件的属性-&gt;安全处复制路径就会出现这个看不见的符号，似乎是Unicode的控制符。</p>
+<p>解决办法：删掉这个环境变量，重新添加就好了。之前尝试直接修改变量值好像不行。</p>
+<p><img src="/2023/06/ji-yi-ci-huan-jing-bian-liang-wu-xiao-wen-ti/image-20230601150644610.png" alt="cmd输出"></p>
+]]></content>
+      <categories>
+        <category>bug记录</category>
+      </categories>
+      <tags>
+        <tag>bug记录</tag>
+        <tag>Windows</tag>
       </tags>
   </entry>
 </search>
