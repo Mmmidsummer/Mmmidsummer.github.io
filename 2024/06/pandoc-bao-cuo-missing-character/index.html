@@ -21,26 +21,33 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"mmmidsummer.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="不战斗就无法生存">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Mmmidsummer&#39;s blog">
-<meta property="og:url" content="https://mmmidsummer.github.io/categories/linux/index.html">
+    <meta name="description" content="使用pandoc把markdown(使用了bib管理文献引用所以需要latex)转换成pdf时发现报错：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pandoc报错Missing character">
+<meta property="og:url" content="https://mmmidsummer.github.io/2024/06/pandoc-bao-cuo-missing-character/index.html">
 <meta property="og:site_name" content="Mmmidsummer&#39;s blog">
-<meta property="og:description" content="不战斗就无法生存">
+<meta property="og:description" content="使用pandoc把markdown(使用了bib管理文献引用所以需要latex)转换成pdf时发现报错：">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mmmidsummer.github.io/2024/06/pandoc-bao-cuo-missing-character/image-20240612211028594.png">
+<meta property="og:image" content="https://mmmidsummer.github.io/2024/06/pandoc-bao-cuo-missing-character/image-20240612211144045.png">
+<meta property="article:published_time" content="2024-06-12T13:05:05.000Z">
+<meta property="article:modified_time" content="2024-06-12T13:13:06.986Z">
 <meta property="article:author" content="Mika Su2mer">
-<meta property="article:tag" content="对不起,绝对失败的人生,python,C++">
+<meta property="article:tag" content="bug记录">
+<meta property="article:tag" content="pandoc">
+<meta property="article:tag" content="latex">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mmmidsummer.github.io/2024/06/pandoc-bao-cuo-missing-character/image-20240612211028594.png">
 
 
-<link rel="canonical" href="https://mmmidsummer.github.io/categories/linux/">
+<link rel="canonical" href="https://mmmidsummer.github.io/2024/06/pandoc-bao-cuo-missing-character/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"categories/linux/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://mmmidsummer.github.io/2024/06/pandoc-bao-cuo-missing-character/","path":"2024/06/pandoc-bao-cuo-missing-character/","title":"pandoc报错Missing character"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>分类: linux | Mmmidsummer's blog</title>
+<title>pandoc报错Missing character | Mmmidsummer's blog</title>
   
 
 
@@ -186,50 +193,117 @@
 
     </div>
 
-    <div class="main-inner category posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">linux
-          <small>分类</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mmmidsummer.github.io/2024/06/pandoc-bao-cuo-missing-character/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/4s.jpg">
+      <meta itemprop="name" content="Mika Su2mer">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mmmidsummer's blog">
+      <meta itemprop="description" content="不战斗就无法生存">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="pandoc报错Missing character | Mmmidsummer's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          pandoc报错Missing character
         </h1>
-      </div>
 
-      
-    <div class="collection-year">
-      <span class="collection-header">2023</span>
+        <div class="post-meta-container">
+          <div class="post-meta">
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>241</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>使用pandoc把markdown(使用了bib管理文献引用所以需要latex)转换成pdf时发现报错：</p>
+<span id="more"></span>
+
+<blockquote>
+<p>[WARNING] Missing character: There is no 銆?pandoc: <stderr>: hPutChar: invalid argument (Invalid argument)</p>
+</blockquote>
+<p>网上搜的以为是文件中包含中文引发了bug，但是怎么改都解决不了。</p>
+<p><img src="/2024/06/pandoc-bao-cuo-missing-character/image-20240612211028594.png" alt="报错信息"></p>
+<p>但是后来新创了一个md文件测试，发现有中文完全不影响。</p>
+<p>最后发现是latex公式中包含了<code>、</code>，导致了报错：</p>
+<p><img src="/2024/06/pandoc-bao-cuo-missing-character/image-20240612211144045.png" alt="bug原因"></p>
+<p>删掉，成功解决，但是浪费了很多时间qwq</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-08-12T02:08:25+08:00"
-              content="2023-08-12">
-          08-12
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/08/tcpdump-ding-shi-ding-liang-zhua-bao/" itemprop="url">
-            <span itemprop="name">tcpdump定时定量抓包</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/bug%E8%AE%B0%E5%BD%95/" rel="tag"># bug记录</a>
+              <a href="/tags/pandoc/" rel="tag"># pandoc</a>
+              <a href="/tags/latex/" rel="tag"># latex</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/01/burp-suite-xue-xi-bi-ji/" rel="prev" title="burp_suite学习笔记">
+                  <i class="fa fa-chevron-left"></i> burp_suite学习笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
+
 
 </div>
   </main>

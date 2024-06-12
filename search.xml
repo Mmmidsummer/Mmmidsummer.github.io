@@ -1030,4 +1030,29 @@
         <tag>Windows</tag>
       </tags>
   </entry>
+  <entry>
+    <title>pandoc报错Missing character</title>
+    <url>/2024/06/pandoc-bao-cuo-missing-character/</url>
+    <content><![CDATA[<p>使用pandoc把markdown(使用了bib管理文献引用所以需要latex)转换成pdf时发现报错：</p>
+<span id="more"></span>
+
+<blockquote>
+<p>[WARNING] Missing character: There is no 銆?pandoc: <stderr>: hPutChar: invalid argument (Invalid argument)</p>
+</blockquote>
+<p>网上搜的以为是文件中包含中文引发了bug，但是怎么改都解决不了。</p>
+<p><img src="/2024/06/pandoc-bao-cuo-missing-character/image-20240612211028594.png" alt="报错信息"></p>
+<p>但是后来新创了一个md文件测试，发现有中文完全不影响。</p>
+<p>最后发现是latex公式中包含了<code>、</code>，导致了报错：</p>
+<p><img src="/2024/06/pandoc-bao-cuo-missing-character/image-20240612211144045.png" alt="bug原因"></p>
+<p>删掉，成功解决，但是浪费了很多时间qwq</p>
+]]></content>
+      <categories>
+        <category>bug记录</category>
+      </categories>
+      <tags>
+        <tag>bug记录</tag>
+        <tag>pandoc</tag>
+        <tag>latex</tag>
+      </tags>
+  </entry>
 </search>
