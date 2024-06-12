@@ -1055,4 +1055,29 @@
         <tag>latex</tag>
       </tags>
   </entry>
+  <entry>
+    <title>scienceplots的ieee风格图片过大</title>
+    <url>/2024/06/scienceplots-de-ieee-feng-ge-tu-pian-guo-da/</url>
+    <content><![CDATA[<p>scienceplots是科研绘图工具，但是使用ieee风格时发现图片中的元素非常大，很影响观感。</p>
+<span id="more"></span>
+
+<p>查看mplstyle文件就可以发现端倪。</p>
+<p>在python路径中找到<code>Lib\site-packages\scienceplots\styles\journals\ieee.mplstyle</code></p>
+<p><img src="/image-20240612212329105.png" alt="image-20240612212329105"></p>
+<p>可以发现dpi非常非常大，在文件中调小dpi即可。</p>
+<p>或者在代码中加入</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> plt.style.context([<span class="string">&#x27;ieee&#x27;</span>]):</span><br><span class="line">        plt.rcParams.update(&#123;<span class="string">&#x27;figure.dpi&#x27;</span>: <span class="string">&#x27;200&#x27;</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>解决。</p>
+<p>其实官方wiki中也说了这个问题，不过当时搜中文确实没找到答案。</p>
+<p><img src="/image-20240612212724716.png" alt="image-20240612212724716"></p>
+]]></content>
+      <categories>
+        <category>bug记录</category>
+      </categories>
+      <tags>
+        <tag>bug记录</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
 </search>
